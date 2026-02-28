@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-moyin-dark text-moyin-text-primary antialiased;
+  }
+
+  ::selection {
+    @apply bg-moyin-pink/30 text-white;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-moyin-dark;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-moyin-dark-lighter rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-moyin-purple;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-moyin-dark-light/50 backdrop-blur-md border border-white/[0.06] rounded-2xl;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-moyin-pink via-moyin-petal to-moyin-purple bg-clip-text text-transparent;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-moyin-pink/80 to-moyin-purple/80
+           text-white font-medium rounded-xl transition-all duration-300
+           hover:shadow-lg hover:shadow-moyin-pink/20 hover:scale-105 hover:from-moyin-pink hover:to-moyin-purple
+           active:scale-95;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center gap-2 px-6 py-3
+           border border-moyin-pink/30 text-moyin-pink-light
+           font-medium rounded-xl transition-all duration-300
+           hover:bg-moyin-pink/10 hover:border-moyin-pink/50 hover:scale-105
+           active:scale-95;
+  }
+
+  .section-container {
+    @apply max-w-6xl mx-auto px-6 py-20;
+  }
+}
