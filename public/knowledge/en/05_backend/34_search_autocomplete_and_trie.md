@@ -1,67 +1,67 @@
-# 34. Google 搜尋的神明級資料結講：字典樹 (Autocomplete & Trie)
+# 34. Google Search's God-Tier Data Structure: Trie (Autocomplete & Trie)
 
-> **類型**: 系統設計實戰與進階資料結構
-> **重點**: 徹底拋棄關聯式資料庫中令人作嘔的 `LIKE '%text%'` 全表掃描。解析全球頂尖搜尋引擎 (如 Google, Amazon) 為了在使用者每打一個字母「毫秒內噴出 10 個相關建議詞 (Autocomplete)」背後的魔王級資料結構：**Trie (字典樹 / 前綴樹)**。
-
----
-
-## 前言：當關聯式資料庫被輸入框擊垮
-
-當使用者在搜尋框輸入 `ba` 時，你希望下拉選單立刻噴出 `banana`, `batman`, `baseball` 作為提示。
-如果你用傳統關聯式資料庫去下達這句 SQL：`SELECT word FROM search_history WHERE word LIKE 'ba%' ORDER BY search_count DESC LIMIT 10`。
-恭喜你！在只有幾萬筆資料的小商場可能還好，但如果是一個擁有十億組關鍵字的全球級搜尋庫，這個模糊比對 (Prefix Match) 要在 B+Tree 索引跑完**全表掃描並重新排序**，可能必須耗費數十秒才能回傳。
-使用者可能連單字都打完了，你的下拉選單還卡在載入中。
-
-為了解決針對「字首 (Prefix)」的億萬級極速查找，科學家們發明了專屬的殺手鐧。
+> **Type**: System Design Practical Application & Advanced Data Structures
+> **Focus**: Thoroughly discarding the nauseating `LIKE '%text%'` full table scans in relational databases. Analyzing the boss-level data structure behind top global search engines (like Google, Amazon) "spitting out 10 related suggestion words (Autocomplete) within milliseconds" every time a user types a letter: the **Trie (Prefix Tree)**.
 
 ---
 
-## 1. 拆解拼圖：Trie 字典樹 (Prefix Tree)
+## Prelude: When Relational Databases Are Crushed by the Input Box
 
-Trie (發音同 Try)，是一群由單一字母組成的魔法生命樹。
+When a user types `ba` in the search box, you want the dropdown menu to instantly spit out `banana`, `batman`, and `baseball` as suggestions.
+If you use a traditional relational database to issue this SQL string: `SELECT word FROM search_history WHERE word LIKE 'ba%' ORDER BY search_count DESC LIMIT 10`.
+Congratulations! This might be fine for a small mall with only tens of thousands of records, but for a global-level search repository with a billion keywords, this Prefix Match has to finish a **Full Table Scan on the B+Tree index and resort**, which might take tens of seconds to return.
+The user might have already finished typing the entire word, while your dropdown menu is still stuck loading.
 
-### 🌳 樹的結構與建造
-
-它不像傳統資料庫把 `batman` 整個字串存成一列。他把文字「徹底撕裂」。
-
-- 根節點 (Root) 是空的。
-- 第一層長出了幾十個子節點，包含 `a, b, c...`。
-- 你要把 `bat` 存進去？就從 Root 往 `b` 走，從 `b` 長出一個 `a`，再從 `a` 長出一個 `t`。最後在 `t` 的這個節點掛上一個「終結符號 (End of Word)」，告訴電腦「這是一個完整的單字」。
-- 下一次要把 `bad` 存進去？系統從 Root 發現已經有 `b ➡️ a` 兩條路了，於是它只需要從 `a` 分岔出一條 `d` 的新路。
-
-### ⚡ 毫秒級查找：沿著藤蔓走
-
-當你輸入 `ba` 時，電腦不再去數十億筆資料裡瞎撈。它直接「空降」到 Trie 樹上的路徑 `Root ➡️ b ➡️ a` 這個點。
-抵達後，電腦順著 `a` 底下的藤蔓往下摸，瞬間就能摸出兩條已存在的路段：拿到 `bat` 跟 `bad`！
-**搜尋的時間複雜度，極端不講武德地僅取決於「你打了幾個字母 (字首長度 K)」。$O(K)$ 速度幾乎等同於作弊級的直接命中！**
+To solve the billion-level extreme-speed lookup targeting "Prefixes," scientists invented an exclusive killer move.
 
 ---
 
-## 2. 系統設計的地獄考驗：萬人爭搶 Top 10 名單
+## 1. Dismantling the Puzzle: The Trie (Prefix Tree)
 
-雖然 Trie 找字極速，但使用者只希望看到「**最熱門的 Top 10**」。如果我們走到 `a` 節點後，發現底下有十萬個冷門跟熱門單字，難道我們要全部摸出來，再做一個大排序嗎？那又變成一場災難了。
+A Trie (pronounced like "Try") is a group of magical trees of life composed of single letters.
 
-### 🏆 空間換取時間的王道：節點緩存 (Node Cache)
+### 🌳 Tree Structure and Construction
 
-為達成 $< 50\text{ ms}$ 的嚴格回應要求，我們不能在有人輸入時才去作 `Order By`。
-這棵樹被施加了黑魔法：**每個中間節點不但紀錄字母，還硬生生「寫死快取」了包含這個字首的 Top 5 最熱門單字陣列**。
+Unlike a traditional database that stores the entire string `batman` in a row, it "completely tears apart" the text.
 
-- `b` 節點內紀錄了：`[{word: 'banana', hit: 100}, {word: 'batman', hit: 80}, ...]`。
-- `b ➡️ a` 節點內也紀錄了這份 Top 名單。
+- The Root node is empty.
+- The first layer grows dozens of child nodes, including `a, b, c...`.
+- You want to store `bat` into it? Just go from the Root to `b`, grow an `a` from `b`, and grow a `t` from `a`. Finally, hang an "End of Word" symbol on this `t` node to tell the computer "This is a complete word."
+- Next time you want to store `bad`? The system discovers from the Root that the path `b ➡️ a` already exists, so it only needs to branch out a new path `d` from `a`.
 
-當使用者打 `ba` 到達 `a` 節點時，系統完全不往下找了，**直接把這個節點肚子裡預先算好的 Top 5 名單原封不動丟給使用者！**
-代價是這棵樹占用的記憶體會非常肥大，但系統效能突破了物理極限。
+### ⚡ Millisecond-Level Lookup: Walking Along the Vines
 
-### 🏭 離線非同步重新計算 (Data Sampling)
-
-因為每一個中間節點都記錄了龐大的 Top 名單，如果每次有路人搜一個新單字就要求這棵樹「即時更新所有路徑的熱門清單」，這棵樹會死於瘋狂的更新寫入衝突 (Write Amplification)。
-**解法**：Trie 樹是「靜態」唯讀的！
-使用者的點擊日誌會全部丟到 Kafka 或 Hadoop 進行每週或每天的離線大數據批次重算 (Batch Processing)。等到半夜，再生成一棵「全新熱點榜單的 Trie 樹」，一口氣替換掉線上的舊樹 (Blue/Green Deployment)。
+When you type `ba`, the computer no longer gropes blindly through billions of records. It "airdrops" directly onto the path point `Root ➡️ b ➡️ a` on the Trie tree.
+Upon arrival, the computer feels its way down the vines under `a`, and instantly finds two existing paths: grabbing `bat` and `bad`!
+**The time complexity of the search outrageously depends solely on "how many letters you typed (prefix length K)". The $O(K)$ speed is practically equivalent to a cheat-level direct hit!**
 
 ---
 
-## 💡 Vibecoding 工地監工發包訣竅
+## 2. The Hellish Trial of System Design: Ten Thousand People Scrambling for the Top 10 List
 
-面對搜尋引擎或關鍵字輔助系統，使用這組詞彙能榨出最高水準的工程代碼：
+Although a Trie finds words extremely fast, users only want to see the **"most popular Top 10."** If we arrive at the `a` node and find a hundred thousand obscure and popular words underneath it, do we have to pull them all out and do a massive sort? That turns into a disaster again.
 
-> 🗣️ `「你在幫這個電商網站設計搜尋欄的【自動補全聯想 (Autocomplete) API】時，禁止用 MySQL 的 LIKE % 去查所有的 商品名！請你拉起一個獨立的微服務，利用 Redis 或在本機記憶體建造一顆【Trie (字典樹)】。並確保在建樹時，將該字首的 Top 10 熱門單字前綴緩存 (Prefix Node Caching) 在樹枝節點內，以達到 O(1) 等級的神速下拉選單體驗！」`
+### 🏆 Trading Space for Time is the Royal Road: Node Cache
+
+To achieve the rigorous response requirement of $< 50\text{ ms}$, we cannot execute an `Order By` only when someone is typing.
+This tree is cursed with dark magic: **Every intermediate node not only records the letter, but forcibly "hardcodes a cache" of the Top 5 most popular words array that contains this prefix.**
+
+- Inside the `b` node is recorded: `[{word: 'banana', hit: 100}, {word: 'batman', hit: 80}, ...]`.
+- Inside the path `b ➡️ a` node, this Top list is also recorded.
+
+When a user types `ba` and arrives at the `a` node, the system doesn't search downwards at all. **It directly throws the pre-calculated Top 5 list sitting in this node's belly right back at the user intact!**
+The price is that the memory footprint of this tree becomes exceedingly fat, but the system performance breaks through physical limits.
+
+### 🏭 Offline Asynchronous Recalculation (Data Sampling)
+
+Because every single intermediate node records a massive Top list, if the tree is required to "real-time update the hotlists of all paths" every time a passerby searches a new word, this tree will die from crazy Write Amplification conflicts.
+**Solution**: The Trie tree is "statically" read-only!
+Users' click logs are completely dumped into Kafka or Hadoop for weekly or daily offline large-scale variable batch recalculation (Batch Processing). In the middle of the night, a "brand-new hotlist Trie tree" is generated to replace the old tree online all at once (Blue/Green Deployment).
+
+---
+
+## 💡 Vibecoding Instructions
+
+Facing search engines or keyword assist systems, using this set of vocabularies can squeeze out the highest-level engineering code:
+
+> 🗣️ `"When you are helping this e-commerce site design the [Autocomplete API] for its search bar, using MySQL's LIKE % to search all product names is forbidden! Please spin up an independent microservice and build a [Trie (Prefix Tree)] utilizing Redis or in-app memory. And ensure during tree construction that you perform [Prefix Node Caching] of the Top 10 hottest words for that prefix inside the branch nodes, achieving an O(1) grade god-speed dropdown menu experience!"`
