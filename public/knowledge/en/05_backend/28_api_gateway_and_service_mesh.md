@@ -1,65 +1,65 @@
-# 28. 微服務的國境保安：API Gateway 與 Service Mesh
+# 28. The Border Security of Microservices: API Gateway and Service Mesh
 
-> **類型**: 系統架構與微服務通訊科普
-> **重點**: 當單體應用被拆解為成百上千個微服務後，如何管理這龐大且混亂的網路通訊？本篇將釐清 ByteByteGo 極其重視的兩道防線：防守南北向流量的 **API 網關 (API Gateway)**，以及加密東西向流量的地下情報網 **服務網格 (Service Mesh)**。
-
----
-
-## 前言：當微服務叢集失去控制
-
-在傳統單體 (Monolith) 架構中，系統內部模組的呼叫只是普通的記憶體函數調用 (Function Call)，既安全又神速。
-但當系統拆分成 100 個微服務散落在不同的 Docker 容器裡時，這 100 個服務被迫改用 HTTP/gRPC 在網路上互相大吼大叫。
-
-- **認證災難**：難道這 100 個微服務，每一個都要自己寫一套 JWT 驗證邏輯嗎？
-- **外部駭客**：難道這 100 個服務都要全部暴露 IP 給外面的手機 App 隨意呼叫嗎？
-- **內部裸奔**：如果駭客攻破了其中一台容器，他是不是就能在內網把所有沒加密的微服務封包全看光？
-
-為了解決這些問題，現代雲原生架構引入了兩層物理隔離的「交通警察」。
+> **Type**: System Architecture & Microservices Communication Primer
+> **Focus**: When a monolithic application is dismantled into hundreds or thousands of microservices, how do you manage this massive and chaotic network communication? This article will clarify two lines of defense heavily emphasized by ByteByteGo: the **API Gateway** guarding North-South traffic, and the underground intelligence network **Service Mesh** encrypting East-West traffic.
 
 ---
 
-## 1. 擋在國境最前線：API 網關 (API Gateway)
+## Prelude: When a Microservice Cluster Loses Control
 
-API Gateway 專職處理 **「南北向流量 (North-South Traffic)」**，也就是從外部網際網路 (手機、瀏覽器) 進入內部資料中心的流量。
+In a traditional Monolithic architecture, calls between internal modules of the system are just ordinary memory Function Calls, which are both safe and lightning-fast.
+But when the system is split into 100 microservices scattered across different Docker containers, these 100 services are forced to switch to yelling at each other over the network using HTTP/gRPC.
 
-### 🛡️ 終極大前台與護城河
+- **Authentication Disaster**: Do each of these 100 microservices have to write their own JWT verification logic?
+- **External Hackers**: Do all 100 services have to expose their IPs to outside mobile apps to call at will?
+- **Internal Streaking**: If a hacker breaches one of the containers, can they see all unencrypted microservice packets on the intranet?
 
-- **單一入口點 (Single-Entry Point)**：外部駭客再也看不到 100 個微服務的 IP。他們只能看到全域唯一的 `api.moyin.com`。
-- **統一擋煞 (Cross-cutting Concerns)**：將所有骯髒但必要的工作統包！我們不需要在「訂單微服務」裡面寫認證邏輯。
-  - **身分驗證 (Auth/JWT)**：沒帶 Token 或 Token 過期，Gateway 會直接把你踢掉 (`401 Unauthorized`)，後端微服務連被打擾的機會都沒有。
-  - **限流與防禦 (Rate Limiting)**：每個 IP 每秒只能戳 10 次。超過的直接吃 `429 Too Many Requests`，確保內部叢集不被 DDoS 流量海嘯淹沒。
-  - **路由轉發 (Routing)**：將 `/api/upload` 丟給上傳影像叢集，將 `/api/billing` 轉交金流結帳叢集。
-
-_業界代表作：Kong, Nginx, AWS API Gateway_
+To solve these problems, modern Cloud-Native architectures have introduced two physically isolated layers of "Traffic Police."
 
 ---
 
-## 2. 內部地下情報網：服務網格 (Service Mesh)
+## 1. Blocking at the Forefront of the Border: API Gateway
 
-通過了 Gateway 的安檢，流量進入了內網的微服務叢集間。這時，微服務 A 呼叫微服務 B 稱為 **「東西向流量 (East-West Traffic)」**。
+The API Gateway specializes in handling **"North-South Traffic"**, which is the traffic entering the internal data center from the external internet (mobile phones, browsers).
 
-早期，工程師必須在微服務 A 的程式碼裡寫「如果 B 連不上，我要等 3 秒再 Retry 3 次，最後再報錯...」。這不僅讓商業邏輯充滿了網路底層的糞坑代碼，還衍生了語言不通的問題 (A 是 Go，B 是 Python)。
+### 🛡️ The Ultimate Front Desk and Moat
 
-### 🕵️‍♂️ 邊車代理模式 (Sidecar Proxy)
+- **Single-Entry Point**: External hackers can no longer see the IPs of the 100 microservices. They can only see the globally unique `api.moyin.com`.
+- **Unified Cross-cutting Concerns Handling**: Contract out all the dirty but necessary work! We don't need to write authentication logic inside the "Order Microservice".
+  - **Authentication (Auth/JWT)**: If carrying no Token or an expired Token, the Gateway will kick you out directly (`401 Unauthorized`), leaving the backend microservices no chance to even be disturbed.
+  - **Rate Limiting**: Each IP can only poke 10 times per second. Anything exceeding that directly eats a `429 Too Many Requests`, ensuring the internal cluster isn't drowned by a DDoS traffic tsunami.
+  - **Routing**: Forward `/api/upload` to the image upload cluster, and hand over `/api/billing` to the payment checkout cluster.
 
-這就是 Service Mesh (如 Istio, Envoy) 的無敵之處。它的精神是：「**不准任何微服務自己對外連線！**」
-系統會在每一個微服務的旁邊，硬塞進一個極度輕巧的「特務 (Sidecar 容器)」。
-
-- 當 A 想呼叫 B，A 只會跟身邊的特務說「幫我叫 B」。
-- 特務 A 會利用 **mTLS (雙向 TLS)** 極度加密的通道，悄悄聯絡特務 B。
-- 特務 B 解密後，再用 `localhost` 把封包塞給微服務 B。
-
-### ⚡ 零死角的軍事化管理
-
-- **Zero Trust (零信任架構)**：即使駭客攻破內網，也無法竊聽連線，因為所有的東西向流量都被 Sidecar 用 mTLS 給加密死了。
-- **極致熔斷與重試**：所有的 Retry 邏輯、超時設定、甚至金絲雀發佈的流量切割 (5% 送給新版 B，95% 送給舊版 B)，**全部由 Sidecar 代勞**。微服務 A 的工程師只需要專心寫出簡單的 API 呼叫，以為一切都在本機發生。
+_(Industry Masterpieces: Kong, Nginx, AWS API Gateway)_
 
 ---
 
-## 💡 Vibecoding 工地監工發包訣竅
+## 2. The Internal Underground Intelligence Network: Service Mesh
 
-面對微服務的龐雜架構，在分配任務給 AI 時必須劃清內外邊界：
+Having passed the Gateway's security check, the traffic enters the internal microservice cluster. At this point, Microservice A calling Microservice B is known as **"East-West Traffic"**.
 
-> 🗣️ `「你在撰寫這個內部的【寄信微服務】時，嚴禁你在原始碼內實作 JWT 驗證邏輯與跨域 CORS 標頭！這些南北向的擋煞任務，請全部拉到全域的【API Gateway (如 Kong/Nginx)】去統一處理；內部服務請保持徹底裸奔與純粹的商業邏輯。」`
+In the early days, engineers had to write in Microservice A's code: "If B can't be reached, I will wait 3 seconds, retry 3 times, and finally report an error...". This not only filled the business logic with crappy underlying network code but also spawned language barrier issues (A is Go, B is Python).
+
+### 🕵️‍♂️ Sidecar Proxy Pattern
+
+This is the invincibility of a Service Mesh (like Istio, Envoy). Its spirit is: **"No microservice is allowed to make external connections on its own!"**
+The system will forcibly stuff an extremely lightweight "Secret Agent (Sidecar container)" right next to every microservice.
+
+- When A wants to call B, A only tells the agent next to it, "Call B for me."
+- Agent A will use an extremely encrypted **mTLS (Mutual TLS)** channel to quietly contact Agent B.
+- After Agent B decrypts it, it uses `localhost` to stuff the packet to Microservice B.
+
+### ⚡ Military-style Management with Zero Blind Spots
+
+- **Zero Trust Architecture**: Even if hackers breach the intranet, they cannot eavesdrop on connections because all East-West traffic is encrypted to death by Sidecar using mTLS.
+- **Extreme Circuit Breaking and Retries**: All Retry logic, timeout settings, and even traffic splitting for Canary Releases (sending 5% to the new version of B, 95% to the old version of B) are **all handled by the Sidecar**. The engineer for Microservice A only needs to focus on writing simple API calls, thinking everything is happening locally.
+
+---
+
+## 💡 Vibecoding Instructions
+
+Facing the complex architecture of microservices, you must draw clear internal and external boundaries when assigning tasks to AI:
+
+> 🗣️ `"While writing this internal [Email Sending Microservice], you are strictly prohibited from implementing JWT verification logic and cross-origin CORS headers within the source code! Please pull all these North-South blocking tasks to the global [API Gateway (like Kong/Nginx)] to handle them uniformly; keep internal services completely bare and purely business logic."`
 >
-> 🗣️ `「由於我們接下來會導入 Kubernetes 與 Istio 服務網格 (Service Mesh)，你在撰寫呼叫其他內部微服務的 gRPC/HTTP 連線腳本時，請移除所有暴力的迴圈 Retry 機制與斷線重連邏輯！請信任並將這項工作交給旁邊的 Sidecar (Envoy) 代為代理重試即可。」`
+> 🗣️ `"Since we will be introducing Kubernetes and the Istio Service Mesh next, when you write gRPC/HTTP connection scripts calling other internal microservices, please remove all brutal loop Retry mechanisms and disconnection reconnection logic! Please trust and hand this work over to the adjacent Sidecar (Envoy) to proxy the retries for you."`
