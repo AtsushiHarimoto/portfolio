@@ -187,7 +187,7 @@ const translations: Record<Locale, TranslationKeys> = {
       philosophy: '"Learn new technologies, embed them in the team, and transform them into product value."',
       languagesTitle: 'Languages',
       languages: [
-        { name: 'Chinese (Mandarin)', level: 'Native' },
+        { name: 'Chinese (Mandarin & Cantonese)', level: 'Native' },
         { name: 'Japanese', level: 'Business (JLPT N2)' },
         { name: 'English', level: 'Professional' },
       ],
@@ -373,7 +373,7 @@ const translations: Record<Locale, TranslationKeys> = {
       philosophy: '「新しい技術を学び、チームに浸透させ、プロダクトの価値に変える」',
       languagesTitle: '言語',
       languages: [
-        { name: '中国語（普通話）', level: 'ネイティブ' },
+        { name: '中国語（普通話 + 広東語）', level: 'ネイティブ' },
         { name: '日本語', level: 'ビジネスレベル（JLPT N2）' },
         { name: '英語', level: 'ビジネスレベル' },
       ],
@@ -558,7 +558,7 @@ const translations: Record<Locale, TranslationKeys> = {
       philosophy: '「學習新技術，融入團隊，轉化為產品價值。」',
       languagesTitle: '語言能力',
       languages: [
-        { name: '中文（普通話）', level: '母語' },
+        { name: '中文（普通話 + 粵語）', level: '母語' },
         { name: '日語', level: '商務級（JLPT N2）' },
         { name: '英語', level: '專業級' },
       ],
