@@ -1,10 +1,48 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { useLocale } from '@/lib/locale-context';
+import { MouseEvent } from 'react';
 
 const techBadges = ['Vue 3', 'TypeScript', 'Python', 'React', 'FastAPI', 'LLM/AI'];
+
+function TiltCard({ children, className }: { children: React.ReactNode, className?: string }) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const rotateX = useTransform(y, [-100, 100], [10, -10]);
+  const rotateY = useTransform(x, [-100, 100], [-10, 10]);
+
+  function handleMouseMove(event: MouseEvent<HTMLDivElement>) {
+    const rect = event.currentTarget.getBoundingClientRect();
+    x.set(event.clientX - rect.left - rect.width / 2);
+    y.set(event.clientY - rect.top - rect.height / 2);
+  }
+
+  function handleMouseLeave() {
+    x.set(0);
+    y.set(0);
+  }
+
+  return (
+    <motion.div
+      style={{ perspective: 1000 }}
+      className={className}
+    >
+      <motion.div
+        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        className="w-full h-full relative"
+      >
+        <div style={{ transform: "translateZ(30px)", transformStyle: "preserve-3d" }} className="w-full h-full flex flex-col justify-center">
+            {children}
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
 
 const demoLinks = [
   { key: 0, href: '/projects/moyin-gateway-demo/', emoji: '\u{1F310}' },
@@ -130,17 +168,19 @@ export default function HomePage() {
               <span className="gradient-text">{t.home.featuredTitle}</span>
             </h2>
 
-            <div className="glass-card p-4 md:p-6 max-w-4xl mx-auto">
-              <div className="relative w-full overflow-hidden rounded-xl" style={{ paddingBottom: '56.25%' }}>
-                <iframe
-                  className="absolute inset-0 w-full h-full"
-                  src="https://www.youtube.com/embed/pxvT3Hsj3g8"
-                  title="Early Work"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
+            <TiltCard>
+              <div className="glass-card p-4 md:p-6 max-w-4xl mx-auto">
+                <div className="relative w-full overflow-hidden rounded-xl" style={{ paddingBottom: '56.25%' }}>
+                  <iframe
+                    className="absolute inset-0 w-full h-full"
+                    src="https://www.youtube.com/embed/pxvT3Hsj3g8"
+                    title="Early Work"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
               </div>
-            </div>
+            </TiltCard>
           </motion.div>
         </div>
       </section>
@@ -168,11 +208,11 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-80px' }}
                   transition={{ duration: 0.5, delay: i * 0.15 }}
-                  whileHover={{ y: -6 }}
-                  className="group"
+                  className="group h-full block"
                 >
+                  <TiltCard className="h-full block">
                   <Link href={demo.href} className="block h-full">
-                    <div className="glass-card p-6 h-full flex flex-col items-center text-center transition-all duration-300 group-hover:border-moyin-pink/30 group-hover:shadow-lg group-hover:shadow-moyin-pink/10">
+                    <div className="glass-card p-6 h-full flex flex-col items-center text-center transition-all duration-300 group-hover:border-moyin-pink/30 group-hover:shadow-lg group-hover:shadow-moyin-pink/40 hover:bg-white/[0.02]">
                       <span className="text-4xl mb-4" role="img" aria-label={item.name}>
                         {demo.emoji}
                       </span>
@@ -186,6 +226,7 @@ export default function HomePage() {
                       </span>
                     </div>
                   </Link>
+                  </TiltCard>
                 </motion.div>
               );
             })}
