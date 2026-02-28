@@ -1,77 +1,77 @@
-# 22. AI Agent 的大腦藍圖：四大通用設計模式 (Agentic Design Patterns)
+# The AI Agent Blueprint: Four Universal Design Patterns
 
-🎯 **本章目標**：不再只是把 AI 當成一個人！學會軟體工程最潮的 Agent 四大陣法，像個老闆一樣安排你的「多部門 AI 數位團隊」。
-
----
-
-在《11. AI Agent 與 MCP 深度解析》中，我們知道了 Agent 就是「能拿工具的大腦 (具備 ReAct 思考能力)」。
-但當 AI 要去完成真正複雜的任務（例如撰寫一整支完整的微服務）時，只有最陽春的一顆腦袋是不夠的，它遲早會被錯綜複雜的細節逼瘋。
-
-近幾年來，世界各地的軟體大神總結出了一套被稱為 **「代理型人工智慧設計模式 (Agentic Design Patterns)」** 的四大絕招。
-
-了解這些絕招，你就能成為真正的 AI 操盤手！
+**Goal**: Move beyond treating AI as a single individual. Learn the four essential Agent formations from modern software engineering, and orchestrate your own multi-department AI digital team like a seasoned manager.
 
 ---
 
-## 🪞 1. 反思與自我糾錯模式 (Reflection Pattern)
+In [Chapter 11: AI Agents & MCP Deep Dive](./11_vibecoding_agent_mcp.md), we established that an Agent is "a brain with tools (equipped with ReAct reasoning)."
+But when AI tackles truly complex tasks -- like building an entire microservice -- a single brain is not enough. It will inevitably be overwhelmed by tangled details.
 
-- **悲慘情境**：你叫 AI 寫一個日曆元件，它生出了一坨亂七八糟、根本無法運行的爛代碼丟給你：「老闆，我寫好了！」（然後你火冒三丈自己花兩小時修 Bug）。
-- **💯 Reflection (自我審查) 模式**：
-  我們在 AI 身上多掛了一個「找碴審查者」的人格。
-  `[工作大腦]` 寫出代碼 ➝ 丟給 `[編譯器/檢測工具]` 發現錯誤
-  ➝ `[找碴大腦]` 讀到錯誤日誌，立刻無情吐槽 `[工作大腦]`：「你變數打錯字了，給我回去重寫！」
-  ➝ 在他們兩個自我內耗、打架到完美無瑕之後，才把最終順利運行的結果端給老闆你。
-  > **💡 在 Moyin 的體驗**：當你使用 `/commit` 遇到 Git 報衝突時，你的 Agent 會自動去讀報錯紅字，然後自己修正衝突，這就是自帶反思機制的厲害之處！
+In recent years, software architects worldwide have codified a set of four essential techniques known as **Agentic Design Patterns**.
+
+Master these patterns, and you become a true AI orchestrator.
 
 ---
 
-## 🗺️ 2. 規劃與拆解模式 (Planning Pattern)
+## 1. Reflection Pattern (Self-Review & Self-Correction)
 
-- **悲慘情境**：你下指令：「幫我寫一個訂單後台系統！」AI 腦袋當機，直接開始寫 `index.html`，寫到一半發現沒有後端，又跑回去加資料庫，最後程式碼全是一鍋粥。
-- **💯 Planning (建築藍圖) 模式**：
-  面對巨型任務，AI 會在動工前強制自己按下**暫停鍵**，化身為架構師，產出一份 Step-by-Step 的執行計畫清單：
-  > 1. 先架設好 Express 後端空殼
-  > 2. 定義 MongoDB 資料庫規格
-  > 3. 實作登入 API
-  > 4. 最後撰寫前端登入介面連接 API
-
-> **💡 在 Moyin 的體驗**：還記得 `00_core_protocol` 中最剛硬的第一條鐵則嗎？**「必須先給計畫與清單 (Plan)，取得你的 OK 才能改檔 (Action)」**。我們就是用這條鐵律強迫 AI 實踐 Planning 模式！
+- **The pain point**: You ask AI to write a calendar component, and it produces a mess of broken code and hands it to you: "Done, boss!" (Then you spend two hours fixing bugs in a rage.)
+- **The Reflection solution**:
+  We attach an additional "critic" persona to the AI.
+  `[Worker Brain]` writes code -> passes it to `[Compiler/Lint Tool]` which finds errors
+  -> `[Critic Brain]` reads the error log and mercilessly calls out `[Worker Brain]`: "You misspelled a variable -- go rewrite it!"
+  -> Only after they battle it out internally until the code is flawless does the final, working result get delivered to you.
+  > **In Moyin**: When you run `/commit` and Git reports a conflict, your Agent automatically reads the error, resolves the conflict on its own, and retries. That is the Reflection pattern in action.
 
 ---
 
-## 🤝 3. 多重 Agent 協作模式 (Multi-Agent Collaboration)
+## 2. Planning Pattern (Decompose Before You Build)
 
-- **悲慘情境**：你逼著同一個 AI 模型要把寫程式、畫介面、寫單元測試全包辦（這就像你叫視覺設計工程師去管資料庫），AI 負荷不了直接裝死。
-- **💯 Multi-Agent (部門開會) 模式**：
-  我們開立了一整間虛擬公司，包含多個不同專業的 AI：
-  - `[資深工程師 AI]`：只負責寫核心邏輯。
-  - `[碎念資安 AI]`：專門死盯著工程師 AI 寫的東西，檢查有沒有漏洞。
-  - `[ QA 測試 AI]`：負責自動寫測試腳本。
-    這三個 AI 會在雲端開小房間互相「開會」討論。聊出完美方案了再出來見客。（這也是目前許多如 AutoGen 神級庫在做的事）。
+- **The pain point**: You say: "Build me an order management backend!" The AI's brain short-circuits -- it starts writing `index.html`, realizes halfway through there is no backend, goes back to add a database, and ends up with an incoherent mess.
+- **The Planning solution**:
+  For large tasks, the AI forces itself to hit the **pause button** before writing any code, becoming an architect who produces a step-by-step execution plan:
+  > 1. Scaffold the Express backend shell
+  > 2. Define the MongoDB schema
+  > 3. Implement the login API
+  > 4. Build the frontend login UI connected to the API
 
----
-
-## 🚦 4. 智慧分流模式 (LLM as a Router)
-
-- **悲慘情境**：玩家問：「你好，現在幾點」，系統竟然去呼叫最昂貴、最聰明的 `GPT-4o` 來回答。這完全是用大炮打小鳥，每個月的 API 帳單會讓你哭出來。
-- **💯 Router (大樓總機) 模式**：
-  建立一個極度便宜、運作超快的小型「總機 AI 門衛」。
-  當玩家發送訊息時：
-  1. 總機先看一下問題。
-  2. 如果是「請假規定」，總機路由 ➝ 分發給便宜的本地小模型 (Ollama)。
-  3. 如果是「請幫我寫一份龐大的演算法」，總機路由 ➝ 轉發給昂貴的高級老總 (Claude 3.5 Sonnet)。
-
-> **💡 在 Moyin 的體驗**：在我們的 **I1 Gateway** 微服務裡，它每天都在扮演這個吃力不討好卻偉大的分流總機角色！
+> **In Moyin**: Remember the ironclad first rule in `00_core_protocol`? **"Must provide a Plan and checklist first; only proceed to Action after getting your OK."** This is exactly how we force AI to practice the Planning pattern.
 
 ---
 
-### ✅ 慣老闆的驗收清單
+## 3. Multi-Agent Collaboration
 
-看完這四大模式，你會發現：**設計 Agent 系統，其實就是在設計一家公司的人事與流程管理。**
+- **The pain point**: You force a single AI to handle coding, UI design, and unit testing all at once (that is like asking a visual designer to manage the database). The AI overloads and gives up.
+- **The Multi-Agent solution**:
+  We set up an entire virtual company with multiple specialized AIs:
+  - `[Senior Engineer AI]`: Responsible only for writing core logic.
+  - `[Security Reviewer AI]`: Dedicated to scrutinizing the engineer's output for vulnerabilities.
+  - `[QA Tester AI]`: Responsible for writing automated test scripts.
+    These three AIs collaborate in a virtual meeting room, discussing until they converge on a solid solution before presenting it. (This is what frameworks like AutoGen are doing today.)
 
-作為未來的 AI Pilot 控制者，你需要把這幾句話當成座右銘：
+---
 
-- [ ] 我知道不要期待一個全能天才負責整間公司（不要過度依賴單一 AI）。
-- [ ] 我知道要逼 AI 動手前先寫下建築藍圖 **(Planning)**。
-- [ ] 我知道要為 AI 加上自動吐槽的驗證機制 **(Reflection)**。
-- [ ] 我知道要把對的任務發配給對的部門信箱 **(Router 與 Multi-agent)**。
+## 4. Intelligent Routing (LLM as a Router)
+
+- **The pain point**: A user asks "Hello, what time is it?" and the system calls the most expensive, most capable `GPT-4o` to answer. That is using a cannon to swat a fly -- the monthly API bill will be devastating.
+- **The Router solution**:
+  Set up an extremely cheap, ultra-fast "switchboard AI gatekeeper."
+  When a user sends a message:
+  1. The switchboard reads the question.
+  2. If it is "What is the leave policy?" -> route to a cheap local model (Ollama).
+  3. If it is "Write me a complex algorithm" -> route to the expensive executive model (Claude 3.5 Sonnet).
+
+> **In Moyin**: Our **I1 Gateway** microservice plays this thankless but critical switchboard role every single day.
+
+---
+
+### Acceptance Checklist
+
+After seeing these four patterns, you will notice: **designing an Agent system is essentially designing a company's HR and process management.**
+
+As a future AI Pilot, adopt these principles:
+
+- [ ] I know not to expect a single genius to run the entire company (avoid over-reliance on a single AI).
+- [ ] I know to force AI to draft an architectural blueprint before coding **(Planning)**.
+- [ ] I know to equip AI with an automated self-critique mechanism **(Reflection)**.
+- [ ] I know to route the right tasks to the right departments **(Router & Multi-Agent)**.

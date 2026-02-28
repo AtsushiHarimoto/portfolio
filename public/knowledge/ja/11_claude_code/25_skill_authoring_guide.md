@@ -1,83 +1,83 @@
-# 25. Skill 編寫規範
+# スキル（Skill）作成ガイド
 
-> **類型**: 開發規範
-> **日期**: 2026-02-26
-> **狀態**: 骨架
-> **關聯**: `07.2.claude_skills_structure.md`、`22_opencwal_principles.md`
-
----
-
-## 摘要
-
-Claude Code Skill 是可重用的 prompt 封裝，為 Agent 注入領域知識與結構化工作流。本文定義 Skill 的設計原則、檔案格式、品質標準與生命週期管理。
+> **タイプ**: 開発規範
+> **日付**: 2026-02-26
+> **ステータス**: スケルトン（Skeleton）
+> **関連**: `07.2.claude_skills_structure.md`、`22_opencwal_principles.md`
 
 ---
 
-## 1. Skill 是什麼
+## 概要
+
+Claude Code スキル（Skill）は、再利用可能なプロンプト（Prompt）パッケージであり、エージェント（Agent）にドメイン知識と構造化ワークフローを注入します。本文では、スキルの設計原則、ファイルフォーマット、品質基準、ライフサイクル管理について定義します。
+
+---
+
+## 1. スキルとは何か
 
 ### 1.1 本質
 
-Skill = **結構化的 Context 注入包**（參見 OpenCWAL L1–L2）
+Skill = **構造化されたコンテキスト（Context）注入パッケージ**（OpenCWAL L1-L2 参照）
 
 ```
-觸發條件 → 載入 Skill 內容 → 注入 Agent 上下文 → 引導行為
+トリガー条件 → スキル内容をロード → エージェントコンテキストに注入 → 行動をガイド
 ```
 
-### 1.2 與其他概念的區別
+### 1.2 他の概念との違い
 
-| 概念 | 作用 | 持久性 | 觸發方式 |
+| 概念 | 役割 | 持続性 | トリガー方法 |
 |------|------|--------|----------|
-| CLAUDE.md | 全局約束 | 永駐 (L0) | 自動注入 |
-| Skill | 領域指引 | 按需 (L1) | 手動 / 條件匹配 |
-| MCP Tool | 能力擴展 | 常駐 | Agent 自主呼叫 |
-| Prompt Template | 輸入模板 | 一次性 | 用戶選擇 |
+| CLAUDE.md | グローバル制約 | 常時ロード (L0) | 自動注入 |
+| Skill | ドメインガイド | オンデマンド (L1) | 手動 / 条件マッチング |
+| MCP Tool | 能力拡張 | 常時利用可能 | エージェントが自律的に呼び出し |
+| Prompt Template | 入力テンプレート | 一回限り | ユーザーが選択 |
 
 ---
 
-## 2. 檔案格式
+## 2. ファイルフォーマット
 
-### 2.1 Frontmatter（必填）
+### 2.1 フロントマター（Frontmatter、必須）
 
 ```yaml
 ---
-name: my-skill-name           # kebab-case，全局唯一
+name: my-skill-name           # kebab-case、グローバルで一意
 description: >
-  一句話描述用途與觸發條件。
-  Use when [觸發場景]。
+  用途とトリガー条件を一文で記述。
+  Use when [トリガーシーン]。
 ---
 ```
 
-### 2.2 結構模板
+### 2.2 構造テンプレート
 
 ```markdown
 ---
 name: skill-name
-description: 簡述用途。Use when [觸發場景]。
+description: 用途の簡潔な説明。Use when [トリガーシーン]。
 ---
 
 ## Context（背景）
-為什麼需要這個 Skill，解決什麼問題。
+なぜこのスキルが必要で、どんな問題を解決するのか。
 
-## Rules（規則）
-Agent 必須遵守的約束條件。
+## Rules（ルール）
+エージェントが遵守すべき制約条件。
 
-## Workflow（流程）
-1. 步驟一
-2. 步驟二
+## Workflow（フロー）
+1. ステップ 1
+2. ステップ 2
 3. ...
 
-## Checklist（檢查清單）
-- [ ] 驗收項目 1
-- [ ] 驗收項目 2
+## Checklist（チェックリスト）
+- [ ] 検収項目 1
+- [ ] 検収項目 2
 
-## Examples（範例）
+## Examples（例）
 <example>
-具體的輸入輸出範例
+具体的な入出力の例
 </example>
 
-## Anti-patterns（反模式）
-- ✗ 不要做什麼
-- ✗ 常見錯誤
+## Anti-patterns（アンチパターン）
+- やってはいけないこと
+- よくあるミス
 ```
 
 ---
@@ -86,111 +86,111 @@ Agent 必須遵守的約束條件。
 
 ### 3.1 核心原則
 
-| # | 原則 | 說明 |
+| # | 原則 | 説明 |
 |---|------|------|
-| 1 | **單一職責** | 一個 Skill 解決一個問題 |
-| 2 | **觸發明確** | description 必須清楚說明何時使用 |
-| 3 | **自包含** | 不依賴其他 Skill 才能運作 |
-| 4 | **可測試** | 有明確的輸入→輸出預期 |
-| 5 | **Token 精簡** | 控制在 2000 Token 以內（理想） |
+| 1 | **単一責任** | 1 つのスキルで 1 つの問題を解決する |
+| 2 | **トリガーの明確化** | description にいつ使用するかを明確に記載 |
+| 3 | **自己完結** | 他のスキルに依存せず単独で動作する |
+| 4 | **テスト可能** | 明確な入力 → 出力の期待値がある |
+| 5 | **トークン（Token）効率** | 2,000 トークン以内に収める（理想） |
 
-### 3.2 命名規範
+### 3.2 命名規則
 
-| 類型 | 格式 | 範例 |
+| タイプ | フォーマット | 例 |
 |------|------|------|
-| 通用工作流 | `動詞-名詞` | `commit-work`, `review-pr` |
-| 領域指引 | `領域-主題` | `frontend-design`, `api-design` |
-| 專案專屬 | `專案-功能` | `moyin-brand-guard` |
+| 汎用ワークフロー | `動詞-名詞` | `commit-work`, `review-pr` |
+| ドメインガイド | `ドメイン-トピック` | `frontend-design`, `api-design` |
+| プロジェクト専用 | `プロジェクト-機能` | `moyin-brand-guard` |
 
-### 3.3 Description 寫法
+### 3.3 Description の書き方
 
 ```
-✓ "Use when implementing frontend components. Ensures brand compliance and accessibility."
-✗ "Frontend skill"
-✗ "This skill helps with frontend stuff"
+OK: "Use when implementing frontend components. Ensures brand compliance and accessibility."
+NG: "Frontend skill"
+NG: "This skill helps with frontend stuff"
 ```
 
-關鍵要素：
-- **何時用** (Use when...)
-- **做什麼** (Ensures / Guides / Validates...)
-- **觸發詞** 提升自動匹配率
+重要な要素：
+- **いつ使うか** (Use when...)
+- **何をするか** (Ensures / Guides / Validates...)
+- **トリガーキーワード** で自動マッチング精度を向上
 
 ---
 
-## 4. 品質標準
+## 4. 品質基準
 
-### 4.1 Skill 品質檢查清單
+### 4.1 スキル品質チェックリスト
 
-| 項目 | 標準 |
+| 項目 | 基準 |
 |------|------|
-| Frontmatter | name + description 完整 |
-| 觸發條件 | description 中有明確的 "Use when" |
-| 流程步驟 | 有編號的 Workflow 或 Checklist |
-| 範例 | 至少一個 `<example>` 區塊 |
-| 反模式 | 至少列出常見錯誤 |
-| Token 長度 | < 3000 tokens（建議） |
-| 無歧義 | 規則用「必須 / 禁止」而非「建議 / 可以」 |
+| Frontmatter | name + description が完全 |
+| トリガー条件 | description に明確な "Use when" がある |
+| プロセスステップ | 番号付きの Workflow または Checklist がある |
+| 例 | 少なくとも 1 つの `<example>` ブロック |
+| アンチパターン | 少なくともよくあるミスを列挙 |
+| トークン長 | < 3,000 tokens（推奨） |
+| 曖昧さの排除 | ルールに「必須 / 禁止」を使い「推奨 / 可能」を避ける |
 
 ### 4.2 Rigid vs Flexible
 
-| 類型 | 特徵 | 範例 |
+| タイプ | 特徴 | 例 |
 |------|------|------|
-| **Rigid** | 步驟必須嚴格執行 | TDD、debugging、commit |
-| **Flexible** | 原則指引，可因地制宜 | design-patterns、frontend-design |
+| **Rigid** | ステップを厳密に実行する必要がある | TDD、デバッグ、コミット |
+| **Flexible** | 原則ベースのガイド、状況に応じて適応可能 | design-patterns、frontend-design |
 
-在 Skill 開頭標注類型，讓 Agent 知道執行彈性。
+スキルの冒頭にタイプを記載し、エージェントに実行の柔軟性を伝えます。
 
 ---
 
-## 5. 存放與管理
+## 5. 保管と管理
 
-### 5.1 目錄結構
+### 5.1 ディレクトリ構成
 
 ```
 ~/.claude/skills/
-├── core/               # 核心工作流 Skill
-├── domain/             # 領域知識 Skill
-├── project/            # 專案專屬 Skill
-└── experimental/       # 實驗性 Skill
+├── core/               # コアワークフロースキル
+├── domain/             # ドメイン知識スキル
+├── project/            # プロジェクト専用スキル
+└── experimental/       # 実験的スキル
 ```
 
-### 5.2 生命週期
+### 5.2 ライフサイクル
 
 ```
 Draft → Review → Active → Deprecated → Archived
 ```
 
-| 階段 | 條件 |
+| ステージ | 条件 |
 |------|------|
 | Draft | 初版完成 |
-| Review | 經過至少 3 次實際使用驗證 |
-| Active | 穩定使用中 |
-| Deprecated | 有更好替代方案 |
-| Archived | 移入 `_archive/` |
+| Review | 少なくとも 3 回の実運用で検証済み |
+| Active | 安定して使用中 |
+| Deprecated | より良い代替手段が存在する |
+| Archived | `_archive/` に移動 |
 
-### 5.3 版本同步
+### 5.3 バージョン同期
 
-> 提醒：修改 `~/.claude/skills/` 後需同步到 Git Remote
+> リマインダー：`~/.claude/skills/` を変更した後は Git Remote に同期が必要です
 > `git@github.com:AtsushiHarimoto/Moyin-Claude-skills-config.git`
 
 ---
 
-## 6. 常見反模式
+## 6. よくあるアンチパターン
 
-| 反模式 | 問題 | 修正 |
+| アンチパターン | 問題 | 修正 |
 |--------|------|------|
-| 巨型 Skill | > 5000 tokens，稀釋注意力 | 拆分為多個小 Skill |
-| 模糊觸發 | description 太泛，被誤觸發 | 加上具體觸發條件 |
-| 隱性依賴 | 假設其他 Skill 已載入 | 自包含所有必要資訊 |
-| 缺少範例 | Agent 不確定預期行為 | 加入 example 區塊 |
-| 過度規定 | 限制太死，無法適應變化 | 區分 Rigid / Flexible |
+| 巨大スキル | > 5,000 tokens、注意力が分散 | 複数の小さなスキルに分割 |
+| 曖昧なトリガー | description が広すぎて誤トリガー | 具体的なトリガー条件を追加 |
+| 暗黙の依存 | 他のスキルがロード済みと仮定 | 必要な情報をすべて自己完結で含める |
+| 例の欠如 | エージェントが期待される動作を把握できない | example ブロックを追加 |
+| 過度な規定 | 制約が厳しすぎて変化に対応できない | Rigid / Flexible を区別 |
 
 ---
 
-## 待深入
+## 今後の深掘り項目
 
-- [ ] Skill 自動化測試方案
-- [ ] Skill 之間的組合與編排模式
-- [ ] Skill 效能度量（Token 佔用、觸發準確率）
-- [ ] 與 OpenCWAL 上下文預算的整合
-- [ ] Skill 版本管理與 Breaking Change 處理
+- [ ] スキルの自動テスト方式
+- [ ] スキル間の組み合わせとオーケストレーションパターン
+- [ ] スキルのパフォーマンス計測（トークン使用量、トリガー精度）
+- [ ] OpenCWAL コンテキスト予算との統合
+- [ ] スキルのバージョン管理とブレイキングチェンジ（Breaking Change）対応

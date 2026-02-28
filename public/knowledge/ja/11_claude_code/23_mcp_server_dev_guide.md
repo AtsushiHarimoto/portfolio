@@ -1,137 +1,137 @@
-# 23. MCP 伺服器開發指南
+# MCP サーバー開発ガイド
 
-> **類型**: 開發指南
-> **日期**: 2026-02-26
-> **狀態**: 骨架
-> **關聯**: `12_diagrams/08.Moyin_MCP_Architecture.md`、`11_vibecoding_agent_mcp.md`
-
----
-
-## 摘要
-
-Model Context Protocol (MCP) 是 Anthropic 提出的開放協議，讓 LLM 能以標準化方式連接外部工具與數據源。本文涵蓋 MCP Server 的原理、開發流程、測試與部署。
+> **タイプ**: 開発ガイド
+> **日付**: 2026-02-26
+> **ステータス**: スケルトン（Skeleton）
+> **関連**: `12_diagrams/08.Moyin_MCP_Architecture.md`、`11_vibecoding_agent_mcp.md`
 
 ---
 
-## 1. MCP 核心概念
+## 概要
 
-### 1.1 協議角色
+Model Context Protocol（MCP）は、Anthropic が提唱するオープンプロトコル（Protocol）で、LLM が標準化された方法で外部ツールやデータソースに接続できるようにするものです。本文では MCP Server の原理、開発フロー、テスト、デプロイについて解説します。
+
+---
+
+## 1. MCP の核心概念
+
+### 1.1 プロトコルの役割
 
 ```
-Host (Claude Code / IDE)
-  └── Client (MCP Client，內建於 Host)
-        └── Server (你開發的 MCP Server)
+Host（Claude Code / IDE）
+  └── Client（MCP Client、Host に内蔵）
+        └── Server（あなたが開発する MCP Server）
               └── Resources / Tools / Prompts
 ```
 
-### 1.2 三大原語
+### 1.2 3 つのプリミティブ（Primitive）
 
-| 原語 | 用途 | 類比 |
+| プリミティブ | 用途 | アナロジー |
 |------|------|------|
-| **Tools** | Agent 可呼叫的函數 | REST API endpoint |
-| **Resources** | 可讀取的數據源 | GET endpoint / 檔案 |
-| **Prompts** | 預定義的提示模板 | Slash command |
+| **Tools** | エージェントが呼び出せる関数 | REST API エンドポイント |
+| **Resources** | 読み取り可能なデータソース | GET エンドポイント / ファイル |
+| **Prompts** | 事前定義されたプロンプトテンプレート | スラッシュコマンド（Slash command） |
 
-### 1.3 傳輸方式
+### 1.3 トランスポート方式
 
-| 傳輸 | 適用場景 | 特點 |
+| トランスポート | 適用シーン | 特徴 |
 |------|----------|------|
-| **stdio** | 本地 Server | 最簡單，進程間通訊 |
-| **SSE (HTTP)** | 遠端 Server | 支持跨網路，需處理 auth |
-| **Streamable HTTP** | 新版推薦 | 支持雙向串流 |
+| **stdio** | ローカルサーバー | 最もシンプル、プロセス間通信 |
+| **SSE (HTTP)** | リモートサーバー | クロスネットワーク対応、認証処理が必要 |
+| **Streamable HTTP** | 新バージョン推奨 | 双方向ストリーミング（Streaming）対応 |
 
 ---
 
-## 2. 開發流程
+## 2. 開発フロー
 
-### 2.1 技術選型
+### 2.1 技術選定
 
-| 語言 | SDK | 適用場景 |
+| 言語 | SDK | 適用シーン |
 |------|-----|----------|
-| TypeScript | `@modelcontextprotocol/sdk` | 前端生態、快速原型 |
-| Python | `mcp` (PyPI) | 數據處理、ML 整合 |
+| TypeScript | `@modelcontextprotocol/sdk` | フロントエンドエコシステム、ラピッドプロトタイピング |
+| Python | `mcp` (PyPI) | データ処理、ML 統合 |
 
-### 2.2 最小可用 Server（TypeScript）
+### 2.2 最小構成サーバー（TypeScript）
 
 ```typescript
-// 骨架示意，非完整代碼
+// スケルトン例示、本番コードではありません
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 
 const server = new McpServer({ name: "my-server", version: "1.0.0" });
 
-// 註冊 Tool
+// Tool を登録
 server.tool("greet", { name: z.string() }, async ({ name }) => ({
   content: [{ type: "text", text: `Hello, ${name}!` }],
 }));
 
-// 啟動
+// 起動
 const transport = new StdioServerTransport();
 await server.connect(transport);
 ```
 
-### 2.3 開發步驟
+### 2.3 開発ステップ
 
 ```
-1. 定義需求 → 這個 Server 要解決什麼問題？
-2. 設計 Tool Schema → 輸入/輸出 JSON Schema
-3. 實作 Handler → 業務邏輯
-4. 本地測試 → MCP Inspector / 手動測試
-5. 配置到 Claude Code → settings.json
-6. 整合測試 → 實際對話中驗證
-7. 部署 → 本地 stdio 或遠端 HTTP
+1. 要件定義 → この Server はどんな問題を解決するのか？
+2. Tool スキーマ設計 → 入出力の JSON Schema
+3. ハンドラー実装 → ビジネスロジック
+4. ローカルテスト → MCP Inspector / 手動テスト
+5. Claude Code に設定 → settings.json
+6. 統合テスト → 実際の会話で検証
+7. デプロイ → ローカル stdio またはリモート HTTP
 ```
 
 ---
 
-## 3. Tool 設計最佳實踐
+## 3. Tool 設計のベストプラクティス
 
-### 3.1 命名規範
+### 3.1 命名規則
 
-- 動詞開頭：`get_`, `create_`, `search_`, `validate_`
-- 清晰描述：Tool description 是 Agent 選擇工具的依據
-- 避免模糊：`process_data` ✗ → `parse_csv_to_json` ✓
+- 動詞で始める：`get_`、`create_`、`search_`、`validate_`
+- 明確な説明：Tool の description はエージェントがツールを選択する判断基準になります
+- 曖昧さを避ける：`process_data` -- NG → `parse_csv_to_json` -- OK
 
-### 3.2 Schema 設計
+### 3.2 スキーマ設計
 
-| 原則 | 說明 |
+| 原則 | 説明 |
 |------|------|
-| 最小參數 | 只暴露必要參數，減少 Agent 出錯機率 |
-| 明確型別 | 用 enum 限制選項，用 description 說明格式 |
-| 合理預設 | 提供 default 值減少必填項 |
-| 錯誤回傳 | 返回結構化錯誤訊息，而非裸字串 |
+| 最小パラメータ | 必要なパラメータのみ公開し、エージェントのエラー率を低減 |
+| 明確な型定義 | enum で選択肢を制限し、description で形式を説明 |
+| 合理的なデフォルト値 | default 値を提供し、必須項目を削減 |
+| 構造化エラー | 生の文字列ではなく、構造化されたエラーメッセージを返却 |
 
-### 3.3 安全考量
+### 3.3 セキュリティ考慮事項
 
-- 不信任 Agent 輸入 → 驗證所有參數
-- 限制檔案存取範圍 → 白名單目錄
-- 敏感操作需確認 → 返回確認提示讓 Agent 二次確認
-- 避免指令注入 → 不直接拼接 shell 命令
+- エージェントの入力を信頼しない → すべてのパラメータを検証
+- ファイルアクセス範囲を制限 → ホワイトリスト（Whitelist）ディレクトリ
+- 機密操作には確認が必要 → 確認プロンプトを返してエージェントに二重確認させる
+- コマンドインジェクション（Command Injection）を防止 → シェルコマンドを直接結合しない
 
 ---
 
-## 4. 測試
+## 4. テスト
 
-### 4.1 測試工具
+### 4.1 テストツール
 
-| 工具 | 用途 |
+| ツール | 用途 |
 |------|------|
-| MCP Inspector | 官方 GUI 測試工具，可視化 Tool 呼叫 |
-| `npx @anthropic/mcp-inspector` | 快速啟動 Inspector |
-| 單元測試 | 直接測試 handler 函數 |
+| MCP Inspector | 公式 GUI テストツール、Tool 呼び出しの可視化 |
+| `npx @anthropic/mcp-inspector` | Inspector のクイック起動 |
+| ユニットテスト | ハンドラー関数を直接テスト |
 
-### 4.2 測試要點
+### 4.2 テストチェックリスト
 
-- [ ] 正常輸入 → 預期輸出
-- [ ] 邊界值 → 空字串、超長輸入、特殊字元
-- [ ] 錯誤處理 → 無效參數、外部服務不可用
-- [ ] 超時處理 → 長時間操作的中斷行為
+- [ ] 正常入力 → 期待される出力
+- [ ] 境界値 → 空文字列、超長入力、特殊文字
+- [ ] エラーハンドリング → 無効なパラメータ、外部サービス不可用
+- [ ] タイムアウト処理 → 長時間操作の中断動作
 
 ---
 
-## 5. 配置與部署
+## 5. 設定とデプロイ
 
-### 5.1 Claude Code 配置（settings.json）
+### 5.1 Claude Code の設定（settings.json）
 
 ```jsonc
 {
@@ -147,29 +147,29 @@ await server.connect(transport);
 }
 ```
 
-### 5.2 配置層級
+### 5.2 設定階層
 
-| 層級 | 位置 | 適用 |
+| 階層 | 場所 | 適用範囲 |
 |------|------|------|
-| 專案級 | `.mcp.json` (專案根目錄) | 團隊共享 |
-| 用戶級 | `~/.claude/settings.json` | 個人通用 |
+| プロジェクトレベル | `.mcp.json`（プロジェクトルート） | チーム共有 |
+| ユーザーレベル | `~/.claude/settings.json` | 個人 / グローバル |
 
 ---
 
-## 6. Moyin 現有 MCP Server
+## 6. Moyin の既存 MCP Server
 
-> TODO: 盤點 Moyin 專案中已開發/使用的 MCP Server 清單
+> TODO: Moyin プロジェクトで開発済み / 使用中の MCP Server の棚卸し
 
-| Server | 用途 | 位置 |
+| Server | 用途 | 場所 |
 |--------|------|------|
-| (待盤點) | | |
+| （棚卸し中） | | |
 
 ---
 
-## 待深入
+## 今後の深掘り項目
 
-- [ ] Resource 與 Prompt 原語的開發指南
-- [ ] SSE / Streamable HTTP 傳輸的實作細節
-- [ ] MCP Server 的認證與授權方案
-- [ ] 與 `21_agent_system_design.md` Tool Layer 的對應
-- [ ] Server 效能優化與 Connection Pooling
+- [ ] Resource と Prompt プリミティブの開発ガイド
+- [ ] SSE / Streamable HTTP トランスポートの実装詳細
+- [ ] MCP Server の認証・認可方式
+- [ ] `21_agent_system_design.md` の Tool Layer との対応関係
+- [ ] サーバーパフォーマンス最適化とコネクションプーリング（Connection Pooling）

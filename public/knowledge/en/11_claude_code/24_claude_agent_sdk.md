@@ -1,177 +1,177 @@
-# 24. Claude Agent SDK 指南
+# Claude Agent SDK Guide
 
-> **類型**: 開發指南
-> **日期**: 2026-02-26
-> **狀態**: 骨架
-> **關聯**: `23_mcp_server_dev_guide.md`、`21_agent_system_design.md`
-
----
-
-## 摘要
-
-Claude Agent SDK 是 Anthropic 提供的開源框架，用於構建可控、可觀測的多步驟 AI Agent。本文涵蓋 SDK 核心概念、開發模式與在 Moyin 中的應用場景。
+> **Type**: Development Guide
+> **Date**: 2026-02-26
+> **Status**: Skeleton
+> **Related**: `23_mcp_server_dev_guide.md`, `21_agent_system_design.md`
 
 ---
 
-## 1. 定位與核心價值
+## Summary
+
+The Claude Agent SDK is an open-source framework from Anthropic for building controllable, observable, multi-step AI Agents. This guide covers core SDK concepts, development patterns, and application scenarios within Moyin.
+
+---
+
+## 1. Positioning & Core Value
 
 ### 1.1 Agent SDK vs Claude API vs Claude Code
 
 | | Claude API | Agent SDK | Claude Code |
 |---|---|---|---|
-| 層級 | 最底層 | 中間層框架 | 最上層產品 |
-| 用途 | 單次 LLM 呼叫 | 構建自定義 Agent | 互動式開發助手 |
-| 控制力 | 最高 | 高 | 預設行為 |
-| 適用場景 | 簡單任務 | 自定義工作流 | 日常開發 |
+| Layer | Lowest level | Mid-level framework | Top-level product |
+| Purpose | Single LLM call | Build custom Agents | Interactive dev assistant |
+| Control | Highest | High | Preset behavior |
+| Use case | Simple tasks | Custom workflows | Day-to-day development |
 
-### 1.2 核心特性
+### 1.2 Core Features
 
-- **Agentic Loop**：自動化的思考→工具呼叫→觀察循環
-- **Tool Use**：內建 MCP 整合 + 自定義 Tool
-- **Guardrails**：輸入/輸出護欄，防止脫軌
-- **Handoffs**：Agent 間任務移交
-- **Tracing**：完整執行追蹤與可觀測性
+- **Agentic Loop**: Automated think -> tool call -> observe cycle
+- **Tool Use**: Built-in MCP integration + custom Tools
+- **Guardrails**: Input/output safety rails to prevent derailing
+- **Handoffs**: Task delegation between Agents
+- **Tracing**: Full execution tracing and observability
 
 ---
 
-## 2. 核心概念
+## 2. Core Concepts
 
-### 2.1 Agent 定義
+### 2.1 Agent Definition
 
 ```python
-# 概念骨架（Python SDK）
+# Conceptual skeleton (Python SDK)
 from agents import Agent, Runner
 
 agent = Agent(
     name="Moyin Architect",
-    instructions="你是 Moyin 專案的架構師...",
+    instructions="You are the architect of the Moyin project...",
     tools=[file_reader, code_searcher],
     model="claude-sonnet-4-6",
 )
 
-result = Runner.run_sync(agent, "分析這個模組的依賴關係")
+result = Runner.run_sync(agent, "Analyze this module's dependency graph")
 ```
 
-### 2.2 核心元件
+### 2.2 Core Components
 
-| 元件 | 職責 | 說明 |
+| Component | Responsibility | Description |
 |------|------|------|
-| **Agent** | 定義角色 | 指令、工具、模型、護欄 |
-| **Runner** | 執行引擎 | 管理 Agentic Loop |
-| **Tool** | 能力擴展 | Function Tool / MCP Tool |
-| **Guardrail** | 安全約束 | 輸入驗證、輸出過濾 |
-| **Handoff** | 任務移交 | Agent → Agent 切換 |
-| **Tracing** | 可觀測性 | 記錄每步決策與工具呼叫 |
+| **Agent** | Role definition | Instructions, tools, model, guardrails |
+| **Runner** | Execution engine | Manages the Agentic Loop |
+| **Tool** | Capability extension | Function Tool / MCP Tool |
+| **Guardrail** | Safety constraint | Input validation, output filtering |
+| **Handoff** | Task delegation | Agent-to-Agent switching |
+| **Tracing** | Observability | Records each decision and tool call |
 
 ---
 
-## 3. 關鍵設計模式
+## 3. Key Design Patterns
 
-### 3.1 單 Agent 模式
-
-```
-User → Agent (tools: [A, B, C]) → Response
-```
-
-適用：簡單任務、單一領域
-
-### 3.2 Handoff 模式（委派）
+### 3.1 Single Agent Pattern
 
 ```
-User → Triage Agent → Specialist Agent A
-                    → Specialist Agent B
+User -> Agent (tools: [A, B, C]) -> Response
 ```
 
-適用：多領域分類、客服路由
+Use case: Simple tasks, single domain
 
-### 3.3 Orchestrator 模式（編排）
-
-```
-User → Orchestrator Agent ──→ Worker Agent 1 (並行)
-                           ──→ Worker Agent 2 (並行)
-                           ←── 合併結果 → Response
-```
-
-適用：複雜任務分解、並行處理
-
-### 3.4 Pipeline 模式（管線）
+### 3.2 Handoff Pattern (Delegation)
 
 ```
-User → Agent A → Agent B → Agent C → Response
+User -> Triage Agent -> Specialist Agent A
+                     -> Specialist Agent B
 ```
 
-適用：多階段處理（分析→規劃→執行）
+Use case: Multi-domain classification, customer service routing
+
+### 3.3 Orchestrator Pattern
+
+```
+User -> Orchestrator Agent --> Worker Agent 1 (parallel)
+                           --> Worker Agent 2 (parallel)
+                           <-- Merge results -> Response
+```
+
+Use case: Complex task decomposition, parallel processing
+
+### 3.4 Pipeline Pattern
+
+```
+User -> Agent A -> Agent B -> Agent C -> Response
+```
+
+Use case: Multi-stage processing (analyze -> plan -> execute)
 
 ---
 
-## 4. Guardrails（護欄）
+## 4. Guardrails
 
-### 4.1 類型
+### 4.1 Types
 
-| 護欄類型 | 檢查時機 | 用途 |
+| Guardrail Type | Check Timing | Purpose |
 |----------|----------|------|
-| Input Guardrail | Agent 接收輸入前 | 過濾不當請求 |
-| Output Guardrail | Agent 產出結果後 | 驗證輸出品質 |
-| Tool Guardrail | 工具呼叫前 | 限制危險操作 |
+| Input Guardrail | Before Agent receives input | Filter inappropriate requests |
+| Output Guardrail | After Agent produces output | Validate output quality |
+| Tool Guardrail | Before tool invocation | Restrict dangerous operations |
 
-### 4.2 在 Moyin 中的應用場景
+### 4.2 Application Scenarios in Moyin
 
-- 禁止 Agent 修改 `CLAUDE.md` → Tool Guardrail
-- 確保產出符合品牌規範 → Output Guardrail
-- 阻擋注入攻擊 → Input Guardrail
-
----
-
-## 5. Tracing（追蹤）
-
-### 5.1 追蹤層級
-
-```
-Trace (一次完整對話)
-  └── Span: Agent "Architect"
-        ├── Span: LLM Call
-        ├── Span: Tool "file_reader"
-        └── Span: Handoff → "Executor"
-              ├── Span: LLM Call
-              └── Span: Tool "code_writer"
-```
-
-### 5.2 可觀測性指標
-
-- 總 Token 消耗
-- 每個 Agent 的工具呼叫次數
-- 失敗與重試次數
-- 端到端延遲
+- Prevent Agent from modifying `CLAUDE.md` -> Tool Guardrail
+- Ensure output complies with brand guidelines -> Output Guardrail
+- Block injection attacks -> Input Guardrail
 
 ---
 
-## 6. 與 Moyin Agent 系統的整合
+## 5. Tracing
 
-### 6.1 映射關係
+### 5.1 Trace Hierarchy
 
-| Moyin 概念 (見 21_agent_system_design.md) | Agent SDK 元件 |
+```
+Trace (one complete conversation)
+  +-- Span: Agent "Architect"
+        +-- Span: LLM Call
+        +-- Span: Tool "file_reader"
+        +-- Span: Handoff -> "Executor"
+              +-- Span: LLM Call
+              +-- Span: Tool "code_writer"
+```
+
+### 5.2 Observability Metrics
+
+- Total token consumption
+- Tool call count per Agent
+- Failure and retry counts
+- End-to-end latency
+
+---
+
+## 6. Integration with the Moyin Agent System
+
+### 6.1 Mapping
+
+| Moyin Concept (see 21_agent_system_design.md) | Agent SDK Component |
 |------------------------------------------|---------------|
-| 編排層 | Runner + Orchestrator Agent |
-| 代理層 | 各 Specialist Agent |
-| 工具層 | Tool (MCP + Function) |
-| 通訊協議 | Handoff |
-| 狀態持久化 | Tracing + 自定義 Storage |
+| Orchestration Layer | Runner + Orchestrator Agent |
+| Agent Layer | Specialist Agents |
+| Tool Layer | Tool (MCP + Function) |
+| Communication Protocol | Handoff |
+| State Persistence | Tracing + Custom Storage |
 
-### 6.2 潛在應用場景
+### 6.2 Potential Application Scenarios
 
-| 場景 | 方案 |
+| Scenario | Approach |
 |------|------|
-| 自動化 Code Review | Reviewer Agent + Guardrails |
-| 小說生成管線 | Pipeline: 大綱→章節→校對 |
-| 多 Agent 並行開發 | Orchestrator + Worktree 隔離 |
-| 智能客服 | Triage Agent + Handoff |
+| Automated Code Review | Reviewer Agent + Guardrails |
+| Novel Generation Pipeline | Pipeline: Outline -> Chapter -> Proofread |
+| Multi-Agent Parallel Development | Orchestrator + Worktree Isolation |
+| Intelligent Customer Service | Triage Agent + Handoff |
 
 ---
 
-## 待深入
+## To Be Explored
 
-- [ ] Python vs TypeScript SDK 差異對比
-- [ ] 自定義 Tool 與 MCP Tool 的取捨原則
-- [ ] Guardrail 的具體實作範例
-- [ ] 與 LangGraph / CrewAI 等框架的比較
-- [ ] 成本控制策略（model routing, caching）
+- [ ] Python vs TypeScript SDK comparison
+- [ ] Trade-off criteria between custom Tools and MCP Tools
+- [ ] Concrete Guardrail implementation examples
+- [ ] Comparison with LangGraph / CrewAI and similar frameworks
+- [ ] Cost control strategies (model routing, caching)

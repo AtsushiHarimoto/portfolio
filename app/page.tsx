@@ -172,9 +172,9 @@ export default function HomePage() {
             </h2>
             <div className="h-1 w-20 bg-gradient-to-r from-transparent via-moyin-pink to-transparent rounded-full mb-4"></div>
             
-            <TiltCard className="w-full max-w-4xl mx-auto">
-              <div className="w-full p-4 md:p-6 rounded-xl border border-moyin-pink/15 bg-[#230f15]/70 backdrop-blur-md hover:bg-white/5 transition-all duration-300 shadow-xl group">
-                <div className="relative w-full overflow-hidden rounded-xl border border-white/5 transition-all duration-300 group-hover:border-moyin-pink/30 aspect-video">
+            <div className="w-full max-w-4xl mx-auto">
+              <div className="w-full p-4 md:p-6 rounded-xl border border-moyin-pink/15 bg-[#230f15]/70 backdrop-blur-md shadow-xl">
+                <div className="relative w-full overflow-hidden rounded-xl border border-white/5 aspect-video">
                   <iframe
                     className="absolute top-0 left-0 w-full h-full"
                     src="https://www.youtube.com/embed/pxvT3Hsj3g8"
@@ -184,7 +184,7 @@ export default function HomePage() {
                   />
                 </div>
               </div>
-            </TiltCard>
+            </div>
           </motion.div>
         </div>
       </section>
