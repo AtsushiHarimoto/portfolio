@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Moyin Factory Homepage</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;family=Noto+Serif+JP:wght@400;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ffc2d4",
+                        "primary-hover": "#ffa6c0",
+                        "background-light": "#f8f5f6",
+                        "background-dark": "#230f15",
+                        "glass-border": "rgba(255, 194, 212, 0.15)",
+                        "glass-bg": "rgba(35, 15, 21, 0.7)",
+                        "text-main": "#e8eef5",
+                        "text-muted": "#b8c5d6",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "serif": ["Noto Serif JP", "serif"],
+                    },
+                    backgroundImage: {
+                        'hero-glow': 'radial-gradient(circle at 50% 0%, rgba(255, 194, 212, 0.15) 0%, transparent 60%)',
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #230f15;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4b202d;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ffc2d4;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-text-main font-display antialiased overflow-x-hidden">
+<div class="relative flex min-h-screen w-full flex-col group/design-root">
+<!-- Background Ambient Glow -->
+<div class="fixed inset-0 pointer-events-none z-0 bg-hero-glow"></div>
+<div class="layout-container flex h-full grow flex-col z-10 relative">
+<!-- Navbar -->
+<header class="sticky top-0 z-50 w-full backdrop-blur-md bg-background-dark/80 border-b border-glass-border">
+<div class="flex items-center justify-between whitespace-nowrap px-6 lg:px-10 py-4 max-w-7xl mx-auto w-full">
+<div class="flex items-center gap-4 text-white hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-primary text-3xl">local_florist</span>
+<h2 class="text-white text-xl font-serif font-bold leading-tight tracking-wide">Moyin Factory</h2>
+</div>
+<div class="hidden md:flex flex-1 justify-end gap-8 items-center">
+<div class="flex items-center gap-8">
+<a class="text-text-muted hover:text-primary text-sm font-medium transition-colors" href="#">Projects</a>
+<a class="text-text-muted hover:text-primary text-sm font-medium transition-colors" href="#">Documentation</a>
+<a class="text-text-muted hover:text-primary text-sm font-medium transition-colors" href="#">Community</a>
+<a class="text-text-muted hover:text-primary text-sm font-medium transition-colors" href="#">GitHub</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex h-10 px-6 cursor-pointer items-center justify-center rounded-lg bg-primary hover:bg-primary-hover text-background-dark text-sm font-bold transition-all shadow-[0_0_15px_rgba(255,194,212,0.3)] hover:shadow-[0_0_25px_rgba(255,194,212,0.5)]">
+<span class="truncate">Get Started</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/20" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB-9ZULVBO0TPYTeqmxWdTviHGqjRfOkhxNY5gnN0LT52M-X3fG-phMG5Iqu6-1frqZpeOUV1ssxzp1qwfDdUkXt5XjvMsubgo4qBMRCm3AIWTkXtPxogaBDRMm2Eu14W1gpgJ6cQD7iFT-wpDxb1AxrG1XgaWwocOZx3gQtGna0tuxP9SlfoJDNPBO1CJMWUOZXyJdZ4ZVuYwwASVY1LiZeNxYIxIdlK0whpb4PEvjzrp7lp63iDyiODc0LLfOLYl3EN0U8CmS5-5C");'>
+</div>
+</div>
+</div>
+<!-- Mobile Menu Icon -->
+<div class="md:hidden text-white cursor-pointer">
+<span class="material-symbols-outlined">menu</span>
+</div>
+</div>
+</header>
+<main class="flex flex-1 flex-col items-center">
+<div class="layout-content-container flex flex-col max-w-7xl w-full">
+<!-- Hero Section -->
+<div class="@container w-full px-4 py-8 md:py-16">
+<div class="relative overflow-hidden rounded-2xl min-h-[560px] flex flex-col items-center justify-center p-8 text-center border border-glass-border shadow-2xl">
+<!-- Hero Background Image with Overlay -->
+<div class="absolute inset-0 bg-cover bg-center z-0" data-alt="Anime style cloudy sky with shooting stars" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCw77EHXnzc0jQJaXTYerP8MEVkTRsKHlA7SVpj222BGYhbFRA19XqXvCAEFBioYKkDgwA4VONrj84FBLgLjQKItthq2LnU6Ps2HEvkE0DtIOTBy24o6POFG9YE9r1NUjmRR_PFB2xBJNquzemgJz9uLveb-Ab1Og62PePBs4Fx06zy4QpTehCw_LyZgn8iIYc07t-4uDZCCVtWs9O1RiPUzSqn4i4xUnK0ZaYRgoWq2iXkoad1EFFYoxMn8QaxUFmy1GaO4ufcfXp9");'>
+</div>
+<div class="absolute inset-0 bg-gradient-to-b from-background-dark/80 via-background-dark/60 to-background-dark/90 z-10"></div>
+<!-- Hero Content -->
+<div class="relative z-20 flex flex-col gap-6 max-w-3xl items-center">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-sm">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-primary text-xs font-medium uppercase tracking-wider">v2.0 Now Available</span>
+</div>
+<div class="flex flex-col gap-2">
+<h1 class="text-white text-5xl md:text-7xl font-serif font-black leading-tight tracking-tight drop-shadow-lg">
+                                        Moyin Factory
+                                    </h1>
+<p class="text-primary/90 text-lg md:text-xl font-serif italic tracking-wide mt-2">
+                                        Engineering Your Inspiration — <span class="not-italic">夢の始まり</span>
+</p>
+</div>
+<p class="text-text-muted text-base md:text-lg max-w-xl leading-relaxed">
+                                    A platform where poetic creation meets engineering precision. Build immersive narrative worlds with open-source tools designed for the next generation of storytellers.
+                                </p>
+<div class="flex flex-wrap gap-4 justify-center mt-6">
+<button class="flex min-w-[140px] h-12 px-8 cursor-pointer items-center justify-center rounded-lg bg-primary hover:bg-primary-hover text-background-dark text-base font-bold transition-all shadow-[0_0_20px_rgba(255,194,212,0.4)] hover:scale-105">
+                                        Get Started
+                                    </button>
+<button class="flex min-w-[140px] h-12 px-8 cursor-pointer items-center justify-center rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 backdrop-blur-md text-white text-base font-bold transition-all hover:border-primary/50 group">
+<span class="material-symbols-outlined text-lg mr-2 group-hover:text-primary transition-colors">code</span>
+                                        View Source
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Core Philosophy Grid -->
+<div class="flex flex-col gap-12 px-4 py-16 md:px-10">
+<div class="flex flex-col gap-4 text-center items-center">
+<h2 class="text-white text-3xl md:text-4xl font-serif font-bold">
+                                Core Philosophy
+                            </h2>
+<div class="h-1 w-20 bg-gradient-to-r from-transparent via-primary to-transparent rounded-full"></div>
+<p class="text-text-muted text-base md:text-lg max-w-2xl">
+                                Blending the ephemeral beauty of storytelling with the rigid structure of code.
+                            </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Card 1 -->
+<div class="group flex flex-col gap-4 rounded-xl border border-glass-border bg-glass-bg p-6 hover:bg-white/5 transition-all duration-300 hover:-translate-y-1">
+<div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-background-dark transition-colors">
+<span class="material-symbols-outlined text-3xl">auto_fix_high</span>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="text-text-main text-lg font-serif font-bold">Poetic Engineering</h3>
+<p class="text-text-muted text-sm leading-relaxed">Structured creativity meeting lyrical expression. Code that reads like poetry.</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group flex flex-col gap-4 rounded-xl border border-glass-border bg-glass-bg p-6 hover:bg-white/5 transition-all duration-300 hover:-translate-y-1">
+<div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-background-dark transition-colors">
+<span class="material-symbols-outlined text-3xl">palette</span>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="text-text-main text-lg font-serif font-bold">Anime Aesthetics</h3>
+<p class="text-text-muted text-sm leading-relaxed">Visual components inspired by high-fidelity anime production and cinematography.</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group flex flex-col gap-4 rounded-xl border border-glass-border bg-glass-bg p-6 hover:bg-white/5 transition-all duration-300 hover:-translate-y-1">
+<div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-background-dark transition-colors">
+<span class="material-symbols-outlined text-3xl">menu_book</span>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="text-text-main text-lg font-serif font-bold">Deep Narrative</h3>
+<p class="text-text-muted text-sm leading-relaxed">Tools designed for complex, branching storytelling and world-building databases.</p>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group flex flex-col gap-4 rounded-xl border border-glass-border bg-glass-bg p-6 hover:bg-white/5 transition-all duration-300 hover:-translate-y-1">
+<div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-background-dark transition-colors">
+<span class="material-symbols-outlined text-3xl">hub</span>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="text-text-main text-lg font-serif font-bold">Open Workflow</h3>
+<p class="text-text-muted text-sm leading-relaxed">Collaborative development for the next generation of IP. Built for the community.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Cinematic CTA Section -->
+<div class="w-full px-4 py-8">
+<div class="relative overflow-hidden rounded-2xl flex flex-col items-center justify-center px-4 py-20 text-center border border-glass-border">
+<!-- Background Image with Overlay -->
+<div class="absolute inset-0 bg-cover bg-center z-0 opacity-40" data-alt="Abstract blurry pink and purple lights" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBkwudz23_nGqPm7L5q49kBEVk0yWa_tTcXQEaebv9IUYtiv1_q_yI3kwy5wN9gRDhzZcje-PjAuvQrRdLvp43EMoprD5aiwxUZvGXznBmUH23E9wV82DB4AdI3GIxVDwj0j_P8MSmF32V6g3yaXPB23a6DTlVbKOVh0X2e7JanOaFwkpSnPp86zO-aCGHtyHb0UeKIUSyLtq6_BdkkCBDb18TDzBZc3ygPkJtA3d0k__IbaQ4eOQDEWjy1xDcbcux2p1YEQkN4UDFC");'>
+</div>
+<!-- Gradient Overlay -->
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/80 to-transparent z-10"></div>
+<div class="relative z-20 flex flex-col gap-6 max-w-2xl">
+<h2 class="text-white text-3xl md:text-5xl font-serif font-black leading-tight tracking-tight">
+                                    Start Building Your World
+                                </h2>
+<p class="text-text-muted text-lg">
+                                    Join the community of creators and engineers redefining storytelling through code.
+                                </p>
+<div class="flex justify-center mt-4">
+<button class="flex h-14 px-10 cursor-pointer items-center justify-center rounded-lg bg-gradient-to-r from-primary to-[#ffa6c0] hover:to-primary text-background-dark text-lg font-bold transition-all shadow-[0_0_30px_rgba(255,194,212,0.3)] hover:shadow-[0_0_40px_rgba(255,194,212,0.5)] hover:scale-105">
+<span class="material-symbols-outlined mr-2">rocket_launch</span>
+                                        Launch Console
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="flex flex-col gap-10 px-6 py-12 text-center border-t border-glass-border bg-background-dark/50 mt-10">
+<div class="flex flex-col md:flex-row justify-between items-center gap-8 max-w-7xl mx-auto w-full">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary/50 text-2xl">local_florist</span>
+<span class="text-white/80 font-serif font-bold text-lg">Moyin Factory</span>
+</div>
+<div class="flex flex-wrap items-center justify-center gap-8">
+<a class="text-text-muted hover:text-primary text-sm transition-colors" href="#">Privacy Policy</a>
+<a class="text-text-muted hover:text-primary text-sm transition-colors" href="#">Terms of Service</a>
+<a class="text-text-muted hover:text-primary text-sm transition-colors" href="#">Guidelines</a>
+</div>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-text-muted hover:text-primary transition-colors border border-white/5" href="#">
+<svg fill="currentColor" height="20" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"></path></svg>
+</a>
+<a class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-text-muted hover:text-primary transition-colors border border-white/5" href="#">
+<svg fill="currentColor" height="20" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg>
+</a>
+<a class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-text-muted hover:text-primary transition-colors border border-white/5" href="#">
+<svg fill="currentColor" height="20" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028 14.09 14.09 0 001.226-1.994.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"></path></svg>
+</a>
+</div>
+</div>
+<div class="text-text-muted/60 text-xs">
+                            © 2023 Moyin Factory. Open Source under MIT License.
+                        </div>
+</footer>
+</div>
+</main>
+</div>
+</div>
+</body></html>
