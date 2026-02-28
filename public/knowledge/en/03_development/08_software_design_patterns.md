@@ -1,63 +1,55 @@
-# 08. 軟體工程與設計模式新手指北 (Software Design & Patterns)
+# 08. Software Design & Patterns Field Guide
 
-> **類型**: 程式架構與開發哲學  
-> **重點**: 破除「只要能跑就好」的巨型腳本迷思，利用 SOLID 原則與設計模式 (Design Patterns) 教導開發者如何寫出精確的 Prompt，驅使 AI 產出具備高尚擴充性與可維護性的企業級源碼。
-
----
-
-## 前言：Vibecoding 時代，設計模式已死？
-
-許多人誤以為在 AI 輔助編程 (如 Copilot、Claude) 效率驚人的今天，我們不再需要死記硬背 GoF (四人幫) 的 23 種設計模式。**實則恰好相反！**
-在依靠自然語言驅動代碼 (Vibecoding/Intent-first) 的時代，最致命的陷阱莫過於：默許 AI 為了「趕快跑起來」而將展示層 (UI)、商業邏輯與資料庫存取毫無節制地揉捏進同一份數千行的源碼中。
-
-此種架構將光速淪陷為牽一髮動全身的 **義大利麵條代碼 (Spaghetti Code)**。不僅重構將成為災難，甚至連 AI 模型自身都會因為上下文 (Context Window) 塞滿無用的耦合邏輯而陷入幻覺。
-設計模式並未過時，它昇華成了**約束 AI 產出質量的「軍規條約」與「精準提示詞 (Prompt Constraints)」**。
+> **Type**: Architectural craft and development philosophy  
+> **Focus**: Bust the myth that throwing code together is enough, and teach how to combine SOLID principles with design patterns to drive AI toward enterprise-grade, maintainable output.
 
 ---
 
-## 1. 核心骨幹：SOLID 物件導向設計原則
+## Prelude: Design patterns in the Vibecoding era
+When AI copilots and Claude agents finish scaffolding an application at lightning speed, it is tempting to think that the GoF catalog is obsolete. The opposite is true. Vibecoding and intent-first prompts force us to keep a tight boundary between UI, business logic, and data access. Without that separation, the model will happily stuff every concern into a thousand-line file, creating the spaghetti architecture that makes refactoring and even the AI itself hallucinate.
 
-在驅動 AI 建置架構時，SOLID 原則能強制其畫清模組的楚河漢界。實作中最頻繁被援引的兩大鐵律如下：
-
-| 原則中譯名稱                                    | 架構哲學 (黑話翻譯)                                                                                                               | Moyin 專案實戰套用範例                                                                                                                                                                                                      |
-| :---------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **S - 單一職責原則<br>(Single Responsibility)** | **「絕對隔離的職能邊界」**。<br>一個類別 (Class) 或模組，僅且只有一個令其改變的理由。                                             | **連線與存儲不可苟合**：禁止在負責「發送 OpenAI API 請求」的腳本內，夾帶「將回傳結果寫入 MongoDB」的邏輯。若不加分拆，日後欲修補資料庫寫入之 Bug 時，極易連帶扯裂 API 連線的核心模組。                                      |
-| **O - 開閉原則<br>(Open/Closed Principle)**     | **「掛載外掛，而非解剖本體」**。<br>系統對於擴充 (Extension) 必須是絕對開放的，但對於修改原碼 (Modification) 則必須是嚴格封閉的。 | **介面合約 (Interfaces)**：Moyin 初始僅支援 GPT-4 推論。當需導入 Claude 3.5 時，我們絕對不該修改核心推理引擎的原始碼去新增 `if/else`。正確作法是：撰寫一個全新的 `ClaudeAdapter` 類別，直接以外掛之姿插入核心引擎的插槽中。 |
+Design patterns have not died; they have become the military-grade constraints and prompt hints that force AI to deliver clean, scalable modules.
 
 ---
 
-## 2. 驅使 AI 的三大利器：設計模式 (Design Patterns)
+## 1. Core backbone: SOLID object-oriented design principles
+When you ask an AI to build architecture, SOLID principles set the hard lines for module responsibilities. The two most cited rules in practice are below:
 
-設計模式並非特定語言之語法，而是前輩工程師歷經數十年系統坍塌後，所萃取出的「最佳架構解題套路」。以這些專有名詞為 Prompt 畫龍點睛，將能瞬間收斂 AI 輸出的代碼質量。
-
-| 模式名稱                            | 架構情境比喻與解決痛點                                                                                                                                 | 驅使 AI 開發之神級指令範本 (Vibecording Prompts)                                                                                                           |
-| :---------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **工廠模式<br>(Factory Pattern)**   | **自動化生產流水線**。<br>客戶不需知道繁雜的生產細節。只要傳入型號字串，工廠便會組裝完畢並遞交對應之實體物件予客戶，將「物件建立」與「使用」徹底解耦。 | 🗣️ `「AI 助教，請幫我實作一個 LLM Provider 工廠。不論我傳入 'gpt4' 還是 'qwen' 作為參數，請該類別直接幫我回傳對應具備正確 Auth Token 初始化的連線實體。」` |
-| **策略模式<br>(Strategy Pattern)**  | **動態抽換的執行路線**。<br>面對同一目標，預先包裝好多套獨立之演算法 (策略)，並開放於系統「執行期間 (Runtime)」視情境任意切換替換，而無須修改主體。    | 🗣️ `「請以策略模式重構此會員認證登入器。必須容許玩家在結帳最後關頭，無縫且動態地切換使用『Google 策略』或『Apple 策略』作為驗證手段，且核心不許更動。」`   |
-| **單例模式<br>(Singleton Pattern)** | **主控權唯一性保證**。<br>強制性確保整個應用程式之生命週期內，該資源之實體 **僅且只能被實例化一次**，用以提供全域單一的存取端點。                      | 🗣️ `「Redis 連線池管理員類別必須嚴格遵守單例模式！我不願見到因玩家瘋狂點擊按鈕，導致你反覆建立數萬條資料庫連線，引發連接埠耗盡之災難。」`                  |
-
-> 💡 **減壓膠囊 (降低認知負荷)**：
-> 身為系統設計者或 PM，您無須將上述模式的 C++ 或 TypeScript 複雜語法背誦如流。您的職責在於「熟悉何種情境該套用何種名詞」。將這些專業名詞置入給 Claude 的指令中，它自會為你織就極具水準的高階架構。
+| Principle | Architectural metaphor | Moyin application |
+| :-------- | :-------------------- | :--------------- |
+| **Single Responsibility Principle (SRP)** | Absolute functional separation. A class or module must have exactly one reason to change. | **Keep API calls and persistence apart**: never bundle MongoDB writes inside the same script that summons OpenAI. Splitting them keeps bug fixes localized. |
+| **Open/Closed Principle (OCP)** | Plug in extensions rather than dissect the core. Systems should be open for extension but closed for modification. | **Interface contracts**: when Claude joins the party, build a new `ClaudeAdapter` instead of editing the core inference engine with `if/else`. Treat adapters as plugins that slot into predetermined extension points. |
 
 ---
 
-## 3. 破繭而出：AI 原生模式 (AI-Native Patterns)
+## 2. Command AI with three reusable patterns
+Design patterns are not syntax; they are proven architectural vocab that sharpen your prompts. Mention the pattern by name, and the model instinctively outputs the right structure.
 
-當系統核心大量引入非確定性 (Non-deterministic) 的大語言模型後，除了傳統的物件導向設計，我們更需要面對「不可控的 AI 回應」。於是，業界誕生了專屬於 AI 系統架構的新星：
+| Pattern | Scenario and pain point | Vibecoding prompt |
+| :------ | :--------------------- | :---------------- |
+| **Factory Pattern** | Automate instance creation so consumers do not need to know the plumbing. | 🗣️ “AI assistant, implement a provider factory. When I pass `gpt4` or `qwen`, return a fully initialized connection with the correct auth token.” |
+| **Strategy Pattern** | Prepare multiple algorithms and switch them at runtime without touching the host. | 🗣️ “Please refactor this login handler with strategy. It must let users switch between the Google strategy and the Apple strategy at checkout without modifying the core.” |
+| **Singleton Pattern** | Guarantee a single authoritative instance to avoid resource exhaustion. | 🗣️ “Redis connection pool manager must stay a singleton. If users hammer the button, do not create thousands of connections.” |
 
-| 模式名稱                                         | 架構情境比喻與解決痛點                                                                                                                                                                             | Moyin 專案實戰套用範例                                                                                                                                    |
-| :----------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **主控大腦路由<br>(Agent-Orchestrator Pattern)** | **專案經理與外包團隊**。<br>解決單一 LLM 處理複雜任務時幻覺飆升的問題。由一個高智商的 Orchestrator (如 GPT-4) 只負責「拆解任務與評估結果」，再將子任務發包給廉價極速的 Worker Agent 執行死板工作。 | **多階段生成管線**：Moyin 用戶輸入一句「幫我寫個魔法學校故事」，Orchestrator 會先規劃大綱，再派發給「環境描寫 Agent」與「對話生成 Agent」，最後回收組裝。 |
-| **檢索增強生成<br>(RAG Pattern)**                | **臨陣磨槍的開卷考**。<br>LLM 記憶會停留在訓練截止日，且容易胡說八道。此模式強制 AI 在回答前，必須先從向量庫 (Vector DB) 或檔案中抽取出「具備官方授權的參考文件」作為作答唯一依據。                | **企業知識庫問答**：當回答「請用 Moyin 主題色刻一個按鈕」時，我們需透過 RAG 將 `06_BRAND_DESIGN` 知識庫碎片注入 Context。                                 |
-| **副駕介入模式<br>(Copilot Pattern)**            | **AI 只提議，人類踩煞車**。<br>不讓 AI 擅自改寫資料庫，而是作為「增強器」輔助人類操作，由人類按下最終同意鍵 (如 GitHub Copilot 的 TAB 鍵補全)。                                                    | **後台審核機制**：Moyin 的 AI 自動產出封鎖惡意貼文的原因判定，但預設不會執行，而是標記高亮，讓維運人員一鍵點擊 `Approve` 過件。                           |
+> 💡 Reduce cognitive load by memorizing which pattern applies where. Feed the name into Claude and let it stitch the pattern for you.
 
 ---
 
-## ✅ Vibecoder 之架構師發包驗收標準
+## 3. AI-native patterns born from non-determinism
+As LLMs multiply inside the stack, extra patterns emerge to manage unpredictability.
 
-下次在發起大規模重構或委託新建微服務時，切勿使用外行且毫無約束力之溝通方式：
+| Pattern | Architectural metaphor | Moyin playbook |
+| :------ | :-------------------- | :------------ |
+| **Agent-Orchestrator Pattern** | Project manager + outsourced teams. | A high-IQ orchestrator (e.g., GPT-4) decomposes the task and farms simple jobs to fast worker agents. Moyin’s pipeline routes a request into “environment description agent” and “dialog generator agent,” then stitches the results. |
+| **RAG Pattern** | Open-book exam with citations. | Force AI to extract official knowledge from vector stores or files before answering. When the user asks for exposes on the brand palette, inject the `06_BRAND_DESIGN` fragment into the context. |
+| **Copilot Pattern** | AI proposes; humans approve. | The system highlights potential content (e.g., block malicious posts) but waits for an operator to click `Approve` before performing actions. |
 
-- [ ] ❌ **劣質發包指令**：`「幫我寫一個能處理不同付款方式的 API Gateway，將信用卡跟 LinePay 的處理全都寫在一起就好，重點是會動。」`
-- [ ] ✅ **專業架構指令**：`「請建構一個 API Gateway 元件。其架構必須符合【單一職責原則】將路由與驗證分拆。同時，付款處理管道請套用【策略模式 (Strategy Pattern)】，以便我們日後能遵循【開閉原則】無痛擴充 ApplePay 解決方案而無須更動原本之信用卡核心。」`
+---
 
-具備此等工程語彙深度，AI 將認定您為資深領航員，並交出真正無懈可擊的企業級架構藍圖。
+## ✅ Vibecoder architect acceptance checklist
+When you commission a large refactor or a new microservice, avoid sloppy briefings:
+
+- [ ] ❌ “Just build an API Gateway that mixes credit card and LinePay processing together, as long as it runs.”  
+- [x] ✅ “Please design an API Gateway component. Its routing logic must obey the Single Responsibility Principle, separating authentication. Payment channels should follow the Strategy Pattern so we can extend Apple Pay without modifying the credit card core, thus respecting the Open/Closed Principle.”  
+
+Speak this language, and AI will recognize you as a seasoned navigator and hand back industrial-grade architecture.

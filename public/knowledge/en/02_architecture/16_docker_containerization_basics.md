@@ -15,7 +15,7 @@ Nothing sinks collaboration faster than: “But it works on my machine!” The r
 
 VMs (VMware, VirtualBox) once provided strong isolation by installing entire guest OSs:
 
-- **VMs**: Carve a disk slice and install a full OS (Windows/Ubuntu). Heavyweight—each VM costs gigabytes of RAM and minutes to boot.  
+- **VMs**: Carve a disk slice and install a full OS (Windows/Ubuntu). Heavyweight—each VM costs gigabytes of RAM and minutes to boot.
 - **Containers**: Think of them as **“ultra-lightweight sealed boxes”** that bundle your source code and required runtimes (Node.js, libs) but share the host kernel. A container image is tens of MB and starts in milliseconds, letting a developer run dozens or even hundreds concurrently.
 
 ---
@@ -59,7 +59,7 @@ As Moyin grows, the gateway, frontend, MongoDB, and Redis-spinup depend on preci
 
 Docker Compose centralizes it:
 
-- Declare all services, dependencies, and bridge networks inside `docker-compose.yml`.  
+- Declare all services, dependencies, and bridge networks inside `docker-compose.yml`.
 - Run a single command:
   ```bash
   docker-compose up -d
@@ -68,10 +68,10 @@ Docker Compose centralizes it:
 
 ---
 
-## ✅ Deployment checklist for Vibecoding
+## 💡 Vibecoding Instructions
 
 When tasking AI to add a new microservice, command it with:
 
-- [ ] “Write both a `Dockerfile` and `docker-compose.yml`, ensure isolated execution, and expose host-mappable ports.”  
-- [ ] “I understand containers share the host kernel, giving them a low-overhead win over VMs.”  
+- [ ] “Write both a `Dockerfile` and `docker-compose.yml`, ensure isolated execution, and expose host-mappable ports.”
+- [ ] “I understand containers share the host kernel, giving them a low-overhead win over VMs.”
 - [ ] “The image serves as a cross-platform shield against dependency hell.”

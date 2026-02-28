@@ -1,73 +1,53 @@
-# 14. 併發風暴與資料庫鎖機制防禦論 (Concurrency & Database Locks)
+# 14. Concurrency, Overselling, and Database Locks
 
-> **類型**: 系統後端與資料庫交易機制科普  
-> **重點**: 白話剖析在極端的高併發 (High Concurrency) 情境下，系統如何因為「數據競態 (Race Conditions)」釀成嚴重超賣事故，並完整介紹關聯式與非關聯式資料庫祭出之核心防禦手段：樂觀鎖、悲觀鎖與交易事務 (Transactions)。
-
----
-
-## 1. 資源競奪 (Race Condition)：駭人的庫存超賣之謎
-
-於本機端單線程的安逸環境下測試，絕難窺見真實伺服器在血肉橫飛的「秒殺」活動中所遭遇之毀滅性邏輯謬誤。
-此即為**高併發 (High Concurrency)** 帶來的數據幻覺。
-
-**🧨 慘案重建現場**：
-假設 Moyin 線上商城針對一珍稀的女主角 SSR 語音包舉辦特賣，**總庫存量僅餘 1 組**。
-玩家 Alpha 與玩家 Beta 的網路封包，於同一個「微秒 (Microsecond)」內敲擊了結帳 API 接口。
-
-若後端工程師欠缺併發意識，其撰寫的程式運算軌跡將如下發展：
-
-1. Alpha 的線程前往資料庫查庫存：「還剩 1 份！」。
-2. 與此同時 (或慢了幾奈秒)，Beta 的線程也抵達庫存表，它所看見的「歷史」一樣是：「喔，還剩 1 份！」。
-3. Alpha 線程認定合法，執行減持操作：`1 - 1 = 0`，發放寶物。
-4. Beta 的線程同樣認定合法，亦執行了減持操作：`1 - 1 = 0`，同樣發放了寶物。
-
-**災難降臨**！原本全服唯 1 份的數位資產，卻被無中生有增殖發放給了兩名截然不同的玩家。
-於電子商務領域中，此類被通稱為**「超賣 (Overselling)」**或**「雙花問題 (Double Spending)」**，若不加以設防，足以讓一間合法企業在一夕之間破產。
+> **Type**: Systems & transaction fundamentals  
+> **Focus**: Explain how race conditions during peak concurrency trigger overselling, then walk through pessimistic locks, optimistic locks, and transactional atomicity for relational/NoSQL stores.
 
 ---
 
-## 2. 絕對防線：資料層的鎖定兵器 (Locking Mechanisms)
+## 1. Race conditions: the oversell nightmare
 
-針對此病灶，資料庫底層核心演化出了「鎖 (Lock)」的對抗手段。依據對併發效能的容忍度，區分為兩大防禦學派：
+Single-threaded unit tests never reveal the carnage of a flash sale. Picture Moyin selling a rare SSR voice pack with **only one unit** available. Alpha and Beta hit the checkout API within the same microsecond.
 
-### 🛑 悲觀鎖 (Pessimistic Lock) - 「絕對武力之強制列隊」
+- Alpha reads the stock row and sees “1 remaining.”  
+- Beta—just a few nanoseconds later—also reads “1 remaining.”  
+- Alpha decrements the count to 0 and grants the item.  
+- Beta does the same, oblivious that the database already acknowledged Alpha’s update.
 
-- **底層邏輯思想**：「系統環境極其險惡，隨時都有刁民想竄改朕的數據庫，朕決定先下手為強！」
-- **實體運作機制**：如同圖書館裡唯一的暢銷實體書。當 Alpha 的線程才剛發出第一道 `SELECT` 讀取庫存指令，資料庫便毫不留情地對該筆紀錄打上死結枷鎖 (Lock)。隨後趕赴現場欲查考同筆資料之 Beta 線程，將毫無懸念地被一腳踹進了系統深處在候診室裡「排隊掛起 (Blocking/Waiting)」。
-  Beta 唯有苦苦等到 Alpha 完成付款、扣除庫存、並交還鑰匙解鎖後，方能步入圖書館。此時 Beta 只能看見庫存已乾涸為「0」宣告兵敗。
-- **架構優評與代價**：此法保證了 100% 絕對純潔之資料正確性。銀行核心金流清算幾乎全賴於此；然其付出的慘痛代價便是：**伺服器效能直落谷底，排隊造成之 API 回應延遲極度漫長**，極易引發鎖死 (Deadlock)。
-
-### 🤝 樂觀鎖 (Optimistic Lock) - 「事後諸葛與防偽標籤」
-
-- **底層邏輯思想**：「天下太平，應該沒人會跟我擠同一筆資料吧？大家先各自拿去讀，真要寫入的時候我們再來核對帳本！」
-- **實體運作機制**：這是建立於**版本修訂號 (Version / Revision)** 欄位之上的一門優雅藝術。
-  1. Alpha 與 Beta 同步進入，皆讀取到了：`[庫存: 1, 版本號: V-1]`。
-  2. Alpha 付款成功，向資料庫遞出請求：「請幫我把剩餘庫存改為 0，且這是基於 `V-1` 版本的更新！」。資料庫核實無誤，將該筆資料升級刻印為 `V-2`。
-  3. Beta 晚了五十毫秒遞出請求：「請幫我把庫存改為 0，這是基於我剛拿到的 `V-1` 版本的指示！」。
-  4. 資料庫引擎無情防堵：「**拒絕存取！ (Conflict!)** 現行世界線早已邁進 `V-2` 版本，你手上的 `V-1` 情報已然臭酸過期！」於是 Beta 的結帳流程將會報廢或強制導向重試邏輯。
-- **架構優評與代價**：無需建立耗能極大之排隊機制。這極大解放了 I/O 頻寬與吞吐量。它被廣泛部署於「讀取佔 90%、寫入佔 10%」之業務場景。於 Moyin 專案體現中，MongoDB 即是仰賴類似之修訂文檔機制確保了靈活高效的更新並發。
+The result: the single collectible has now been delivered to two players. In e-commerce this is called **overselling** or **double spending**—a single misstep can bankrupt a legitimate business overnight.
 
 ---
 
-## 3. 金鐘罩：事務處理之原子性 (Database Transactions)
+## 2. Locking mechanisms: the defensive arsenal
 
-除了超賣外，後端系統極度恐懼「停電」或「模組崩潰」。
-延續上述情境，玩家儲值 100 元買劍指令，涉及兩道異步關卡：
+Databases evolved locks to stop this destruction. Choose between two philosophies based on how much blocking you can tolerate.
 
-1. **模組 A**：於玩家虛擬錢包欄位扣款 100 元。
-2. **模組 B**：於裝備欄位插入一把神劍紀錄。
+### 🛑 Pessimistic locking – brute-force queuing
 
-倘若伺服器在執行完模組 A 後，突遇 RAM 滿溢或致命 Exception 當機，系統將陷入：玩家白白被扣了金幣卻未獲武器，立刻衍生災難性的客訴風暴。
+Assume the world is hostile. When Alpha issues a `SELECT` on the inventory row, the database slams an exclusive lock on that record. Beta hits the same row and is blocked, waiting in queue until Alpha finishes the entire purchase and releases the lock. At that point Beta sees a stock of 0 and fails safely.
 
-- **Transaction 事務之保護網**：事務保證了其內包囊的所有操作必須恪守 **「全有或全無 (All-or-Nothing / Atomicity)」** 的原子法則。
-- **時光回溯**：若資料庫偵測到該「包裹單」內的四道操作指令，前三道成功，卻死在最後一道，資料庫引擎將毫不猶豫地啟動底層回滾引擎 **Rollback**。它將猶如時光倒流一般，將前三道造成之資料庫變體 (包含扣掉那 100 元) 瞬間盡數抹去反轉，強硬確保資料結構之「絕對一致性 (Consistency)」。
+**Pros**: Guarantees correctness; banks run on this.  
+**Cons**: Performance plummets, latency rises, and deadlocks become a real threat.
+
+### 🤝 Optimistic locking – versioned validation
+
+Assume collaborators behave. Both Alpha and Beta read `[stock: 1, version: v1]`. Alpha applies its update referencing v1, and the database promotes the row to v2. When Beta tries to write with v1, the DB rejects it due to a version conflict, forcing Beta to retry or decline.
+
+**Pros**: Ultra low blocking; perfect for read-heavy workloads (90% reads, 10% writes).  
+MongoDB, as used by Moyin, relies on similar document-level revision numbers to keep concurrency agile.
 
 ---
 
-## 💡 Vibecoding 工地監工發包訣竅
+## 3. Transactions: the atomic shield
 
-在將高危險性之商業邏輯發包予 AI 時，請務必於對話框內附上這道神聖之免責護身符：
+Beyond oversells, systems dread partial failures. Consider charging 100 credits (module A) and granting a weapon (module B). If the process crashes after A but before B, the player loses coins without receiving the item.
 
-> 🗣️ `「AI 架構師請注意，此段涉及商城虛寶與玩家貨幣餘額之扣減，邏輯不容絲毫差池。請務必將此段更新操作包裹於『資料庫事務 (DB Transaction)』防護層之內。且為防堵併發超賣黑洞，該表單結構請預設一個 Revision 版本欄位以落實『樂觀鎖 (Optimistic Concurrency Control)』校對機制。」`
+Transactions enforce **atomicity**—all enclosed operations either commit together or roll back. If any step fails, the database rewinds every change (rollback), restoring the pre-transaction state so wallets and inventories remain consistent.
 
-有了這道緊箍咒，任何草率的 AI 代理都將被迫為您產出具備企業級銀行規格之穩健原始碼！
+---
+
+## 💡 Vibecoding directive
+
+When delegating money-plus-inventory flows to AI:
+
+> “Wrap these updates in a database transaction and enforce optimistic concurrency control via a version column. Do not let the bot emit raw UPDATEs that ignore the revision number—if a concurrent modification occurs, respond with a conflict and trigger a retry or user-facing error instead of allowing an oversell.”

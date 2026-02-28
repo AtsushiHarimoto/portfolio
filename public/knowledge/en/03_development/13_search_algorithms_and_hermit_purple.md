@@ -1,95 +1,78 @@
-# 13. 資料結構基礎與 Hermit Purple 爬蟲漏斗管線 (Algorithms & Data Pipelines)
+# 13. Algorithms & Data Pipelines Field Guide
 
-> **類型**: 演算法思維與專案實作探索  
-> **重點**: 破除對演算法之刻板迷思，科普基礎搜尋排序思維，並深度解構 Moyin 專案中之 `Hermit Purple` (隱者之紫) 爬蟲工具所具備之「漏斗型過濾管線架構 (Funnel Pipeline)」。
-
----
-
-## 前言：何謂演算法？
-
-對從非本科系轉職的 Vibecoding 開發者而言，「演算法 (Algorithms)」似為數學象牙塔內之高深諱語。
-實則不然，演算法之本質即為：**「旨在解決特定問題、具備明確輸入與輸出之標準化有限步驟」**。
-在 AI 輔助開發的洪流中，雖多數實作已由底層函式庫包裝，然掌握演算法專業術語，能賦予開發者宏觀的系統視野，並寫出極度精準之指令驅使 AI 構築強健系統。
+> **Type**: Algorithmic thinking and practical exploration  
+> **Focus**: Demystify foundational search and sort algorithms, then dissect the Hermit Purple funnel pipeline that powers the Moyin crawler.
 
 ---
 
-## 1. 搜尋演算法 (Search Algorithms)：於資訊汪洋中定址
-
-當資料庫量級攀升至千萬筆別，系統找尋指定節點之邏輯效率便為效能之首決：
-
-### 線性搜尋 (Linear Search) - 「暴力窮舉之始」
-
-- **運作模式**：無腦自第一筆資料集開始巡覽比對，順序推進至陣列末端。
-- **概念類比**：恍如在未編排目錄的字典中，從首頁開始一頁頁翻找指定詞彙。
-- **工程評價**：撰寫邏輯最為低階。在最壞情況下 (Worst-case) 需耗費 O(N) 的時間複雜度，資料量暴漲時形同系統自殺。
-
-### 二元搜尋 (Binary Search) - 「對半折疊之刃」
-
-- **嚴苛前置**：目標資料庫必須為**「已排序 (Sorted)」**之狀態。
-- **運作模式**：直接針對陣列中段節點下刀。若中位數大於搜尋目標，則果斷捨棄右半部之所有可能，繼續將左半徑實施對半切割，反之亦然。
-- **概念類比**：電視節目常見之「終極密碼 (1~100)」。玩家首猜必定為 50，若嫌過大即猜 25。
-- **工程評價**：具備 O(log N) 的狂暴收斂效能，為一切進階搜尋樹 (如 B-Tree) 之底層邏輯基石。
+## Prelude: What is an algorithm?
+For developers who came through non-CS paths, “algorithms” can sound like jargon. At its core, an algorithm is simply a finite sequence of steps with well-defined input and output that solves a specific problem. Even though AI-assisted development often hides these steps behind libraries, grasping the terminology gives you a macro-level system view and trains you to prompt AI with surgical precision.
 
 ---
 
-## 2. 排序演算法 (Sorting Algorithms)：資訊之梳理重構
+## 1. Search algorithms: locating needles in ocean-sized datasets
+When your datastore grows to millions of rows, the efficiency of the search logic becomes the leading performance factor.
 
-以二元搜尋為例，為達成高效檢索之前提，我們必須仰賴演算法將混沌的資料陣列重塑為有序遞增之隊列。
+### Linear Search – the brute-force baseline
+- **Operation**: Scan from the first element to the last, comparing each value in order.
+- **Analogy**: Like leafing through an unsorted dictionary page by page until you find the word.
+- **Practical note**: This is the simplest implementation, but the worst-case complexity is O(N), so it becomes self-destructive as the dataset grows.
 
-### 氣泡排序 (Bubble Sort) - 「低效之教科書案例」
-
-- **運作模式**：相鄰之兩筆元素反覆互相比對。若左大於右即對調位置。歷經數十輪之整列掃描後，極值會猶如水底氣泡般，緩緩被推擠至序列末端。
-- **工程評價**：高達 O(N²) 的駭人複雜度，在現代工程實戰中早已遭全面棄用，僅作學理探討。
-
-### 快速排序 (Quick Sort) - 「現代標配之實戰王者」
-
-- **運作模式**：採取「分治法 (Divide and Conquer)」。於陣列中隨機標定一基準值 (Pivot / 隊長)。接著進行分流：小於隊長者盡數放逐左側，大於者盡留右側。隨後，左右兩陣營再度各自委任新隊長，無窮遞迴分化之。
-- **實戰地位**：因具備 O(N log N) 之極優異均攤效能，當今主流程式語言 (如 Python/JS) 內建之 `sort()` 函數，其底層核心幾乎悉數以快速排序（抑或其變體如 Timsort）驅動。
-
----
-
-## 3. 漏斗架構 (Funnel Pipeline) 與資訊精煉流
-
-嚴謹而言，「漏斗演算法」並非計算機科學之固有結構，其更偏向於一門極為實用的**資料處理管線架構模式 (Data Processing Pipeline)**。多見於商業轉化率分析 (Conversion Rate) 與大數據清洗。
-
-- **運作模式**：架構猶如沙漏，漏口極寬而底端細窄。每一水平斷層級距皆佈建一套特化之「篩檢器 (Filter)」。隨水流向下推移，雜質與離群值被無情剝離，最終滴落於匯集槽者，即為純度最高之關鍵變數。
-- **戰術比喻**：於長江淘取純金。
-
-於 Moyin 開發體系中，我們恰巧有一支將此過濾漏斗演繹至極致之輔助常駐程式：**Hermit Purple (隱者之紫)**。
+### Binary Search – the halving blade
+- **Prerequisite**: The target array must already be sorted.
+- **Operation**: Compare the target against the midpoint, discard the half that cannot contain the value, and repeat on the remaining segment.
+- **Analogy**: The “ultimate password” game (1–100): guess 50, then cut the interval in half depending on the response.
+- **Practical note**: With O(log N) convergence, this is the foundation of all balanced search trees such as B-Trees.
 
 ---
 
-## 4. 專案深潛：Hermit Purple (隱者之紫) 爬蟲決策大腦
+## 2. Sorting algorithms: reshaping chaos into order
+Binary search only works on ordered data, so we need sorting algorithms to prepare the ground.
 
-**Hermit Purple** 為一具備純字元介面 (CLI) 之巨集資訊爬蟲。其命名致敬《JOJO 的奇妙冒險》中具備「念寫出遠端千里情報」之替身使者。它的核心使命，在替專案團隊於茫茫的 Github 與 Reddit 網海中，獵捕瞬息萬變的 AI 技術前沿。
+### Bubble Sort – the textbook warning
+- **Operation**: Repeatedly compare adjacent elements and swap them if they are out of order. After many passes, the extreme values float to the ends like bubbles.
+- **Practical note**: With O(N²) complexity, major modern stacks avoid it except for teaching purposes.
 
-### 【隱者之紫】的漏斗過濾管線拓撲
+### Quick Sort – the modern workhorse
+- **Operation**: Use divide-and-conquer. Pick a pivot, partition the array so smaller values go left, larger go right, and recursively repeat.
+- **Practical note**: Its average O(N log N) performance powers the built-in `sort()` in languages like Python and JavaScript (or their hybrids such as Timsort).
+
+---
+
+## 3. Funnel pipeline and information refinement
+“Funnel algorithms” are less about asymptotic analysis and more about practical data processing pipelines. Think of a funnel: the wide mouth ingests raw streams, each tier strips noise, and the narrow tip drops the highest-quality signal.
+
+- **Flow**: Each stage is a specialized filter that removes duplicates, malformed entries, or low-value hits.
+- **Analogy**: Panning for gold in a river—the wider top collects everything, and sluices downstream concentrate the precious flakes.
+
+In Moyin, Hermit Purple exemplifies this discipline with a CLI macro that relentlessly extracts and refines AI-relevant intelligence.
+
+---
+
+## 4. Hermit Purple’s funnel topology
+Hermit Purple is a CLI crawler named for the stand in *JoJo’s Bizarre Adventure* that writes distant information. It harvests bleeding-edge AI intelligence from GitHub, Reddit, and beyond.
 
 ```mermaid
 graph TD
-    A[廣域抓取層 Scraping <br/> GitHub / Reddit] -->|逾萬篇未清洗之原始串流| B(過濾與去重層 Deduplication <br/> 正規化清理、Hash 比對除重)
-    B -->|百餘篇潛在價值之內文| C{AI 大腦裁決層 LLM Reranking <br/> Gemini / Grok 深度分析}
-    C -->|標籤化與趨勢量測| D[決策報告層 Decision <br/> Adopt / Hold / Drop]
-    D --> E((念寫總結 Markdown 匯報))
+    A[Wide-area scraping layer<br/>GitHub / Reddit] -->|Raw stream of 10k+ posts| B(Deduplication layer<br/>Normalization & hash checks)
+    B -->|Hundreds of valuable candidates| C{LLM reranking layer<br/>Gemini / Grok insights}
+    C -->|Tagged trends| D[Decision report layer<br/>Adopt / Hold / Drop]
+    D --> E((Summary markdown report))
 
     style C fill:#D1C4E9,stroke:#512DA8,stroke-width:2px;
 ```
 
-當指令碼 `fetch-ai-info` 放行後：
+Once `fetch-ai-info` runs:
 
-1. **頂部廣口層 (Scraping)**：無差別地從各大開源倉庫之 Trending 板塊攫取 JSON 與 HTML 原始節點。
-2. **第一道截留閥 (Filter)**：將歷史已探勘之雜湊特徵 (Hash) 實施互斥比對，剔除重複與不滿字數閾值之劣質工單。
-3. **AI 智慧裁決層 (Curate)**：漏斗之靈魂！程式將倖存之精華打包，經由 `I1 Gateway` 路由遞交予 Gemini/Grok 等大型語言模型進行閱讀理解。強制要求其吐出三個維度之決斷：
-   - **Adopt (採用)**：具備變現價值或架構破局點，即刻排入 sprint。
-   - **Hold (觀望/留校察看)**：社群維護聲量不足，持續監測星數 (Stars)。
-   - **Drop (拋棄)**：經剖析為無商轉實力之玩具套件。
-4. **輸出收斂層 (Report)**：剔除其餘無謂雜訊，最終將「Adopt」類之情資，凝練重組為具高度可讀性之 Markdown 戰情簡報。
+1. **Scraping layer**: indiscriminately pull JSON/HTML from trending sections of open-source repositories.
+2. **Filtering layer**: eliminate duplicates by comparing hash signatures and drop anything that fails the length or quality gate.
+3. **AI adjudication layer**: route the survivors through the `I1 Gateway` to Gemini/Grok. Require a three-way verdict:
+   - **Adopt**: ready for sprint planning because it unlocks value or architectural breakthroughs.
+   - **Hold**: insufficient community momentum; continue monitoring the star count.
+   - **Drop**: toy packages with zero product potential.
+4. **Reporting layer**: package the “Adopt” signals into a concise Markdown briefing.
 
-### 🟢 給資深 Vibecoding 開發者之發包建議：
+### Pro-level prompt example
+“Please build a Python crawler that obeys the Hermit Purple funnel pipeline: Stage one collects widely, stage two applies regex-powered filters, stage three feeds the filtered payload to an LLM for RAG-style summarization. Each pipeline node must log to the observability stack.”
 
-將此管線思維內化後，未來下達編撰資料分析或清理腳本之指令，您的 Prompt 將具備強大之系統化威力：
-
-> 🗣️ `「懇請撰寫一套 Python 爬蟲服務。請務必遵循【Hermit Purple 之漏斗型架構設計 (Funnel Pipeline)】：`
-> `階段一、無差別蒐集；階段二、動用正則表達式落實雜訊過濾 (Filter)；階段三、串接 LLM 檢索增強並提取核心摘要。且明令於管線之各個節點，皆須對接 Logging 服務以確保溯源無虞。」`
-
-依此嚴謹的結構化約束，AI 將交付給您一支耦合度極低、擴充性極佳的工業級採集爬蟲。
+This structure keeps the crawler low-coupling, high-signal, and ready for enterprise use.

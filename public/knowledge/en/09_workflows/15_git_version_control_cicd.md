@@ -1,67 +1,67 @@
-# 15. Git 版本控制與 CI/CD 自動化管線指南
+# 15. Git Version Control and CI/CD Automation Pipeline Guide
 
-> **類型**: 基礎工程知識與最佳實踐  
-> **日期**: 2026-02-25
+> **Type**: Basic Engineering Knowledge & Best Practices  
+> **Date**: 2026-02-25
 
-在現代軟體工程協作中，單純依賴 AI Agent 進行代碼更動是不夠的。為確保系統穩定性並追蹤歷次變更，**Git** 與 **CI/CD** 成為了不可或缺的核心基礎設施。本指南將為您梳理這兩大技術機制的運作模式。
-
----
-
-## 1. Git：具備溯源能力之版本控制系統
-
-在缺乏版本控制的環境下，檔案命名往往會演變成 `最終版.docx`、`絕對最終版.docx` 等難以追溯的混亂狀態。於軟體開發中，此類管理方式將帶來毀滅性的災難，而 **Git** 正是為解決此痛點而生的版本控制系統。
-
-### Git 的核心機制
-
-1. **提交 (Commit)**：
-   每次開發者或 Agent 對代碼庫進行變更並執行「Commit」操作時，Git 便會紀錄當下程式碼的完整快照 (Snapshot)。如此一來，即使遇到不可逆的破壞性修訂，系統也具備還原至任意歷史狀態的能力。
-2. **分支 (Branch)**：
-   - **主線分支 (`main`)**：通常代表當前正式營運 (Production) 或最穩定的代碼版本。
-   - **特性分支 (Feature Branch)**：當需要開發新功能（如 `feature/new-ui`）或修復缺陷時，應於獨立的分支中進行。這創造了一個隔離的開發環境，確保試驗性的改動不會影響到主線的穩定性。
-   - 等到分支上的開發經過完整測試且確認無誤後，再經由合併 (Merge) 操作將變更整合回 `main` 分支。
-
-3. **合併衝突 (Merge Conflict)**：
-   當不同分支恰巧對同一份檔案的同一行程式碼進行了相異的更動，於合併時 Git 將無法自動判斷應保留何者，此即為合併衝突。此時必須透過人工介入排解，確認邏輯並手動保留正確的變更段落。
+In modern software engineering collaboration, relying solely on AI Agents to make code changes is insufficient. To ensure system stability and track historical changes, **Git** and **CI/CD** have become an indispensable core infrastructure. This guide will walk you through the operational models of these two major technological mechanisms.
 
 ---
 
-## 2. CI/CD：軟體自動檢驗與打包部署管線
+## 1. Git: The Version Control System with Traceability
 
-程式碼撰寫完畢並提交至版本控制中心（如 GitHub、GitLab）後，現代化的開發流程摒棄了手動上傳檔案至營運伺服器的作法，轉而依賴 **CI/CD (持續整合 / 持續部署)** 系統，以構建穩定且全自動化的軟體交付管線。
+Without version control, file naming often devolves into a confusing, untraceable mess like `final_version.docx`, `absolute_final_version.docx`, etc. In software development, such management methods would bring disastrous consequences, and **Git** is the version control system born to solve this exact pain point.
 
-### CI (Continuous Integration - 持續整合)
+### Core Mechanisms of Git
 
-- **核心目標**：在瑕疵代碼合併至主線或進入營運環境前，進行攔截與防堵。
-- **標準運作流程**：
-  1. 當 Agent 提交並推送 (Push) 新程式碼至雲端儲存庫時，將自動觸發 CI 伺服器（如 GitHub Actions 機器人）。
-  2. 系統將自動配置一個乾淨且隔離的臨時運行環境。
-  3. 系統將自動執行預先撰寫的測試腳本群（單元測試、整合測試等）。一旦發生錯誤或未達標，該次提交將被標記為失敗 ❌，並強制阻斷其合併至 `main` 主線的權限。
+1. **Commit**:
+   Every time a developer or an Agent makes changes to the codebase and executes a "Commit" operation, Git records a complete snapshot of the code at that moment. This way, even if irreversible, destructive edits occur, the system retains the ability to revert to any historical state.
+2. **Branch**:
+   - **Main Branch (`main`)**: Generally represents the current formal production environment or the most stable code version.
+   - **Feature Branch**: When there is a need to develop a new feature (e.g., `feature/new-ui`) or fix a bug, it should be done in an isolated branch. This creates an independent development environment, ensuring that experimental changes do not affect the stability of the main line.
+   - Once the development on the branch has been fully tested and confirmed to be error-free, the changes are integrated back into the `main` branch via a Merge operation.
 
-### CD (Continuous Deployment - 持續部署)
-
-- **核心目標**：實現流暢、無痛且高度自動化的版本發佈。
-- **標準運作流程**：
-  1. 當 CI 檢驗確認全數通過 ✅，且分支正式核准合併至 `main` 後，CD 階段正式啟動。
-  2. 系統將自動執行構建 (Build) 程序，將源碼打包為可執行的應用程式包。
-  3. 系統自動授權登入營運伺服器或雲端容器環境，置換舊版程式碼，並進行平滑重啟。此過程全程無須人工介入。
-
-### 零停機發佈兵法 (Zero Downtime Deployment)
-
-在數萬人同時連線的正式環境中，直接「覆蓋舊檔案重開機」將引發斷線報錯。業界為此發展出了極度優雅的發佈策略：
-
-- **藍綠部署 (Blue-Green Deployment)**：
-  - **作法**：同時養兩套一模一樣的主機系統（例如主力藍色，備用綠色）。當平日營運時，玩家的 Load Balancer 100% 指向「藍色」。當出新版時，CI/CD 會先偷偷部署到完全隔離的「綠色」環境，讓測試工程師上去敲敲打打。
-  - **切換與退場**：確認無誤後，Load Balancer 的指針「啪」一聲，瞬間將玩家流量從藍色 100% 導向「綠色」。若新版引發大噴錯，切換器一秒就能退回「藍色」舊版，**實現史上最快 Rollback (回滾)**。缺點是硬體成本昂貴 (必須維運兩座孤島叢集)。
-- **金絲雀發佈 (Canary Release)**：
-  - **作法**：典故源自早期礦工會帶著金絲雀下坑道試探毒氣。發布新版時，絕不全面撤換舊版！而是利用 Gateway 或 Service Mesh 攔截流量，只從百萬名玩家中**「隨機抽樣挪出 5% 的封包導引給新版 (金絲雀) Pod 去服務」**，剩下 95% 依舊由穩定的舊版處理。
-  - **觀測與全量推行**：在這 5% 的玩家試用期間，我們會緊盯 Grafana 面板的 App 錯誤率與伺服器崩潰指標。一旦確認這群金絲雀活得很好，才逐步把閥門開到 10%、50%，最終直到 100% 新版全覆蓋。比起藍綠策略，這能把線上災難影響範圍精確控制在最小半徑。
+3. **Merge Conflict**:
+   When different branches happen to make distinct changes to the exact same lines of code in the same file, Git will be unable to automatically determine which one to keep during the merge. This is a merge conflict. At this point, human intervention is required to resolve it, confirming the logic and manually keeping the correct segments of changes.
 
 ---
 
-## 實戰操作建議 (Vibecoding Tips)
+## 2. CI/CD: Automated Software Testing, Packaging, and Deployment Pipelines
 
-在 Moyin 專案中，我們高度依賴如 GitHub Actions 等雲端 CI/CD 服務。因此，即便 AI Agent 回報「任務完成」，**雲端 CI 系統的檢驗結果才是最終核准合併的客觀標準。**若提交了導致服務崩潰的代碼，管線將予以嚴格攔截。
+After the code is written, committed, and pushed to a version control center (like GitHub or GitLab), modern development workflows abandon the practice of manually uploading files to the production server. Instead, they rely on **CI/CD (Continuous Integration / Continuous Deployment)** systems to build a stable and fully automated software delivery pipeline.
 
-當您需要透過 AI 協助建置或調整這類自動化管線時，建議採用以下精確的指令格式：
+### CI (Continuous Integration)
 
-> `[CI/CD 配置請求] 請協助撰寫一份適用於 GitHub Actions 之 YAML 管線腳本。規格需求：每當發生向 main 分支的推播 (push) 事件時，必須優先執行 npm run test (CI 檢驗)，並確認其結果全數通過後，方可進入後續的自動化部署 (CD) 腳本環節。`
+- **Core Objective**: To intercept and block flawed code before it merges into the main line or enters the production environment.
+- **Standard Operational Flow**:
+  1. When an Agent commits and pushes new code to the cloud repository, it automatically triggers the CI server (e.g., GitHub Actions bots).
+  2. The system will automatically provision a clean, isolated, temporary execution environment.
+  3. The system will automatically run pre-written suites of testing scripts (unit tests, integration tests, etc.). If an error occurs or the standards are not met, that commit will be marked as failed ❌, and its permission to merge into the `main` line will be forcibly blocked.
+
+### CD (Continuous Deployment)
+
+- **Core Objective**: To achieve smooth, painless, and highly automated version releases.
+- **Standard Operational Flow**:
+  1. Once the CI checks are confirmed to be fully passed ✅, and the branch is officially approved to merge into `main`, the CD phase officially begins.
+  2. The system will automatically execute the Build process, packaging the source code into an executable application bundle.
+  3. The system automatically authorizes login to the production server or cloud container environment, replaces the old code, and performs a graceful restart. This entire process requires zero human intervention.
+
+### Zero Downtime Deployment Strategies
+
+In a formal production environment where tens of thousands of users are connected simultaneously, directly "overwriting old files and rebooting" will trigger disconnection errors. To address this, the industry has developed incredibly elegant release strategies:
+
+- **Blue-Green Deployment**:
+  - **Method**: Maintain two identical host systems simultaneously (for example, the primary is Blue, the backup is Green). During normal operations, the users' Load Balancer directs 100% of traffic to "Blue". When a new version is released, CI/CD will first secretly deploy it to the completely isolated "Green" environment, allowing QA engineers to poke around and test it.
+  - **Switching and Rollback**: Once confirmed error-free, the Load Balancer's pointer snaps, instantly redirecting 100% of user traffic from Blue to "Green". If the new version triggers massive errors, the switch can revert back to the old "Blue" version in one second, **achieving the fastest Rollback in history**. The downside is expensive hardware costs (you must maintain two isolated silo clusters).
+- **Canary Release**:
+  - **Method**: The term originates from early miners taking canaries down into mineshafts to test for poisonous gases. When releasing a new version, _never_ completely replace the old version! Instead, use a Gateway or Service Mesh to intercept traffic, and only **"randomly sample 5% of packets from millions of users and direct them to the new version (Canary) Pod for service,"** while the remaining 95% is still handled by the stable old version.
+  - **Observation and Full Rollout**: During this 5% user trial period, we closely monitor the App error rates and server crash metrics on the Grafana dashboard. Once we confirm these canaries are surviving and thriving, we gradually open the valve to 10%, 50%, and finally achieve 100% full coverage of the new version. Compared to the Blue-Green strategy, this can precisely contain the blast radius of an online disaster to the minimum.
+
+---
+
+## 💡 Vibecoding Instructions
+
+In the Moyin project, we heavily rely on cloud CI/CD services like GitHub Actions. Therefore, even if an AI Agent reports "Task completed," **the inspection result from the cloud CI system is the ultimate objective standard for approving a merge.** If code that causes service crashes is submitted, the pipeline will strictly block it.
+
+When you need an AI to help build or adjust this type of automated pipeline, it is recommended to use the following precise instructional format:
+
+> `[CI/CD Configuration Request] Please help write a YAML pipeline script suitable for GitHub Actions. Specification requirements: Whenever a push event occurs to the main branch, it must prioritize executing 'npm run test' (CI check). Only after confirming all its results have passed can it proceed to the subsequent automated deployment (CD) script phase.`

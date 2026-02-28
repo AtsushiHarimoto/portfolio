@@ -1,59 +1,46 @@
-# 22. AI 時代的新通訊協定：串流打字機與 SSE 事件流 (Streaming UI)
+# 22. Streaming UI & SSE for the AI Age
 
-> **類型**: LLM 前端介接模式與通訊協定科普
-> **重點**: 當 ChatGPT 一個字一個字吐出論文時，到底發生了什麼事？為甚麼不能用傳統的 HTTP 拿資料？本章拆解針對大語言模型 (LLM) 最致命的等待期挑戰 (Latency)，並解析為何 **SSE (Server-Sent Events) 單向廣播** 會戰勝 WebSocket 成為打字機效果 (Streaming UI) 的王道。
-
----
-
-## 前言：AI 算圖的殘酷等待
-
-傳統的網頁 API 是「一敲一答」的。你索取一份使用者名單，後端花 0.5 秒整理好，一次性給你一份陣列。這稱呼為 Request-Response 週期。
-
-但當對象換成了像 GPT-4 這種大語言模型 (LLM)，災難就發生了。
-LLM 是「Autoregressive (自迴歸模型)」，這意味著它只能**一個單字接著一個單字 (Token)** 按順序算出來。若你要它寫一篇 1000 字的長文，後端伺服器可能需要「死命地算上整整 15 秒鐘」，才能把最後一個字算完。
-如果前端沿用傳統的 HTTP 等待，使用者的手機畫面將會**白白轉圈圈卡死整整 15 秒！**
-15 秒的毫無反應，足以讓 99% 的使用者以為網站當機而直接關閉視窗。
+> **Type**: Frontend LLM communication primer  
+> **Focus**: Understand why token-by-token streaming is essential for autoregressive LLMs, and why SSE (Server-Sent Events) beats WebSocket for single-direction “typewriter” delivery.
 
 ---
 
-## 1. 拯救體驗的神技：TTFT 理念與資料流 (Streaming)
+## Prelude: the cruel latency of autoregressive models
 
-為了解決這令人發瘋的 15 秒死寂，架構師們提出了一個保命指標：
-⏱️ **Time-To-First-Token (TTFT，首次成詞時間)**
-
-人類是非常好騙的生物。當我們按下送出按鈕的 **0.5 秒鐘之內**，如果畫面上立刻開始「ㄅ、ㄆ、ㄇ」像打字機一樣蹦出第一個字，我們的焦慮感就會瞬間歸零 ── 就算這篇文章最後還是要花 15 秒才能播完，我們也會覺得網站「速度極快」。
-
-### 🌊 資料流 (HTTP/2 Stream Readable)
-
-這需要將 HTTP 協定的本質翻轉。後端不再傻傻等全部算完才回傳。
-只要 GPU 算出了第一個單字 `"The"`，後端就立刻如同水管漏水一樣，把這個 `"The"` 直接從網路封包裡推擠給前端。接著每算一個字推一個字。前端收到單字，就立刻把它拼接在畫面上。
+Legacy APIs follow a request-response model: the client asks for a dataset, the server replies with a full array in half a second. GPT-4, however, is autoregressive—it produces one token at a time. A 1,000-word essay might take 15 seconds to finish. If you wait for the entire payload, the UI sits on a blank spinner for that whole window. Users assume the page is dead.
 
 ---
 
-## 2. 工具選型戰：為何是 SSE 而不是 WebSocket？
+## 1. TTFT and streaming to save the experience
 
-我們上一章教過：為了傳遞即時訊息，我們應該放棄 HTTP 輪詢，改用持久化的 WebSocket (雙向長連線)。那我們為什麼不用 WebSocket 來收發 LLM 的打字機串流呢？
+The secret is a new metric: Time-To-First-Token (TTFT). Humans calm down if the UI starts showing characters within ~0.5 seconds, even if the full answer still takes 15 seconds.
 
-| 通訊協定                        | 特性與結論                                                                                                                         | 為甚麼不用在 LLM 串流？                                                                                                                                                 |
-| :------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **WebSocket**                   | 支援 **全雙工 (雙向)**，伺服器與前端可以無時無刻互相大吼大叫。<br>必須導入 Redis Pub/Sub 維護複雜的連線。                          | 殺雞焉用牛刀！我們問了 AI 一句話之後，就**只剩下 AI 單方面地在倒垃圾 (吐字串) 給我們，前端根本不需要回話。** 雙向連線太過厚重且難以相容於 Serverless 雲端無伺服器架構。 |
-| **SSE**<br>(Server-Sent Events) | 支援 **單工 (伺服器到客戶端)**。它骨子裡就是純正的 HTTP (基於原生的 EventSource API)。<br>瀏覽器開了一條只能收單向傳單的一般通道。 | **完美契合！** 輕如鴻毛，完全相容於各種基礎 HTTP 代理與防火牆。Vercel AI SDK 或是 OpenAI 原廠的 Streaming API，其底層實作全都是基於 SSE 規格。                          |
-
-_(註：現代基於 React/Next.js 等全端框架中，通常直接利用更低階的標準 `fetch` API 搭配 `ReadableStream` 字節流解碼來實現，底層精神與之完全相同。)_
+Streaming flips HTTP’s behavior. The backend no longer waits for the final token. As soon as the GPU produces `"The"`, it pushes that chunk through the network. Each subsequent token flows as soon as it is computed, and the frontend immediately appends it to the view.
 
 ---
 
-## 3. 前端字節煉獄：防抖與 Markdown 解析
+## 2. Protocol warfare: why SSE outclasses WebSocket
 
-你以為拿到字粒 (Token) 就能直接印在 HTML 上嗎？
+| Protocol | Description & verdict | Why it falters for LLM streaming |
+| :------- | :-------------------- | :------------------------------- |
+| **WebSocket** | Full-duplex channel; requires connection management (e.g., Redis Pub/Sub). | Overkill. After asking an LLM, the client simply receives a stream—no need for a bidirectional pipe, and heavy WebSocket stacks don’t fit serverless deployments. |
+| **SSE (Server-Sent Events)** | Single-direction HTTP stream using EventSource. | Perfect fit. Lightweight, firewall-friendly, and the foundation of Vercel/OpenAI streaming endpoints. |
 
-1. **垃圾字元拼接**：後端傳來的並非純文字，而是被字節化 (Chunks) 的 Stream，你必須將 Uint8 陣列解譯成 UTF-8 文字。有時候遇到罕見字，一個中文字還會被切成兩包封包，你必須在前端手動等待合併解碼，否則畫面會出現亂碼 ``！
-2. **會閃爍的表格 (Markdown Rendering)**：LLM 最愛生成帶有表格與粗體的 Markdown 格 式。但當表格才吐出一半 (`| 欄位 1 | 欄位 2`) 根本還沒封口的剎那，如果你草率地將它丟給普通的 Markdown 解析器 (如 `marked.js`)，系統會整組報錯崩潰，或是畫面發生無限的瘋狂跳動重新渲染。此時必須導入具備 **增量渲染 (Streaming Parsing)** 能力的特殊渲染引擎包。
+Modern frameworks often implement this via `fetch` + `ReadableStream`—the spirit is the same.
 
 ---
 
-## 💡 Vibecoding 工地監工發包訣竅
+## 3. Frontend byte hell: decoding and rendering
 
-面對大語言模型的介面實作要求，如果不給 AI 設下此結界，它很可能會寫出讓使用者看漏斗等 30 秒的垃圾對話框：
+Receiving tokens is not enough. Challenges include:
 
-> 🗣️ `「你在撰寫這個與後端 LLM 溝通的 Vue 3 Chatbot 介面時，不准你使用普通的 axios 進行 Async/Await 等待迴圈阻塞！我要求你嚴格實作【Streaming UI (打字機漸進輸出流)】。請利用原生的 fetch API 並解析其【ReadableStream】（或是採用 EventSource 接收 SSE 事件），將零碎的 Chunks 正確解譯回 UTF-8 拼接到 ref 字串中！更要保證在字串不段膨脹的過程中，Markdown 解析器不會因為未閉合的標籤而導致畫面嚴重抖動 (Layout Thrashing)。」`
+1. **Chunked decoding** – Streams deliver `Uint8Array` chunks. Some UTF-8 characters split across packets, so the client must buffer and decode safely to avoid garbage output.  
+2. **Partial Markdown** – LLMs emit tables and bold text. If you feed a half-built table to a naive Markdown parser, renderers break or the layout thrashes. Use streaming-friendly Markdown renderers that can gracefully handle incomplete input.
+
+---
+
+## 💡 Vibecoding directive
+
+When commanding an AI engineer to build an LLM chat UI:
+
+> “Do not block the UI with axios + await loops. Implement a streaming UI. Use native `fetch` + `ReadableStream` (or EventSource/SSE) to decode chunked UTF-8 into a reactive string. Guard the layout from thrashing by using a streaming-aware Markdown renderer before committing to the DOM.”

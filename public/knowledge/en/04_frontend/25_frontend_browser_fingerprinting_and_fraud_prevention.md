@@ -1,62 +1,52 @@
-# 25. 透明的囚籠：前端指紋追蹤與無感防偽 (Browser Fingerprinting)
+# 25. Browser Fingerprinting & Frictionless Anti-Fraud
 
-> **類型**: 前端暗黑魔法與反詐欺技術
-> **重點**: 當你的 API 只能被你家的網站打，但駭客「自己寫了一支 Python 腳本偽裝成 Chrome」來瘋狂爬你的資料並刷會員註冊時，你該怎麼辦？本篇揭秘讓免洗帳號無所遁形的**前端瀏覽器指紋 (Fingerprinting)** 與現代終極守門員 **無感 reCAPTCHA / 裝置證明**。
-
----
-
-## 前言：Cookies 可以刪，但你的指紋永遠洗不掉
-
-一般來說，我們依賴 JWT、Cookie 或者 LocalStorage 來記住「這個曾經來過我們網站的人是誰」。
-但這些東西非常容易被駭客利用無痕模式 (Incognito) 或是手動清除按鈕給秒殺掉。結果就是：同一名黃牛，利用自動化腳本清空 Cookie 後，能在你的網站重複註冊一萬個抽獎帳號。
-
-但他們不知道的是：**他們的硬體在網頁加載的那 0.1 秒，已經將他們的「絕對身分證」拱手交給了你的前端。這技術被稱為「瀏覽器指紋 (Browser Fingerprinting)」。**
+> **Type**: Dark UX & anti-fraud science  
+> **Focus**: When malicious scripts mimic Chrome to scrape your API, expose how browser fingerprinting, reCAPTCHA v3, and device tokens lock them out while letting real users through.
 
 ---
 
-## 1. 無所遁形的像素與波長：指紋的構成
+## Prelude: cookies die, fingerprints persist
 
-前端工程師有權限存取許多看似無害的 API，但當這幾十種細微的特徵組合起來 (Entropy 資訊熵)，這星球上幾乎不會有兩個完全一模一樣的人！
-
-### 🎨 Canvas 畫布指紋 (Canvas Fingerprinting)
-
-這是最聲名狼藉且最暴力的追蹤法。
-
-- 你的 JavaScript 在螢幕外偷偷畫了一個「充滿漸層、奇特字體與表情符號」的隱形 2D 畫布。
-- **因為每一個人的顯示卡品牌 (Nvidia/AMD)、驅動程式版本、作業系統字型渲染引擎 (Windows/Mac) 對同一個像素邊緣的「抗鋸齒計算方法」都有著微觀級別的差異！**
-- 把這張圖轉成 Hash 雜湊碼。只要你沒換電腦，就算你怎麼開無痕、換瀏覽器、換 IP，你的 Canvas Hash 碼十之八九會是完全一樣的！
-
-### 🎵 音頻與硬體指紋 (AudioContext & WebGL)
-
-除了畫圖，JS 還可以偷偷要求電腦的音效卡產生一段 10 毫秒的高頻聲波。不播放出來，而是分析音效晶片處理這段聲音的「微分數學特徵」。再加上偷看你系統有幾顆 CPU 核心 (`navigator.hardwareConcurrency`) 或是你的螢幕解析度。
-將這數十個特徵組裝起來：**恭喜你，你的網路肉身已被完全鎖死追蹤。**
-_(目前各大廣告商如 Facebook/Google 都在深度使用這項技術鎖定受眾)_。
+Cookies/LocalStorage are easily cleared. A bot clears them, registers a thousand accounts, and spree-scrapes your site. What they cannot erase in 0.1 seconds is the browser/device fingerprint your frontend already collected.
 
 ---
 
-## 2. 把機器人關在門外：終極反詐欺引擎
+## 1. Fingerprint anatomy
 
-當 Moyin 的登入系統遭到機器人以每秒 10 萬次的暴力破解撞庫 (Credential Stuffing) 時，你不可能只靠封鎖 IP 來解決 (駭客有數百萬個殭屍跳板 IP)。
+You have access to hundreds of harmless-seeming APIs. Combined as entropy, they uniquely identify almost every visitor.
 
-### 🤖 傳統痛苦的驗證碼 (CAPTCHA)
+### Canvas fingerprinting
 
-以往我們會跳出「請選出有交通號誌的圖片」。這對人類是極大的勸退，更慘的是，現在的 AI 視覺模型辨識斑馬線可能比人類還準確。紅綠燈九宮格已經正式宣告死亡。
+Draw a complex gradient with emoji fonts on an offscreen canvas. Each GPU driver, OS font renderer, and antialiasing routine tweaks the pixels a little differently. Hash the result—unless they swap computers, the hash stays the same even if they use Incognito or change IPs.
 
-### 👻 無感防禦：reCAPTCHA v3 / Cloudflare Turnstile
+### Audio/WebGL fingerprints
 
-這才是現代化的救贖！網頁上連那個「我不是機器人」的打勾框都沒有。
-**它是怎麼知道你是人類的？**
-
-1. **滑鼠軌跡數學**：真正的滑鼠移動會帶有帕金森氏症般的微小抖動與貝茲曲線。駭客用 Selenium 寫的程式，滑鼠移動是一條完美的直線性或是過於死板的亂數。(當然 AI 現在也在模仿這個，這是一場軍備競賽。)
-2. **跨網域指紋交集**：Google 的腳本偷看了你開啟這個分頁前，有沒有正常的上網歷程？你是不是一個剛剛才用這個顯示卡指紋看過 YouTube 長達半小時的真實人類帳號？
-3. 最強的 Turnstile 會利用 Web Workers 逼迫瀏覽器解一題「超級耗費 CPU 的數學題 (Proof-of-Work)」。這不會拖垮一般手機，但會讓那些租用廉價雲端主機、一次想開 1,000 個爬蟲視窗的駭客，CPU 當場燒毀破產。
-
-這三項絕技，最終會在前端產出一把「信譽憑證 (Token)」。你的後端 API **只接受帶有滿分信譽 Token** 的註冊請求。
+Generate a short high-frequency tone via AudioContext, analyze how the sound card processes it, query `navigator.hardwareConcurrency`, screen resolution, etc. Glue these features together and the attacker is pinned to a single identity. Major ad platforms already use these signals for targeting.
 
 ---
 
-## 💡 Vibecoding 工地監工發包訣竅
+## 2. Anti-fraud stack
 
-在要求 AI 架構師規劃牽涉虛擬貨幣獎勵、搶票系統或是限時秒殺購物車的高風險專案時：
+When credential stuffing hits Moyin’s login page at 100k attempts per second, IP blocking is insufficient.
 
-> 🗣️ `「你在幫我寫這個新會員註冊與領取優惠券的 API 接口時，絕不准只靠單純的手機簡訊驗證！請要求前端無縫植入【Cloudflare Turnstile】或是【Google reCAPTCHA v3 (隱藏版)】。我要在前端背景無感採集使用者的互動分數與【瀏覽器指紋 (Browser Fingerprinting) / 硬體特徵】。後端收到請求時，必須先呼叫 Google API 驗證這把 Token 的人類行為分數是否 > 0.7！低於及格分數者，請直接認定為黃牛自動化腳本並回傳 403 阻擋！」`
+### Legacy CAPTCHA
+
+“Select all traffic lights” is a human unfriendly obstacle and is easily beating by modern vision models. That approach is dead.
+
+### Invisible defense
+
+reCAPTCHA v3 / Cloudflare Turnstile evaluates users without showing checkboxes.
+
+1. **Mouse math**: Real mouse paths wiggle and follow Bezier-like curves. Scripts produce perfect straight lines.  
+2. **Fingerprint correlation**: Google can see if the visitor’s fingerprint matches a human browsing session minutes earlier.  
+3. **Proof-of-work**: Advanced turnstiles push a CPU-costly challenge to the browser, which normal phones survive but botnets cannot.
+
+These defenses mint a **reputation token** that the backend only accepts for registration. Tokens below the threshold get rejected.
+
+---
+
+## 💡 Vibecoding directive
+
+When AI architects a high-risk registration flow:
+
+> “Don’t rely on SMS alone. In bytes of the frontend, embed Cloudflare Turnstile or reCAPTCHA v3. Send fingerprints and interaction scores as background telemetry. The backend must verify the reputation token against Google and reject any request scoring below 0.7 with 403.”

@@ -1,66 +1,59 @@
-# 19. 巨石崩塌與重組：伺服器狀態快取與微前端 (State & Micro-Frontends)
+# 19. State & Micro-Frontends: Tectonic Shifts and Recomposition
 
-> **類型**: 大型團隊協作與單頁應用架構
-> **重點**: 揮別把全宇宙變數全塞進全域狀態機 (Vuex/Redux) 的混亂時代！釐清客戶端狀態 (Client State) 與伺服器狀態 (Server State) 的界線。並探究如何利用「微前端 (Micro-Frontends)」架構，讓 5 個互不相識的團隊共同將 React 與 Vue 拼裝上線的故事。
-
----
-
-## 前言：萬物皆塞 Redux 的黑暗時代
-
-早年的前端工程師有一種強迫症。無論是一個小小的「側邊欄開關(True/False)」，還是呼叫 API 下載回來的「一萬筆使用者訂單資料」，通通一股腦地塞進 Redux 或 Vuex 這種 全域狀態管理工具 (Global State Management) 裡面。
-
-這造成了史詩級的災難：
-
-1. **陳舊資料 (Stale Data)**：這萬筆訂單資料其實是「後端資料庫昨天」的切片，它在前端被快取，導致使用者看到的永遠是過期的退款進度。
-2. **義大利麵條代碼 (Spaghetti Code)**：只要側邊欄一開，全域更新引擎就會連帶掃描那一萬筆訂單是否變更，效能被連擊至死。
+> **Type**: Plus-scale SPA architecture  
+> **Focus**: End the era of stuffing everything into a single global store. Clarify client vs server state and show how micro-frontends let diverse teams ship React and Vue in the same shell.
 
 ---
 
-## 1. 劃清界線：伺服器狀態與客戶端狀態
+## Preface: the Redux apocalypse
 
-現代前端架構師頒布了嚴格的楚河漢界：
+Early engineers crammed sidebar toggles and ten thousand order records into one global Vuex/Redux store, causing:
 
-### 📱 客戶端狀態 (Client State)
-
-- **定義**：完全屬於瀏覽器本地「一次性、短暫性」的互動狀態。
-- **範例**：目前的深/淺色主題模式、Modal 浮動視窗是否開啟、左營到台北的高鐵班次篩選條件。
-- **歸宿**：放在 Vue 的 `ref/reactive` 或是統一使用純粹的 `Pinia / Zustand` 等超輕量管理器中。只要玩家 F5 重新整理，這些資料重置(消失)也無所謂。
-
-### ☁️ 伺服器狀態 (Server State)
-
-- **定義**：這資料的所有權是「遠端資料庫」的。前端只是借來看看、展示用。我們沒有資格隨便修改它。且隨時會被別的用戶在遠端竄改導致過期。
-- **範例**：商品庫存數量、使用者的銀行餘額餘額。
-- **救星降臨 (TanStack Query / SWR)**：
-  不要自己手刻 API 請求再塞回 Pinia！業界全面導入了如 `vue-query` 等資料獲取專用套件。
-  它在背景建立了一個獨立的緩衝池：
-  - **自動化魔法**：當使用者切換回瀏覽器分頁 (Window Focus)，它立刻背景偷偷發 API 幫你把商品庫存刷成最新版本。
-  - **預設預取 (Prefetch)**：當你的滑鼠游標「一摸到 (Hover)」下一頁按鈕，它就在背景提早 200 毫秒先把下一頁的列表拉回來。這造就了點擊瞬間毫秒切換的駭人流暢度。
-  - **樂觀更新 (Optimistic UI)**：當你對愛心按讚，它不會傻傻等待後端回報 HTTP 200，而是「假裝一定會成功」，先把畫面上的愛心變紅。若一秒後發現斷線了，再不動聲色地退回灰色。這就是 Facebook 的體驗核心。
+1. **Stale data** – Orders were snapshots of yesterday’s DB state, so refunds never reflected reality.  
+2. **Spaghetti code** – A sidebar toggle tripped the entire store, touching thousands of cached orders and annihilating performance.
 
 ---
 
-## 2. 解決團隊互斥的終極兵法：微前端 (Micro-Frontends)
+## 1. Draw the line: client state vs server state
 
-當你的公司從 5 個人變成 50 個人。大家都在維護同一個 Vue 的巨型原始碼倉庫 (Monorepo)。
-每次只要改一個客服按鈕，所有人都要等待那幾十個模組一起經歷漫長的 10 分鐘 Webpack 編譯。任何人的 Bug 都會導致全站崩潰部署失敗。
+### 📱 Client state
 
-### 🧩 積木理論與模組聯邦 (Module Federation)
+- Short-lived interaction data that lives purely in the browser.  
+- Examples: theme mode, modals, filter selections for a high-speed rail search.  
+- Keep it in `ref/reactive`, lightweight Pinia/Zustand stores, or component state; losing it on refresh is acceptable.
 
-借鑒了後端將怪獸拆解為「微服務 (Microservices)」的精神，前端也發展出了「**微前端架構**」。
-這允許 A 團隊負責【首頁】(用 Vue 3 寫)。
-B 團隊負責【結帳購物車】(因為歷史包袱，他們用舊的 React 16 寫)。
+### ☁️ Server state
 
-透過 Webpack 5 的 **Module Federation (模組聯邦)** 黑科技，或者是 **Single-SPA** 框架：
-
-- **獨立部署**：結帳團隊今天改了按鈕顏色。他們自己編譯 結帳這「一小塊」JS 包，丟上 CDN，五秒鐘部署完畢。
-- **完美拼裝**：當使用者打開首頁時，瀏覽器的殼子裡，實際上是即時動態從不同 CDN 去下載 A 團隊的 Vue 模組以及 B 團隊的 React 模組，然後在同一個 HTML 畫面上，將它們猶如神蹟般地拼湊成一個完整的網頁，完全感受不到割裂感！
-
-(註：微前端極大化了解耦效益，缺點在於框架打架(例如全域 CSS 污染)以及兩包龐大的 Runtime JS 同時下載的初始效能損耗，多用於巨型企業內網與重型管理後台。)
+- Owned by databases, subject to remote mutations by other users; frontend merely reads and displays.  
+- Examples: inventory counts, bank balances.  
+- Use data-fetching tools like TanStack Query (Vue Query) / SWR instead of shoving API responses back into Pinia. These libraries maintain their own cache pool:
+  - **Auto revalidation**: When the window regains focus, it silently refetches stock levels.  
+  - **Prefetch**: Hovering over “Next Page” triggers a 200ms head start download so the next page appears instantly.  
+  - **Optimistic UI**: Clicking “favorite” instantly turns the heart red; if the server response fails, it quietly resets to gray.
 
 ---
 
-## 💡 Vibecoding 工地監工發包訣竅
+## 2. Micro-frontends: resolving team collisions
 
-在使用 AI 刻畫業務牽涉遠端資料抓取之複雜大前端時，請切斷其撰寫肥大 Store 的念頭：
+When a five-person shop becomes fifty, a monolithic Vue repo and 10-minute Webpack builds become unbearable. A buggy feature can break the entire deployment.
 
-> 🗣️ `「你在撰寫這個客戶訂單列表與評論系統時，嚴禁你手刻 axios 配合 useEffect / Vue watch 來塞資料進 Pinia 全域 Store！此乃嚴峻之【Server State 伺服器狀態】。請一律引入【@tanstack/vue-query (Vue Query)】套件進行管理。我們依賴其內建之背景失效重抓 (Stale-while-revalidate)、API 快取以及樂觀更新機制！Pinia 請只留給本地暗黑模式切換等微小工作。」`
+### 🧩 Module Federation as Lego
+
+Inspired by microservices, micro-frontends break the UI into self-contained pieces.  
+- Team A owns the homepage (Vue 3).  
+- Team B owns checkout (legacy React 16).
+
+Thanks to Webpack 5 Module Federation or Single-SPA:
+
+- **Independent deployments**: Checkout team ships a single bundle and CDN-hosted module, deploying in seconds.  
+- **Runtime composition**: The browser shell downloads Team A’s and Team B’s bundles from different CDNs and stitches them into one seamless page.
+
+Note: Micro-frontends maximize decoupling but introduce challenges like global CSS leakage and multiple runtime bundles, so they are best suited for large internal dashboards.
+
+---
+
+## 💡 Vibecoding directives
+
+When AI crafts order/customer systems, forbid it from pushing server data into Pinia:
+
+> 🗣️ “While building the orders + review system, do not stash axios results into a Pinia global store via `useEffect`/`watch`. Those are **server state** fields. Instead, rely on `@tanstack/vue-query` for caching, stale-while-revalidate, and optimistic updates. Keep Pinia for lightweight client state such as theme toggles.”

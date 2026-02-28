@@ -1,65 +1,57 @@
-# 20. 拯救 DOM 極限與取悅 Google 大神：前端效能與虛擬列表 (Performance)
+# 20. Performance & Virtualization: Saving the DOM and Impressing Google
 
-> **類型**: 效能調優與渲染物理學科普
-> **重點**: 當你需要在一張網頁裡硬生生印出 10 萬筆股票清單時，你該如何防止你的 Chrome 直接閃退當機？探討前端必備大絕招：**虛擬化列表 (Windowing/Virtualization)**，以及深入了解主宰全美電商 SEO 生死的法官：**核心網頁指標 (Core Web Vitals)**。
-
----
-
-## 前言：瀏覽器的極限在哪裡？
-
-很多初階工程師覺得 `Vue` / `React` 的虛擬 DOM (Virtual DOM) 等於萬靈丹。
-事實上，如果你下達了 `v-for="item in 100000"`，把十萬筆資料迴圈印到畫面上。
-瀏覽器底層還是必須真實地創造出十萬個 `<div>` 掛載 (Mount) 在那顆龐大的真實 DOM 樹上。
-
-當 DOM 樹節點超過 1,500 個，CSS 渲染與事件綁定的效率就會大幅度衰退。當挑戰十萬大關時，只要稍微滾動滑鼠，龐大的 Repaint (重繪) 與 Reflow (版面重排) 會在一秒內蒸發盡你的記憶體與 GPU，直接讓標籤頁崩潰死亡 (Crash)。
+> **Type**: Performance tuning & rendering physics  
+> **Focus**: When you need to render 100,000 stock rows without crashing Chrome, use virtualization/windowing and dominate Google’s Core Web Vitals.
 
 ---
 
-## 1. 障眼法的極致：虛擬列表 (Virtualization / Windowing)
+## Prelude: where does the browser break?
 
-遇到十萬筆資料的挑戰，各大廠的解法非常直接且粗暴：**「用騙的！」**
-因為不管放多少筆，一塊 1080p 的手機螢幕上，使用者**當下絕對只能看得到大約 20 筆資料！**
-
-### 🪟 視窗切割術 (以 `vue-virtual-scroller` 為例)
-
-1. **造假滾動條**：框架知道十萬筆資料，每筆若佔高 50px，總共需要 500 萬 px 的長度。它就在畫面隱藏區塞一個空盒子撐起高達 500 萬 px 的假骨架，讓右邊的卷軸看起來無比細小，維持一模一樣的滾動高度比例。
-2. **只繪製那可憐的 20 塊**：這就是魔法所在。系統永遠只會在真實 DOM 上掛載 20 個 `<div>`（以及上下幾個緩衝用的備胎）！
-3. **無盡的瞬間切換**：當你的滑鼠往下瘋狂滾動 1,000 px (到了第 200 筆商品)。
-   框架根本不用生出新元素。它直接把眼前的這 20 個 `<div>` 的內容，**從記憶體陣列抽出【索引 201 ~ 220】的名字與圖片粗暴置換**，並利用 CSS 的 `transform: translateY` 瞬間平移，把它們「瞬移」並拼貼到你視線停下來的這個滾動位置！
-
-如此一來，十萬筆也罷、一千萬筆也罷，這顆星球上永遠只有 25 幾個 DOM 元素在做搬磚循環苦工，效能維持在一如只載入首頁般輕盈的神境 $(O(1))$！
+Many juniors think Vue/React’s Virtual DOM cures all ills. In reality, `v-for="item in 100000"` still creates 100,000 `<div>` nodes in the true DOM tree. Once you exceed ~1,500 nodes, repaint and reflow costs explode. Rolling the wheel through 100,000 items triggers massive paint events, drains memory/GPU, and the tab crashes.
 
 ---
 
-## 2. Google 的生死判官：核心網頁指標 (Core Web Vitals)
+## 1. Virtualization / windowing
 
-你可以不在乎使用者的手機會不會燙，但你不能得罪 Google 大神。
-在 2021 年，Google 正式將三大效能指標：**Web Vitals (網頁活力指標)** 納入 SEO 的唯一標準。如果你分數差（不及格的紅字），就算你文章寫得再好，你的搜尋排名也會被強行降級。
+When facing huge datasets, the trick is simple: **fake the scroll**.
 
-### 🥇 LCP (最大內容繪製 - Largest Contentful Paint)
+### 🪟 Windowing with vue-virtual-scroller
 
-- **含義**：你網頁上的主心骨（例如最上面的大封面圖片、最斗大的 H1 標題文章）花多長時間才出現在螢幕上？
-- **極光門檻**：必須在 **2.5 秒** 內完成印製！
-- **救贖法則**：首頁大圖嚴禁放在 CSS `background-image` (這要延遲非常久才處理)！強制改用 `<img fetchpriority="high">`，讓瀏覽器以第一優先順序將圖片從 CDN 暴力拉回來。
+1. **Fake scrollbar height** – assuming 100k items at 50px each, the component creates a 5 million px spacer so the scrollbar appears natural.  
+2. **Render only ~20 items** – the DOM keeps only ~20 `<div>`s plus a small buffer.  
+3. **Swap content on the fly** – when you scroll 1,000px to item 200, the framework reuses the 20 visible `<div>`s, assigns them data for indices 201-220, and applies `transform: translateY` to instantly reposition them.
 
-### 🏎️ INP (與下一個繪製的互動延遲 - Interaction to Next Paint)
-
-_(2024 取代了舊的 FID 指標)_
-
-- **含義**：使用者在這張網頁操作最卡的一次「點擊」延遲是多久？你點下了加入購物車，如果按鈕旁邊的愛心遲鈍了一下才變成紅色，這就是不及格。
-- **極光門檻**：必須在一點擊後的 **200 毫秒 (0.2 秒)** 內見效回饋。
-- **救贖法則**：這是 React/Vue 開發者的死敵。如果在點下那瞬間，JS 引擎剛好正在算一個極度龐大的 `for` 迴圈(長任務 Long Task 阻塞了 Main Thread)，畫面就會如殭屍般凍結。我們必須把沉重任務透過 Web Worker 丟去背景算，或是利用前一章提過的 **樂觀更新 (Optimistic UI)** 魔法來騙過人類大腦與計時器。
-
-### 🌋 CLS (累計版面配置位移 - Cumulative Layout Shift)
-
-- **含義**：你正在看新聞內文準備點擊下一頁。此時上方突然「波」一聲載入了一條横幅長條廣告。整個文章瞬間被往地心擠壓下移了五公分！你不但原本看哪一行全忘了，還可能失手按到那顆該死的廣告引發誤觸！
-- **極光門檻**：位移累計分數小於 **0.1** (要求幾乎不能動)。
-- **救贖法則**：強制開發者在所有 `<img>` 圖片標籤上，哪怕圖片還沒載完，都必須預先寫死或透過 CSS Ratio 預留好 `width` 與 `height`。先用一個隱形的大水泥塊把版面的坑洞佔好，等圖片從網路來的時候才不會讓後方的文字發生大地震。
+Result: no matter how many rows, the browser only manages ~25 elements at a time, keeping complexity around O(1) and preventing crashes.
 
 ---
 
-## 💡 Vibecoding 工地監工發包訣竅
+## 2. Core Web Vitals: Google’s judgment
 
-在使喚 AI 為大數據場景繪製頁面與注重轉換率 (SEO) 之高流量入口時：
+Google embedded Web Vitals into SEO as of 2021. Fail them and your search ranking plummets.
 
-> 🗣️ `「你在幫我寫這個後台訂單無限列表時，給我停手！不准使用 v-for 暴力渲染這 5 萬組 DOM 節點！請你立刻幫我匯入套件【vue-virtual-scroller】或是原生實作【Windowing (虛擬化窗口列表)】。並務必保留每一列 <li> 固定高度 60px 以達成光速動態重算渲染的效能目標。另外這首頁上的 Banner 圖片，必須掛上寬高占位符以滿足 Google CLS 要求避免版面跳動！」`
+### 🥇 LCP (Largest Contentful Paint)
+
+- **Meaning**: Time until the hero content (hero image or biggest H1) appears.  
+- **Threshold**: ≤ 2.5 seconds.  
+- **Fix**: Avoid `background-image` hero graphics; instead, use `<img fetchpriority="high">` so the browser prioritizes fetching them from the CDN.
+
+### 🏎️ INP (Interaction to Next Paint)
+
+- **Successor to FID**.  
+- **Meaning**: The longest interaction delay (e.g., clicking “Add to Cart”).  
+- **Threshold**: ≤ 200ms for responsive feedback.  
+- **Fix**: Prevent blocking the main thread with heavy `for` loops. Offload to Web Workers or rely on optimistic updates to trick the experience.
+
+### 🌋 CLS (Cumulative Layout Shift)
+
+- **Meaning**: Unexpected layout shifts (e.g., an ad loading and pushing content).  
+- **Threshold**: cumulative score < 0.1.  
+- **Fix**: Always reserve space for `<img>` by declaring width/height or using CSS ratio containers so placeholders hold the layout steady until images load.
+
+---
+
+## 💡 Vibecoding briefing tip
+
+When asking AI to render an infinite admin list with SEO in mind:
+
+> 🗣️ “Stop rendering 50,000 DOM nodes via `v-for`. Import `vue-virtual-scroller` or implement windowing yourself. Keep each `<li>` at 60px height for predictable transforms, and ensure the hero banner has explicit width/height placeholders to satisfy CLS.”
