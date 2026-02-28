@@ -174,9 +174,9 @@ export default function HomePage() {
             
             <TiltCard className="w-full">
               <div className="p-4 md:p-6 max-w-4xl mx-auto rounded-xl border border-moyin-pink/15 bg-[#230f15]/70 backdrop-blur-md hover:bg-white/5 transition-all duration-300 shadow-xl group">
-                <div className="relative w-full overflow-hidden rounded-xl border border-white/5 transition-all duration-300 group-hover:border-moyin-pink/30" style={{ paddingBottom: '56.25%' }}>
+                <div className="relative w-full overflow-hidden rounded-xl border border-white/5 transition-all duration-300 group-hover:border-moyin-pink/30 aspect-video">
                   <iframe
-                    className="absolute inset-0 w-full h-full"
+                    className="absolute top-0 left-0 w-full h-full"
                     src="https://www.youtube.com/embed/pxvT3Hsj3g8"
                     title="Early Work"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
