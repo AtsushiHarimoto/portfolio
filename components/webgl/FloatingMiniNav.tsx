@@ -67,7 +67,7 @@ export default function FloatingMiniNav() {
       {/* Nav items in arc */}
       <AnimatePresence>
         {open && (
-          <div id="floating-nav-menu" role="menu">
+          <nav id="floating-nav-menu" aria-label="Quick navigation">
             {NAV_ITEMS.map((item, i) => {
               const angle = -(Math.PI / 2) + (Math.PI / 2 / (NAV_ITEMS.length - 1)) * i;
               const radius = 80;
@@ -79,7 +79,6 @@ export default function FloatingMiniNav() {
               return (
                 <motion.button
                   key={item.key}
-                  role="menuitem"
                   aria-label={getLabel(item.key)}
                   initial={{ opacity: 0, x: 0, y: 0, scale: 0 }}
                   animate={{ opacity: 1, x, y, scale: 1 }}
@@ -112,7 +111,7 @@ export default function FloatingMiniNav() {
             >
               <LanguageSwitcher />
             </motion.div>
-          </div>
+          </nav>
         )}
       </AnimatePresence>
     </div>
