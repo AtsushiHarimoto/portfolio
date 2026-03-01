@@ -126,7 +126,22 @@ export default function HomePage() {
             </h2>
             <div className="h-1 w-20 bg-gradient-to-r from-transparent via-moyin-pink to-transparent rounded-full mb-4"></div>
             
-            <div className="w-full max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="w-full max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* EP02: AI Vibecoding — 3 AIs Coding */}
+              <div className="w-full p-3 md:p-4 rounded-xl border border-moyin-pink/15 bg-[#230f15]/70 backdrop-blur-md shadow-xl">
+                <div className="relative w-full overflow-hidden rounded-xl border border-white/5 aspect-video">
+                  <iframe
+                    className="absolute top-0 left-0 w-full h-full"
+                    src="https://www.youtube.com/embed/ovLFW6aVK-c"
+                    title="AIに全部コーディングさせてみた"
+                    loading="lazy"
+                    sandbox="allow-scripts allow-same-origin allow-presentation"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
               {/* EP01: AI Novel Behind the Scenes */}
               <div className="w-full p-3 md:p-4 rounded-xl border border-moyin-pink/15 bg-[#230f15]/70 backdrop-blur-md shadow-xl">
                 <div className="relative w-full overflow-hidden rounded-xl border border-white/5 aspect-video">
