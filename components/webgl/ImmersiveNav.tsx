@@ -140,7 +140,8 @@ export default function ImmersiveNav() {
 
   function handleNavigate(path: string) {
     if (path === '/') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const behavior = prefersReducedMotion ? 'instant' : 'smooth';
+      window.scrollTo({ top: 0, behavior: behavior as ScrollBehavior });
       return;
     }
     router.push(path);

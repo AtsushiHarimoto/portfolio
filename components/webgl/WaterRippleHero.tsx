@@ -195,14 +195,21 @@ export default function WaterRippleHero() {
     scene.add(plane);
 
     const start = performance.now();
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    function animate() {
-      uniforms.uTime.value = (performance.now() - start) * 0.001;
-      uniforms.uMouse.value.set(mouseRef.current.x, mouseRef.current.y);
+    if (reducedMotion) {
+      // Render a single static frame
+      uniforms.uTime.value = 0;
       renderer.render(scene, camera);
+    } else {
+      const animate = () => {
+        uniforms.uTime.value = (performance.now() - start) * 0.001;
+        uniforms.uMouse.value.set(mouseRef.current.x, mouseRef.current.y);
+        renderer.render(scene, camera);
+        rafRef.current = requestAnimationFrame(animate);
+      };
       rafRef.current = requestAnimationFrame(animate);
     }
-    rafRef.current = requestAnimationFrame(animate);
 
     function onResize() {
       if (!container) return;
