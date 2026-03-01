@@ -7,6 +7,7 @@ import remarkGfm from 'remark-gfm';
 import { motion } from 'framer-motion';
 import { useLocale } from '@/lib/locale-context';
 import { ChevronLeft, List } from 'lucide-react';
+import MermaidBlock from '@/components/MermaidBlock';
 import {
   getArticleBySlug,
   getArticlePath,
@@ -232,6 +233,9 @@ export default function ArticleDetailClient({ slug }: { slug: string }) {
                           </code>
                         );
                       }
+                      if (className === 'language-mermaid') {
+                        return <MermaidBlock code={String(children).replace(/\n$/, '')} />;
+                      }
                       return (
                         <code
                           className={`${className || ''} text-sm font-mono`}
@@ -241,11 +245,18 @@ export default function ArticleDetailClient({ slug }: { slug: string }) {
                         </code>
                       );
                     },
-                    pre: ({ children }) => (
-                      <pre className="bg-moyin-dark rounded-xl p-4 mb-4 overflow-x-auto border border-white/5 text-sm leading-relaxed">
-                        {children}
-                      </pre>
-                    ),
+                    pre: ({ children }) => {
+                      // If child is a MermaidBlock, render it directly without <pre> wrapper
+                      const child = children as React.ReactElement;
+                      if (child?.type === MermaidBlock) {
+                        return <>{children}</>;
+                      }
+                      return (
+                        <pre className="bg-moyin-dark rounded-xl p-4 mb-4 overflow-x-auto border border-white/5 text-sm leading-relaxed">
+                          {children}
+                        </pre>
+                      );
+                    },
                     table: ({ children }) => (
                       <div className="overflow-x-auto mb-4">
                         <table className="w-full text-sm text-left border-collapse">
