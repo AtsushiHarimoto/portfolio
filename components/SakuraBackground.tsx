@@ -74,11 +74,6 @@ export default function SakuraBackground() {
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
-      {/* Ambient glow orbs (brand: breathing glow) */}
-      <div className="absolute top-1/4 -left-40 w-[500px] h-[500px] bg-moyin-pink/[0.04] rounded-full blur-[150px] animate-pulse" />
-      <div className="absolute bottom-1/3 -right-40 w-[400px] h-[400px] bg-moyin-purple/[0.05] rounded-full blur-[130px] animate-pulse" style={{ animationDelay: '2s' }} />
-      <div className="absolute top-2/3 left-1/3 w-[300px] h-[300px] bg-moyin-accent/[0.03] rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '4s' }} />
-
       {/* Sakura petals */}
       {petals.map((petal) => (
         <motion.div
