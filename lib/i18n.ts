@@ -234,7 +234,7 @@ const translations: Record<Locale, TranslationKeys> = {
       ctaProjects: 'View Projects',
     },
     home: {
-      featuredTitle: 'Early Work',
+      featuredTitle: 'Video Works',
       demosTitle: 'Live Demos',
       viewDemo: 'View Demo',
       demoItems: [
@@ -572,7 +572,7 @@ const translations: Record<Locale, TranslationKeys> = {
       ctaProjects: 'プロジェクトを見る',
     },
     home: {
-      featuredTitle: '初期の作品',
+      featuredTitle: '映像作品',
       demosTitle: 'ライブデモ',
       viewDemo: 'デモを見る',
       demoItems: [
@@ -910,7 +910,7 @@ const translations: Record<Locale, TranslationKeys> = {
       ctaProjects: '查看專案',
     },
     home: {
-      featuredTitle: '早期作品',
+      featuredTitle: '視頻作品',
       demosTitle: '互動演示',
       viewDemo: '查看演示',
       demoItems: [
