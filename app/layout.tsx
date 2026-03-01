@@ -57,7 +57,7 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL('https://atsushiharimoto.github.io/portfolio'),
   icons: {
-    icon: { url: '/favicon.svg', type: 'image/svg+xml' },
+    icon: { url: '/portfolio/favicon.svg', type: 'image/svg+xml' },
   },
 };
 
