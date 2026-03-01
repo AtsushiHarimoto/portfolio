@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { motion } from 'framer-motion';
 import { useLocale } from '@/lib/locale-context';
+import { ChevronLeft, List } from 'lucide-react';
 import {
   getArticleBySlug,
   getArticlePath,
@@ -113,19 +114,7 @@ export default function ArticleDetailClient({ slug }: { slug: string }) {
           href="/articles/"
           className="inline-flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-moyin-pink-light transition-colors group"
         >
-          <svg
-            className="w-4 h-4 transform group-hover:-translate-x-1 transition-transform"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
+          <ChevronLeft className="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" strokeWidth={2} />
           {t.articles.backToList}
         </Link>
       </motion.div>
@@ -351,19 +340,7 @@ export default function ArticleDetailClient({ slug }: { slug: string }) {
               className="w-12 h-12 rounded-full bg-moyin-purple/90 text-white shadow-lg shadow-moyin-purple/30 flex items-center justify-center hover:bg-moyin-purple transition-colors"
               aria-label="Table of Contents"
             >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 10h16M4 14h16M4 18h16"
-                />
-              </svg>
+              <List className="w-5 h-5" strokeWidth={2} />
             </button>
 
             {tocOpen && (

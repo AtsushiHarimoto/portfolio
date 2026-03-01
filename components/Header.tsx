@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X } from 'lucide-react';
 import { useLocale } from '@/lib/locale-context';
 import LanguageSwitcher from './LanguageSwitcher';
 
@@ -115,28 +116,11 @@ export default function Header() {
             aria-expanded={mobileOpen}
             aria-controls="mobile-menu"
           >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              {mobileOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              )}
-            </svg>
+            {mobileOpen ? (
+              <X className="w-5 h-5" strokeWidth={2} />
+            ) : (
+              <Menu className="w-5 h-5" strokeWidth={2} />
+            )}
           </button>
         </div>
       </div>

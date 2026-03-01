@@ -3,6 +3,18 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import {
+  Save,
+  FolderOpen,
+  Settings as SettingsIcon,
+  ScrollText,
+  Home,
+  X,
+  Menu,
+  ArrowDown,
+  ChevronRight,
+  LayoutGrid,
+} from 'lucide-react';
 import BackLink from '@/components/BackLink';
 
 // ---------------------------------------------------------------------------
@@ -267,12 +279,12 @@ interface SystemMenuProps {
 }
 
 function SystemMenu({ onClose, onSave, onLoad, onSettings, onBacklog, onTitle }: SystemMenuProps) {
-  const items = [
-    { label: 'Save', icon: 'M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4', action: onSave },
-    { label: 'Load', icon: 'M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4', action: onLoad },
-    { label: 'Settings', icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z', action: onSettings },
-    { label: 'Backlog', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', action: onBacklog },
-    { label: 'Title', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6', action: onTitle },
+  const items: { label: string; icon: React.ReactNode; action: () => void }[] = [
+    { label: 'Save', icon: <Save className="w-4 h-4 shrink-0" strokeWidth={1.5} />, action: onSave },
+    { label: 'Load', icon: <FolderOpen className="w-4 h-4 shrink-0" strokeWidth={1.5} />, action: onLoad },
+    { label: 'Settings', icon: <SettingsIcon className="w-4 h-4 shrink-0" strokeWidth={1.5} />, action: onSettings },
+    { label: 'Backlog', icon: <ScrollText className="w-4 h-4 shrink-0" strokeWidth={1.5} />, action: onBacklog },
+    { label: 'Title', icon: <Home className="w-4 h-4 shrink-0" strokeWidth={1.5} />, action: onTitle },
   ];
 
   return (
@@ -316,9 +328,9 @@ function SystemMenu({ onClose, onSave, onLoad, onSettings, onBacklog, onTitle }:
               }}
               className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-sm font-medium text-moyin-text-secondary hover:text-moyin-pink-light hover:bg-white/[0.04] transition-all duration-200 group"
             >
-              <svg className="w-4 h-4 shrink-0 text-moyin-text-muted group-hover:text-moyin-pink transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={item.icon} />
-              </svg>
+              <span className="text-moyin-text-muted group-hover:text-moyin-pink transition-colors">
+                {item.icon}
+              </span>
               {item.label}
             </button>
           ))}
@@ -372,9 +384,7 @@ function BacklogPanel({ entries, onClose }: { entries: BacklogEntry[]; onClose: 
           onClick={onClose}
           className="text-moyin-text-muted hover:text-moyin-pink transition-colors"
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
+          <X className="w-5 h-5" strokeWidth={2} />
         </button>
       </div>
 
@@ -621,9 +631,7 @@ function SaveLoadPanel({ mode, onClose }: { mode: 'save' | 'load'; onClose: () =
               <span className="text-moyin-text-muted text-xs font-mono">Slot {slot}</span>
               <span className="text-[10px] text-moyin-text-muted/60">No Data</span>
               <span className="text-moyin-text-muted/40 group-hover:text-moyin-text-muted/60 transition-colors">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6z" />
-                </svg>
+                <LayoutGrid className="w-6 h-6" strokeWidth={1} />
               </span>
             </button>
           ))}
@@ -996,9 +1004,7 @@ export default function MoyinGameDemoPage() {
               {/* Next indicator when typing is done and there are no choices yet visible */}
               {!isTyping && scene.choices.length === 0 && (
                 <div className="absolute bottom-3 right-4 text-moyin-pink animate-pulse">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                  </svg>
+                  <ArrowDown className="w-4 h-4" strokeWidth={2} />
                 </div>
               )}
 
@@ -1071,9 +1077,7 @@ export default function MoyinGameDemoPage() {
 
                     {/* Right arrow */}
                     <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0">
-                      <svg className="w-4 h-4 text-moyin-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
+                      <ChevronRight className="w-4 h-4 text-moyin-pink" strokeWidth={2} />
                     </div>
                   </motion.button>
                 ))}
@@ -1119,13 +1123,11 @@ export default function MoyinGameDemoPage() {
             className="flex items-center justify-center w-9 h-9 rounded-full bg-black/30 backdrop-blur-md border border-white/[0.06] text-moyin-text-muted hover:text-moyin-pink transition-colors"
             aria-label="System Menu"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {isAnyPanelOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
+            {isAnyPanelOpen ? (
+              <X className="w-4 h-4" strokeWidth={2} />
+            ) : (
+              <Menu className="w-4 h-4" strokeWidth={2} />
+            )}
           </button>
         </div>
 

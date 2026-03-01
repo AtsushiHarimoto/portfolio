@@ -3,6 +3,23 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import {
+  MessageSquare,
+  Puzzle,
+  CheckCircle,
+  Tag,
+  Clock,
+  FileBarChart,
+  LayoutDashboard,
+  ClipboardList,
+  Settings,
+  Plus,
+  RefreshCw,
+  Check,
+  ChevronDown,
+  X,
+  Menu,
+} from 'lucide-react';
 import BackLink from '@/components/BackLink';
 
 // ---------------------------------------------------------------------------
@@ -25,11 +42,7 @@ const STAT_CARDS = [
   {
     label: 'Total Sessions',
     value: '142',
-    icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-      </svg>
-    ),
+    icon: <MessageSquare className="w-5 h-5" strokeWidth={1.5} />,
     trend: { direction: 'up' as const, value: 12 },
     borderColor: 'border-l-blue-500',
     iconBg: 'bg-blue-500/20 text-blue-400',
@@ -37,11 +50,7 @@ const STAT_CARDS = [
   {
     label: 'Active Skills',
     value: '8',
-    icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
-      </svg>
-    ),
+    icon: <Puzzle className="w-5 h-5" strokeWidth={1.5} />,
     trend: { direction: 'up' as const, value: 3 },
     borderColor: 'border-l-moyin-purple',
     iconBg: 'bg-moyin-purple/20 text-moyin-accent',
@@ -49,11 +58,7 @@ const STAT_CARDS = [
   {
     label: 'Issues Resolved',
     value: '34',
-    icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-    ),
+    icon: <CheckCircle className="w-5 h-5" strokeWidth={1.5} />,
     trend: { direction: 'up' as const, value: 28 },
     borderColor: 'border-l-emerald-500',
     iconBg: 'bg-emerald-500/20 text-emerald-400',
@@ -61,11 +66,7 @@ const STAT_CARDS = [
   {
     label: 'Total Tokens',
     value: '1.25M',
-    icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-      </svg>
-    ),
+    icon: <Tag className="w-5 h-5" strokeWidth={1.5} />,
     trend: { direction: 'up' as const, value: 18 },
     borderColor: 'border-l-moyin-pink',
     iconBg: 'bg-moyin-pink/20 text-moyin-pink',
@@ -73,11 +74,7 @@ const STAT_CARDS = [
   {
     label: 'Avg Duration',
     value: '47m',
-    icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-    ),
+    icon: <Clock className="w-5 h-5" strokeWidth={1.5} />,
     trend: { direction: 'down' as const, value: 5 },
     borderColor: 'border-l-orange-500',
     iconBg: 'bg-orange-500/20 text-orange-400',
@@ -85,11 +82,7 @@ const STAT_CARDS = [
   {
     label: 'Reports Generated',
     value: '12',
-    icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-      </svg>
-    ),
+    icon: <FileBarChart className="w-5 h-5" strokeWidth={1.5} />,
     trend: { direction: 'up' as const, value: 8 },
     borderColor: 'border-l-cyan-500',
     iconBg: 'bg-cyan-500/20 text-cyan-400',
@@ -164,57 +157,32 @@ const NAV_ITEMS: NavItem[] = [
   {
     id: 'dashboard',
     label: 'Dashboard',
-    icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-      </svg>
-    ),
+    icon: <LayoutDashboard className="w-5 h-5" strokeWidth={1.5} />,
   },
   {
     id: 'sessions',
     label: 'Sessions',
-    icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-      </svg>
-    ),
+    icon: <MessageSquare className="w-5 h-5" strokeWidth={1.5} />,
   },
   {
     id: 'skills',
     label: 'Skills',
-    icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
-      </svg>
-    ),
+    icon: <Puzzle className="w-5 h-5" strokeWidth={1.5} />,
   },
   {
     id: 'reports',
     label: 'Reports',
-    icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-      </svg>
-    ),
+    icon: <FileBarChart className="w-5 h-5" strokeWidth={1.5} />,
   },
   {
     id: 'kanban',
     label: 'Kanban',
-    icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-      </svg>
-    ),
+    icon: <ClipboardList className="w-5 h-5" strokeWidth={1.5} />,
   },
   {
     id: 'settings',
     label: 'Settings',
-    icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-      </svg>
-    ),
+    icon: <Settings className="w-5 h-5" strokeWidth={1.5} />,
   },
 ];
 
@@ -440,9 +408,7 @@ function SessionsPage() {
           whileTap={{ scale: 0.95 }}
           className="btn-primary text-sm !px-4 !py-2"
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
+          <Plus className="w-4 h-4" strokeWidth={2} />
           New Session
         </motion.button>
       </div>
@@ -587,9 +553,7 @@ function SkillsPage() {
           disabled={syncing}
           className="btn-primary text-sm !px-4 !py-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <svg className={`w-4 h-4 ${syncing ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-          </svg>
+          <RefreshCw className={`w-4 h-4 ${syncing ? 'animate-spin' : ''}`} strokeWidth={2} />
           {syncing ? 'Syncing...' : 'Sync All'}
         </motion.button>
       </div>
@@ -699,11 +663,7 @@ function ReportsPage() {
     if (status === 'generating') {
       return <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse" />;
     }
-    return (
-      <svg className="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-      </svg>
-    );
+    return <Check className="w-3.5 h-3.5 text-emerald-400" strokeWidth={2} />;
   };
 
   return (
@@ -718,9 +678,7 @@ function ReportsPage() {
           whileTap={{ scale: 0.95 }}
           className="btn-primary text-sm !px-4 !py-2"
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
+          <Plus className="w-4 h-4" strokeWidth={2} />
           Generate Report
         </motion.button>
       </div>
@@ -767,12 +725,10 @@ function ReportsPage() {
                       {report.status}
                     </span>
                   </div>
-                  <svg
+                  <ChevronDown
                     className={`w-4 h-4 text-moyin-text-muted transition-transform duration-200 ${expandedReport === report.id ? 'rotate-180' : ''}`}
-                    fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
+                    strokeWidth={2}
+                  />
                 </div>
               </div>
             </button>
@@ -843,9 +799,7 @@ function KanbanPage() {
           whileTap={{ scale: 0.95 }}
           className="btn-primary text-sm !px-4 !py-2"
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
+          <Plus className="w-4 h-4" strokeWidth={2} />
           Add Task
         </motion.button>
       </div>
@@ -1072,13 +1026,11 @@ export default function MoyinDevDashboardDemoPage() {
                 onClick={() => setSidebarOpen(!sidebarOpen)}
                 className="lg:hidden p-2 rounded-xl border border-white/10 hover:border-moyin-pink/30 transition-colors text-moyin-text-secondary hover:text-moyin-pink"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  {sidebarOpen ? (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  ) : (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                  )}
-                </svg>
+                {sidebarOpen ? (
+                  <X className="w-5 h-5" strokeWidth={2} />
+                ) : (
+                  <Menu className="w-5 h-5" strokeWidth={2} />
+                )}
               </button>
 
               <div>
@@ -1143,9 +1095,7 @@ export default function MoyinDevDashboardDemoPage() {
               <div className="flex items-center justify-between mb-4 lg:hidden">
                 <span className="text-xs font-bold text-moyin-text-hint uppercase tracking-widest">Navigation</span>
                 <button onClick={() => setSidebarOpen(false)} className="p-1 text-moyin-text-muted hover:text-moyin-pink transition-colors">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
+                  <X className="w-4 h-4" strokeWidth={2} />
                 </button>
               </div>
 

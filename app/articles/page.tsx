@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocale } from '@/lib/locale-context';
+import { Menu, ChevronRight } from 'lucide-react';
 import {
   articles,
   categories,
@@ -62,19 +63,7 @@ export default function ArticlesPage() {
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className="lg:hidden flex items-center gap-2 px-4 py-3 glass-card text-sm font-medium text-gray-300 hover:text-white transition-colors"
         >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
+          <Menu className="w-5 h-5" strokeWidth={2} />
           {activeCategoryData
             ? `${activeCategoryData.icon} ${activeCategoryData.label[locale]}`
             : t.articles.allCategories}
@@ -222,19 +211,7 @@ export default function ArticlesPage() {
                         <div className="flex-shrink-0 mt-1">
                           <span className="inline-flex items-center gap-1 text-xs font-medium text-moyin-purple group-hover:text-moyin-pink-light transition-colors">
                             {t.articles.readArticle}
-                            <svg
-                              className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M9 5l7 7-7 7"
-                              />
-                            </svg>
+                            <ChevronRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" strokeWidth={2} />
                           </span>
                         </div>
                       </div>

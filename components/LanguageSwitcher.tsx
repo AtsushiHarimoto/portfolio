@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
 import { useLocale } from '@/lib/locale-context';
 import { locales } from '@/lib/i18n';
 
@@ -34,19 +35,10 @@ export default function LanguageSwitcher() {
         <span className="text-[10px] font-bold text-moyin-pink">
           {currentLocale?.flag}
         </span>
-        <svg
+        <ChevronDown
           className={`w-3 h-3 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
+          strokeWidth={2}
+        />
       </button>
 
       <AnimatePresence>

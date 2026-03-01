@@ -3,6 +3,7 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import { ChevronLeft } from 'lucide-react';
 
 function BackLinkInner() {
   const searchParams = useSearchParams();
@@ -13,9 +14,7 @@ function BackLinkInner() {
       href={fromHome ? '/' : '/projects/'}
       className="inline-flex items-center gap-2 text-sm text-moyin-text-secondary hover:text-moyin-pink transition-colors mb-6"
     >
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-      </svg>
+      <ChevronLeft className="w-4 h-4" strokeWidth={2} />
       {fromHome ? 'Back to Home' : 'Back to Projects'}
     </Link>
   );
@@ -29,9 +28,7 @@ export default function BackLink() {
           href="/projects/"
           className="inline-flex items-center gap-2 text-sm text-moyin-text-secondary hover:text-moyin-pink transition-colors mb-6"
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
+          <ChevronLeft className="w-4 h-4" strokeWidth={2} />
           Back to Projects
         </Link>
       }

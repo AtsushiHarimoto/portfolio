@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { useLocale } from '@/lib/locale-context';
 import { MouseEvent } from 'react';
+import { ArrowRight } from 'lucide-react';
 
 const techBadges = ['Vue 3', 'TypeScript', 'Python', 'React', 'FastAPI', 'LLM/AI'];
 
@@ -230,9 +231,7 @@ export default function HomePage() {
                         <p className="text-moyin-text-secondary text-sm leading-relaxed flex-grow">{item.description}</p>
                         <span className="inline-flex items-center gap-1.5 text-sm font-medium text-moyin-pink-light group-hover:text-moyin-pink transition-colors duration-300 mt-4">
                           {t.home.viewDemo}
-                          <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                          </svg>
+                          <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" strokeWidth={2} />
                         </span>
                       </div>
                     </div>
@@ -263,9 +262,7 @@ export default function HomePage() {
             <div className="flex justify-center mt-4">
               <Link href="/projects/" className="flex h-14 px-10 items-center justify-center rounded-lg bg-gradient-to-r from-moyin-pink to-[#ffa6c0] hover:to-moyin-pink text-[#1a1625] text-lg font-bold transition-all shadow-[0_0_30px_rgba(255,194,212,0.3)] hover:shadow-[0_0_40px_rgba(255,194,212,0.5)] hover:scale-105">
                 {t.hero.ctaProjects}
-                <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
+                <ArrowRight className="w-5 h-5 ml-2" strokeWidth={2} />
               </Link>
             </div>
           </div>
