@@ -6,6 +6,7 @@ export type Project = {
   description: Record<Locale, string>;
   tech: string[];
   github: string;
+  demo?: string;
   highlights: Record<Locale, string[]>;
   color: string;
   icon: string;
@@ -54,6 +55,7 @@ export const projects: Project[] = [
     },
     tech: ['Python', 'FastAPI', 'LLM', 'OpenAI', 'Anthropic'],
     github: 'https://github.com/AtsushiHarimoto/moyin-gateway',
+    demo: '/projects/moyin-gateway-demo/',
     highlights: {
       en: [
         'Unified API for multiple LLM providers',
@@ -147,6 +149,7 @@ export const projects: Project[] = [
     },
     tech: ['React', 'Express', 'Node.js', 'TypeScript'],
     github: 'https://github.com/AtsushiHarimoto/moyin-dev-dashboard',
+    demo: '/projects/moyin-dev-dashboard-demo/',
     highlights: {
       en: [
         'Unified project management interface',
@@ -178,6 +181,7 @@ export const projects: Project[] = [
     },
     tech: ['Vue 3', 'TypeScript', 'Pinia', 'Vite', 'AI/LLM'],
     github: 'https://github.com/AtsushiHarimoto/moyin-game',
+    demo: '/projects/moyin-game-demo/',
     highlights: {
       en: [
         'AI-driven dynamic narrative generation',

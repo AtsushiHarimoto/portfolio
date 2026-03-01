@@ -45,9 +45,9 @@ function TiltCard({ children, className }: { children: React.ReactNode, classNam
 }
 
 const demoLinks = [
-  { key: 0, href: '/projects/moyin-gateway-demo/', emoji: '\u{1F310}' },
-  { key: 1, href: '/projects/moyin-dev-dashboard-demo/', emoji: '\u{1F6E0}\u{FE0F}' },
-  { key: 2, href: '/projects/moyin-game-demo/', emoji: '\u{1F3AE}' },
+  { key: 0, href: '/projects/moyin-gateway-demo/?from=home', emoji: '\u{1F310}' },
+  { key: 1, href: '/projects/moyin-dev-dashboard-demo/?from=home', emoji: '\u{1F6E0}\u{FE0F}' },
+  { key: 2, href: '/projects/moyin-game-demo/?from=home', emoji: '\u{1F3AE}' },
 ];
 
 export default function HomePage() {

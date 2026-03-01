@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import BackLink from '@/components/BackLink';
 
 // ---------------------------------------------------------------------------
 // Mock Data
@@ -189,15 +190,7 @@ export default function MoyinGatewayDemoPage() {
         transition={{ duration: 0.5 }}
         className="mb-8"
       >
-        <Link
-          href="/projects/"
-          className="inline-flex items-center gap-2 text-sm text-moyin-text-secondary hover:text-moyin-pink transition-colors mb-6"
-        >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-          Back to Projects
-        </Link>
+        <BackLink />
 
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>

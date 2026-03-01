@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useLocale } from '@/lib/locale-context';
 import type { Project } from '@/lib/projects';
@@ -51,15 +52,8 @@ type Props = {
 export default function ProjectCard({ project, index }: Props) {
   const { locale, t } = useLocale();
 
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      whileHover={{ y: -6 }}
-      className="glass-card p-6 group cursor-default flex flex-col"
-    >
+  const cardContent = (
+    <>
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div
@@ -74,8 +68,9 @@ export default function ProjectCard({ project, index }: Props) {
           href={project.github}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-gray-500 hover:text-moyin-pink transition-colors duration-200"
+          className="text-gray-500 hover:text-moyin-pink transition-colors duration-200 z-10 relative"
           aria-label={`${project.name} on GitHub`}
+          onClick={(e) => e.stopPropagation()}
         >
           <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
             <path
@@ -118,6 +113,32 @@ export default function ProjectCard({ project, index }: Props) {
           </span>
         ))}
       </div>
+    </>
+  );
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      whileHover={{ y: -6 }}
+      className="group"
+    >
+      {project.demo ? (
+        <Link href={project.demo} className="glass-card p-6 flex flex-col h-full cursor-pointer block">
+          {cardContent}
+        </Link>
+      ) : (
+        <a
+          href={project.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="glass-card p-6 flex flex-col h-full cursor-pointer block"
+        >
+          {cardContent}
+        </a>
+      )}
     </motion.div>
   );
 }
