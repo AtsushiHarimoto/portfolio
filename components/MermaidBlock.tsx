@@ -22,11 +22,23 @@ export default function MermaidBlock({ code }: { code: string }) {
             theme: 'dark',
             themeVariables: {
               primaryColor: '#2d2540',
-              primaryTextColor: '#e8e0f0',
+              primaryTextColor: '#f0e8ff',
               primaryBorderColor: '#6c5ce7',
               lineColor: '#ffc0d3',
-              secondaryColor: '#1a1625',
-              tertiaryColor: '#230f15',
+              secondaryColor: '#1e1833',
+              secondaryTextColor: '#f0e8ff',
+              secondaryBorderColor: '#8b7ec8',
+              tertiaryColor: '#2a1520',
+              tertiaryTextColor: '#f0e8ff',
+              tertiaryBorderColor: '#c77d9a',
+              nodeTextColor: '#f0e8ff',
+              mainBkg: '#2d2540',
+              nodeBorder: '#6c5ce7',
+              clusterBkg: '#16112a',
+              clusterBorder: '#6c5ce7',
+              titleColor: '#f0e8ff',
+              edgeLabelBackground: '#1a1625',
+              textColor: '#f0e8ff',
               fontSize: '14px',
             },
             flowchart: { curve: 'basis' },
@@ -72,7 +84,7 @@ export default function MermaidBlock({ code }: { code: string }) {
     <div className="my-6 overflow-x-auto">
       <div
         ref={containerRef}
-        className="bg-moyin-dark/50 rounded-xl p-4 border border-white/5 flex justify-center [&_svg]:max-w-full"
+        className="bg-moyin-dark/50 rounded-xl p-4 border border-white/5 flex justify-center [&_svg]:max-w-full [&_text]:!fill-[#f0e8ff] [&_.nodeLabel]:!text-[#f0e8ff] [&_.label]:!text-[#f0e8ff] [&_.edgeLabel]:!text-[#f0e8ff] [&_.cluster-label]:!text-[#f0e8ff]"
         dangerouslySetInnerHTML={{ __html: svg }}
       />
     </div>
