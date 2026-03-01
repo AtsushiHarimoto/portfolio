@@ -54,6 +54,7 @@ export default function FloatingMiniNav() {
         onClick={() => setOpen(!open)}
         aria-label={(t.nav as Record<string, string>).menu ?? 'Navigation menu'}
         aria-expanded={open}
+        aria-controls="floating-nav-menu"
         className="w-14 h-14 rounded-full bg-[#1a1625]/90 border border-moyin-pink/30 backdrop-blur-md
                    flex items-center justify-center text-moyin-pink shadow-lg
                    hover:bg-moyin-pink/20 hover:border-moyin-pink/50 transition-colors"
@@ -66,7 +67,7 @@ export default function FloatingMiniNav() {
       {/* Nav items in arc */}
       <AnimatePresence>
         {open && (
-          <>
+          <div id="floating-nav-menu" role="menu">
             {NAV_ITEMS.map((item, i) => {
               const angle = -(Math.PI / 2) + (Math.PI / 2 / (NAV_ITEMS.length - 1)) * i;
               const radius = 80;
@@ -110,7 +111,7 @@ export default function FloatingMiniNav() {
             >
               <LanguageSwitcher />
             </motion.div>
-          </>
+          </div>
         )}
       </AnimatePresence>
     </div>

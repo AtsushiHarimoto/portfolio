@@ -169,6 +169,7 @@ export default function HomePage() {
                     title={t.home.featuredTitle}
                     loading="lazy"
                     sandbox="allow-scripts allow-same-origin allow-presentation"
+                    referrerPolicy="strict-origin-when-cross-origin"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   />

@@ -205,10 +205,11 @@ export default function WaterRippleHero() {
     rafRef.current = requestAnimationFrame(animate);
 
     function onResize() {
+      if (!container) return;
       const currentDpr = Math.min(window.devicePixelRatio, 2);
       renderer.setPixelRatio(currentDpr);
-      const w = container!.clientWidth;
-      const h = container!.clientHeight;
+      const w = container.clientWidth;
+      const h = container.clientHeight;
       renderer.setSize(w, h);
       uniforms.uResolution.value.set(w * currentDpr, h * currentDpr);
     }
