@@ -3,6 +3,8 @@ import localFont from 'next/font/local';
 import './globals.css';
 import ClientLayout from './client-layout';
 
+const basePath = process.env.NODE_ENV === 'production' ? '/portfolio' : '';
+
 const openhuninn = localFont({
   src: '../public/jf-openhuninn-2.1.ttf',
   display: 'swap',
@@ -57,7 +59,7 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL('https://atsushiharimoto.github.io/portfolio'),
   icons: {
-    icon: { url: '/portfolio/favicon.svg', type: 'image/svg+xml' },
+    icon: { url: `${basePath}/favicon.svg`, type: 'image/svg+xml' },
   },
 };
 
