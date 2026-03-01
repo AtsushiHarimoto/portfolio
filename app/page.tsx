@@ -1,49 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import { motion, useMotionValue, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useLocale } from '@/lib/locale-context';
-import { MouseEvent } from 'react';
 import { ArrowRight, Server, LayoutDashboard, Gamepad2 } from 'lucide-react';
+import dynamic from 'next/dynamic';
+
+const WaterRippleHero = dynamic(() => import('@/components/webgl/WaterRippleHero'), { ssr: false });
+const ImmersiveNav = dynamic(() => import('@/components/webgl/ImmersiveNav'), { ssr: false });
 
 const techBadges = ['Vue 3', 'TypeScript', 'Python', 'React', 'FastAPI', 'LLM/AI'];
-
-function TiltCard({ children, className }: { children: React.ReactNode, className?: string }) {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  const rotateX = useTransform(y, [-100, 100], [10, -10]);
-  const rotateY = useTransform(x, [-100, 100], [-10, 10]);
-
-  function handleMouseMove(event: MouseEvent<HTMLDivElement>) {
-    const rect = event.currentTarget.getBoundingClientRect();
-    x.set(event.clientX - rect.left - rect.width / 2);
-    y.set(event.clientY - rect.top - rect.height / 2);
-  }
-
-  function handleMouseLeave() {
-    x.set(0);
-    y.set(0);
-  }
-
-  return (
-    <motion.div
-      style={{ perspective: 1000 }}
-      className={className}
-    >
-      <motion.div
-        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        className="w-full h-full relative"
-      >
-        <div style={{ transform: "translateZ(30px)", transformStyle: "preserve-3d" }} className="w-full h-full flex flex-col justify-center">
-            {children}
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-}
 
 const demoLinks = [
   { key: 0, href: '/projects/moyin-gateway-demo/?from=home', icon: <Server className="w-6 h-6" strokeWidth={1.5} /> },
@@ -55,106 +21,127 @@ export default function HomePage() {
   const { t } = useLocale();
   return (
     <>
-      {/* Background Ambient Glow */}
-      <div className="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,192,211,0.15)_0%,transparent_60%)]"></div>
-      
-      {/* Hero Section */}
-      <section className="relative w-full px-4 py-8 md:py-16 flex justify-center z-10 min-h-[calc(100vh-4rem)] items-center mt-6">
-        <div className="relative w-full max-w-7xl overflow-hidden rounded-2xl min-h-[560px] flex flex-col items-center justify-center p-8 text-center border border-moyin-pink/15 shadow-2xl">
-          {/* Hero Background Image with Overlay */}
-          <div className="absolute inset-0 bg-cover bg-center z-0 object-cover" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCw77EHXnzc0jQJaXTYerP8MEVkTRsKHlA7SVpj222BGYhbFRA19XqXvCAEFBioYKkDgwA4VONrj84FBLgLjQKItthq2LnU6Ps2HEvkE0DtIOTBy24o6POFG9YE9r1NUjmRR_PFB2xBJNquzemgJz9uLveb-Ab1Og62PePBs4Fx06zy4QpTehCw_LyZgn8iIYc07t-4uDZCCVtWs9O1RiPUzSqn4i4xUnK0ZaYRgoWq2iXkoad1EFFYoxMn8QaxUFmy1GaO4ufcfXp9")' }}>
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-b from-[#1a1625]/80 via-[#1a1625]/60 to-[#1a1625]/90 z-10"></div>
-          
-          {/* Hero Content */}
-          <div className="relative z-20 flex flex-col gap-6 max-w-3xl items-center">
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-moyin-pink/10 border border-moyin-pink/20 backdrop-blur-sm mb-2"
-            >
-              <span className="w-2 h-2 rounded-full bg-moyin-pink animate-pulse"></span>
-              <span className="text-moyin-pink text-xs font-medium tracking-wider uppercase">{t.hero.greeting}</span>
-            </motion.div>
+      {/* Hero Section — Immersive WebGL */}
+      <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-moyin-dark">
+        {/* Water Ripple Shader Background — z-0 */}
+        <div className="absolute inset-0 z-0">
+          <WaterRippleHero />
+        </div>
 
-            <div className="flex flex-col gap-2 relative">
-              <motion.h1
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="text-white text-5xl md:text-7xl font-serif font-black leading-tight tracking-tight drop-shadow-lg"
-              >
-                {t.hero.name}
-              </motion.h1>
-              <motion.p
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="text-moyin-pink/90 text-xl md:text-2xl font-serif italic tracking-wide mt-2"
-              >
-                {t.hero.title}
-              </motion.p>
-            </div>
-            
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-moyin-text-secondary text-base md:text-lg max-w-xl leading-relaxed"
-            >
-              {t.hero.subtitle}
-            </motion.p>
+        {/* 3D Immersive Navigation Overlay — z-10, objects at top arc */}
+        <ImmersiveNav />
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="flex flex-wrap gap-2.5 justify-center mt-2"
+        {/* Hero Content — z-15, vertically centered above nav cards */}
+        <div className="relative z-[15] flex flex-col gap-6 max-w-3xl items-center text-center pointer-events-none px-4 -mt-24">
+
+          {/* Greeting badge — slide down + scale */}
+          <motion.div
+            initial={{ opacity: 0, y: -30, scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full
+                       bg-moyin-pink/10 border border-moyin-pink/25 backdrop-blur-sm mb-2
+                       shadow-[0_0_20px_rgba(255,192,211,0.15)]"
+          >
+            <motion.span
+              animate={{ scale: [1, 1.4, 1], opacity: [0.7, 1, 0.7] }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              className="w-2 h-2 rounded-full bg-moyin-pink shadow-[0_0_8px_rgba(255,192,211,0.8)]"
+            />
+            <span className="text-moyin-pink text-xs font-medium tracking-[0.2em] uppercase">{t.hero.greeting}</span>
+          </motion.div>
+
+          {/* Name — per-character stagger + glow sweep */}
+          <div className="flex flex-col gap-2 relative">
+            <motion.h1
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.01, delay: 0.5 }}
+              className="text-5xl md:text-7xl font-serif font-black leading-tight tracking-tight
+                         hero-name-glow"
             >
-              {techBadges.map((tech, i) => (
+              {t.hero.name.split('').map((char: string, i: number) => (
                 <motion.span
-                  key={tech}
-                  animate={{ y: [0, -4, 0] }}
+                  key={`${char}-${i}`}
+                  initial={{ opacity: 0, y: 40, filter: 'blur(8px)' }}
+                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                   transition={{
-                    duration: 3 + i * 0.4,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                    delay: i * 0.2,
+                    duration: 0.6,
+                    delay: 0.6 + i * 0.04,
+                    ease: [0.22, 1, 0.36, 1],
                   }}
-                  className="px-4 py-1.5 text-xs font-mono text-moyin-text-secondary border border-white/5 rounded-lg bg-white/5 backdrop-blur-sm"
+                  className="inline-block"
+                  style={{ whiteSpace: char === ' ' ? 'pre' : undefined }}
                 >
-                  {tech}
+                  {char === ' ' ? '\u00A0' : char}
                 </motion.span>
               ))}
-            </motion.div>
+            </motion.h1>
 
+            {/* Decorative line under name */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className="flex flex-wrap gap-4 justify-center mt-4"
+              initial={{ scaleX: 0, opacity: 0 }}
+              animate={{ scaleX: 1, opacity: 1 }}
+              transition={{ duration: 1.2, delay: 1.4, ease: [0.22, 1, 0.36, 1] }}
+              className="mx-auto h-px w-48 bg-gradient-to-r from-transparent via-moyin-pink/60 to-transparent mt-2"
+            />
+
+            {/* Title — slide up with gradient reveal */}
+            <motion.p
+              initial={{ opacity: 0, y: 30, filter: 'blur(6px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 0.8, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
+              className="text-xl md:text-2xl font-serif italic tracking-wide mt-3
+                         bg-gradient-to-r from-moyin-pink via-[#ffaac4] to-moyin-petal bg-clip-text text-transparent
+                         drop-shadow-[0_0_20px_rgba(255,192,211,0.3)]"
             >
-              <Link href="/projects/" className="flex min-w-[140px] h-12 px-8 cursor-pointer items-center justify-center rounded-lg bg-moyin-pink hover:bg-moyin-pink-light text-[#1a1625] text-base font-bold transition-all shadow-[0_0_20px_rgba(255,194,212,0.4)] hover:scale-105">
-                {t.hero.ctaProjects}
-              </Link>
-              <a
-                href="https://github.com/AtsushiHarimoto"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex min-w-[140px] h-12 px-8 cursor-pointer items-center justify-center rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 backdrop-blur-md text-white text-base font-bold transition-all hover:border-moyin-pink/50 group"
-              >
-                <svg className="w-5 h-5 mr-2 group-hover:text-moyin-pink transition-colors text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path
-                    fillRule="evenodd"
-                    d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                GitHub
-              </a>
-            </motion.div>
+              {t.hero.title}
+            </motion.p>
           </div>
+
+          {/* Subtitle — fade in with slight blur */}
+          <motion.p
+            initial={{ opacity: 0, y: 20, filter: 'blur(4px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{ duration: 0.8, delay: 1.6, ease: [0.22, 1, 0.36, 1] }}
+            className="text-moyin-text-secondary text-base md:text-lg max-w-xl leading-relaxed"
+          >
+            {t.hero.subtitle}
+          </motion.p>
+
+          {/* Tech badges — staggered pop-in with float */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.01, delay: 1.8 }}
+            className="flex flex-wrap gap-2.5 justify-center mt-2"
+          >
+            {techBadges.map((tech, i) => (
+              <motion.span
+                key={tech}
+                initial={{ opacity: 0, scale: 0, filter: 'blur(4px)' }}
+                animate={{
+                  opacity: 1,
+                  scale: 1,
+                  filter: 'blur(0px)',
+                  y: [0, -5, 0],
+                }}
+                transition={{
+                  opacity: { duration: 0.5, delay: 2.0 + i * 0.1 },
+                  scale: { duration: 0.5, delay: 2.0 + i * 0.1, type: 'spring', stiffness: 300, damping: 15 },
+                  filter: { duration: 0.5, delay: 2.0 + i * 0.1 },
+                  y: { duration: 3 + i * 0.4, repeat: Infinity, ease: 'easeInOut', delay: 2.5 + i * 0.2 },
+                }}
+                className="px-4 py-1.5 text-xs font-mono text-moyin-text-secondary
+                           border border-moyin-pink/10 rounded-lg bg-white/[0.03] backdrop-blur-sm
+                           shadow-[0_0_12px_rgba(255,192,211,0.06)]
+                           hover:border-moyin-pink/30 hover:bg-moyin-pink/5 hover:text-moyin-pink-light
+                           transition-colors duration-300"
+              >
+                {tech}
+              </motion.span>
+            ))}
+          </motion.div>
         </div>
       </section>
 
@@ -179,7 +166,9 @@ export default function HomePage() {
                   <iframe
                     className="absolute top-0 left-0 w-full h-full"
                     src="https://www.youtube.com/embed/pxvT3Hsj3g8"
-                    title="Early Work"
+                    title={t.home.featuredTitle}
+                    loading="lazy"
+                    sandbox="allow-scripts allow-same-origin allow-presentation"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   />
