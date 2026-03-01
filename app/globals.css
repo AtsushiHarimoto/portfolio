@@ -50,28 +50,21 @@
            active:scale-95;
   }
 
-  /* Hero name: white text with sakura glow sweep */
+  /* Hero name: white text with sakura glow + fade breathing */
   .hero-name-glow {
     color: white;
-    text-shadow: 0 0 40px rgba(255, 192, 211, 0.3), 0 0 80px rgba(167, 139, 250, 0.15);
-    background: linear-gradient(
-      90deg,
-      #ffffff 0%,
-      #ffffff 40%,
-      #ffc0d3 50%,
-      #ffffff 60%,
-      #ffffff 100%
-    );
-    background-size: 200% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: glow-sweep 4s ease-in-out 2s infinite;
+    animation: name-breathe 5s ease-in-out 2.5s infinite;
   }
 
-  @keyframes glow-sweep {
-    0%, 100% { background-position: 100% 0; }
-    50% { background-position: -100% 0; }
+  @keyframes name-breathe {
+    0%, 100% {
+      opacity: 1;
+      text-shadow: 0 0 40px rgba(255, 192, 211, 0.3), 0 0 80px rgba(167, 139, 250, 0.15);
+    }
+    50% {
+      opacity: 0.6;
+      text-shadow: 0 0 60px rgba(255, 192, 211, 0.6), 0 0 120px rgba(167, 139, 250, 0.3), 0 0 20px rgba(255, 192, 211, 0.4);
+    }
   }
 
   .btn-outline {

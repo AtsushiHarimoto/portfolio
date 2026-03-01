@@ -6,7 +6,6 @@ import { useLocale } from '@/lib/locale-context';
 import { ArrowRight, Server, LayoutDashboard, Gamepad2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
-const WaterRippleHero = dynamic(() => import('@/components/webgl/WaterRippleHero'), { ssr: false });
 const ImmersiveNav = dynamic(() => import('@/components/webgl/ImmersiveNav'), { ssr: false });
 
 const techBadges = ['Vue 3', 'TypeScript', 'Python', 'React', 'FastAPI', 'LLM/AI'];
@@ -23,12 +22,7 @@ export default function HomePage() {
   return (
     <>
       {/* Hero Section — Immersive WebGL */}
-      <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-moyin-dark">
-        {/* Water Ripple Shader Background — z-0 */}
-        <div className="absolute inset-0 z-0">
-          <WaterRippleHero />
-        </div>
-
+      <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
         {/* 3D Immersive Navigation Overlay — z-10, objects at top arc */}
         <ImmersiveNav />
 
