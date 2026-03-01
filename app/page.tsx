@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { useLocale } from '@/lib/locale-context';
 import { MouseEvent } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Server, LayoutDashboard, Gamepad2 } from 'lucide-react';
 
 const techBadges = ['Vue 3', 'TypeScript', 'Python', 'React', 'FastAPI', 'LLM/AI'];
 
@@ -46,9 +46,9 @@ function TiltCard({ children, className }: { children: React.ReactNode, classNam
 }
 
 const demoLinks = [
-  { key: 0, href: '/projects/moyin-gateway-demo/?from=home', emoji: '\u{1F310}' },
-  { key: 1, href: '/projects/moyin-dev-dashboard-demo/?from=home', emoji: '\u{1F6E0}\u{FE0F}' },
-  { key: 2, href: '/projects/moyin-game-demo/?from=home', emoji: '\u{1F3AE}' },
+  { key: 0, href: '/projects/moyin-gateway-demo/?from=home', icon: <Server className="w-6 h-6" strokeWidth={1.5} /> },
+  { key: 1, href: '/projects/moyin-dev-dashboard-demo/?from=home', icon: <LayoutDashboard className="w-6 h-6" strokeWidth={1.5} /> },
+  { key: 2, href: '/projects/moyin-game-demo/?from=home', icon: <Gamepad2 className="w-6 h-6" strokeWidth={1.5} /> },
 ];
 
 export default function HomePage() {
@@ -221,10 +221,8 @@ export default function HomePage() {
                 >
                   <Link href={demo.href} className="block h-full">
                     <div className="flex flex-col gap-4 rounded-xl border border-moyin-pink/15 bg-[#230f15]/70 backdrop-blur-md p-6 hover:bg-white/5 transition-all duration-300 hover:-translate-y-1 h-full shadow-lg">
-                      <div className="w-12 h-12 rounded-lg bg-moyin-pink/10 flex items-center justify-center group-hover:bg-moyin-pink transition-colors">
-                        <span className="text-2xl group-hover:scale-110 transition-transform" role="img" aria-label={item.name}>
-                          {demo.emoji}
-                        </span>
+                      <div className="w-12 h-12 rounded-lg bg-moyin-pink/10 flex items-center justify-center group-hover:bg-moyin-pink transition-colors text-moyin-pink-light group-hover:text-[#1a1625]">
+                        {demo.icon}
                       </div>
                       <div className="flex flex-col gap-2 mt-2 h-full">
                         <h3 className="text-white text-lg font-serif font-bold group-hover:text-moyin-pink transition-colors">{item.name}</h3>
