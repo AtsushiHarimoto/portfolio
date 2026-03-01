@@ -2,7 +2,7 @@
 
 import { useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useLocale } from '@/lib/locale-context';
 import gsap from 'gsap';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
@@ -86,7 +86,7 @@ function NavCard({ item, index, onNavigate }: { item: NavItem; index: number; on
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       className={`
-        group relative w-[140px] h-[160px] rounded-2xl cursor-pointer
+        group relative w-[100px] h-[120px] md:w-[140px] md:h-[160px] rounded-2xl cursor-pointer
         border border-white/[0.08] backdrop-blur-xl
         bg-gradient-to-b ${item.gradient}
         transition-shadow duration-500
@@ -136,6 +136,7 @@ function NavCard({ item, index, onNavigate }: { item: NavItem; index: number; on
 export default function ImmersiveNav() {
   const router = useRouter();
   const navItems = useNavItems();
+  const prefersReducedMotion = useReducedMotion();
 
   function handleNavigate(path: string) {
     if (path === '/') {
@@ -149,7 +150,7 @@ export default function ImmersiveNav() {
     <div className="absolute inset-0 z-20 pointer-events-none">
       {/* Navigation cards — bottom center */}
       <div className="absolute bottom-12 left-0 right-0 flex justify-center pointer-events-auto">
-        <nav className="flex gap-4 md:gap-5" aria-label="Main navigation">
+        <nav className="flex gap-2 md:gap-5 flex-wrap justify-center px-4" aria-label="Main navigation">
           {navItems.map((item, i) => (
             <NavCard key={item.key} item={item} index={i} onNavigate={handleNavigate} />
           ))}
@@ -169,8 +170,8 @@ export default function ImmersiveNav() {
         className="absolute bottom-3 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 pointer-events-none"
       >
         <motion.div
-          animate={{ y: [0, 6, 0] }}
-          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+          animate={prefersReducedMotion ? {} : { y: [0, 6, 0] }}
+          transition={prefersReducedMotion ? {} : { duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
           className="w-5 h-8 rounded-full border border-white/20 flex justify-center pt-1.5"
         >
           <div className="w-1 h-2 rounded-full bg-white/40" />

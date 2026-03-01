@@ -79,6 +79,7 @@ export default function FloatingMiniNav() {
               return (
                 <motion.button
                   key={item.key}
+                  role="menuitem"
                   aria-label={getLabel(item.key)}
                   initial={{ opacity: 0, x: 0, y: 0, scale: 0 }}
                   animate={{ opacity: 1, x, y, scale: 1 }}

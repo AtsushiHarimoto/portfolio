@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useLocale } from '@/lib/locale-context';
 import { ArrowRight, Server, LayoutDashboard, Gamepad2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -19,6 +19,7 @@ const demoLinks = [
 
 export default function HomePage() {
   const { t } = useLocale();
+  const prefersReducedMotion = useReducedMotion();
   return (
     <>
       {/* Hero Section — Immersive WebGL */}
@@ -44,8 +45,8 @@ export default function HomePage() {
                        shadow-[0_0_20px_rgba(255,192,211,0.15)]"
           >
             <motion.span
-              animate={{ scale: [1, 1.4, 1], opacity: [0.7, 1, 0.7] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              animate={prefersReducedMotion ? { scale: 1, opacity: 1 } : { scale: [1, 1.4, 1], opacity: [0.7, 1, 0.7] }}
+              transition={prefersReducedMotion ? {} : { duration: 2, repeat: Infinity, ease: 'easeInOut' }}
               className="w-2 h-2 rounded-full bg-moyin-pink shadow-[0_0_8px_rgba(255,192,211,0.8)]"
             />
             <span className="text-moyin-pink text-xs font-medium tracking-[0.2em] uppercase">{t.hero.greeting}</span>
@@ -124,13 +125,13 @@ export default function HomePage() {
                   opacity: 1,
                   scale: 1,
                   filter: 'blur(0px)',
-                  y: [0, -5, 0],
+                  ...(prefersReducedMotion ? {} : { y: [0, -5, 0] }),
                 }}
                 transition={{
                   opacity: { duration: 0.5, delay: 2.0 + i * 0.1 },
                   scale: { duration: 0.5, delay: 2.0 + i * 0.1, type: 'spring', stiffness: 300, damping: 15 },
                   filter: { duration: 0.5, delay: 2.0 + i * 0.1 },
-                  y: { duration: 3 + i * 0.4, repeat: Infinity, ease: 'easeInOut', delay: 2.5 + i * 0.2 },
+                  y: prefersReducedMotion ? {} : { duration: 3 + i * 0.4, repeat: Infinity, ease: 'easeInOut', delay: 2.5 + i * 0.2 },
                 }}
                 className="px-4 py-1.5 text-xs font-mono text-moyin-text-secondary
                            border border-moyin-pink/10 rounded-lg bg-white/[0.03] backdrop-blur-sm
