@@ -6,6 +6,8 @@ import { useLocale } from '@/lib/locale-context';
 import { ArrowRight, Server, LayoutDashboard, Gamepad2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
+const basePath = process.env.NODE_ENV === 'production' ? '/portfolio' : '';
+
 const ImmersiveNav = dynamic(() => import('@/components/webgl/ImmersiveNav'), { ssr: false });
 const FloatingSkillBubbles = dynamic(() => import('@/components/webgl/FloatingSkillBubbles'), { ssr: false });
 
@@ -29,7 +31,7 @@ export default function HomePage() {
         <ImmersiveNav />
 
         {/* Hero Content — z-15, vertically centered above nav cards */}
-        <div className="relative z-[15] flex flex-col gap-6 max-w-3xl items-center text-center pointer-events-none px-4 -mt-24">
+        <div className="relative z-hero-content flex flex-col gap-6 max-w-3xl items-center text-center pointer-events-none px-4 -mt-24">
 
           {/* Greeting badge — slide down + scale */}
           <motion.div
@@ -110,7 +112,7 @@ export default function HomePage() {
       </section>
 
       {/* Featured Work — YouTube Section */}
-      <section className="relative w-full px-4 py-16 flex justify-center z-10">
+      <section className="relative w-full px-4 py-16 flex justify-center z-section">
         <div className="relative w-full max-w-7xl flex flex-col items-center">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -145,7 +147,7 @@ export default function HomePage() {
       </section>
 
       {/* Live Demos Section */}
-      <section className="relative w-full px-4 pt-8 pb-16 flex justify-center z-10">
+      <section className="relative w-full px-4 pt-8 pb-16 flex justify-center z-section">
         <div className="relative w-full max-w-7xl flex flex-col items-center">
           <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -196,10 +198,10 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section (Stitch Style adapted) */}
-      <section className="relative w-full px-4 py-8 pb-20 flex justify-center z-10">
+      <section className="relative w-full px-4 py-8 pb-20 flex justify-center z-section">
         <div className="relative w-full max-w-5xl overflow-hidden rounded-2xl flex flex-col items-center justify-center px-4 py-20 text-center border border-moyin-pink/15">
           {/* Background Image with Overlay */}
-          <div className="absolute inset-0 bg-cover bg-center z-0 opacity-40" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuBkwudz23_nGqPm7L5q49kBEVk0yWa_tTcXQEaebv9IUYtiv1_q_yI3kwy5wN9gRDhzZcje-PjAuvQrRdLvp43EMoprD5aiwxUZvGXznBmUH23E9wV82DB4AdI3GIxVDwj0j_P8MSmF32V6g3yaXPB23a6DTlVbKOVh0X2e7JanOaFwkpSnPp86zO-aCGHtyHb0UeKIUSyLtq6_BdkkCBDb18TDzBZc3ygPkJtA3d0k__IbaQ4eOQDEWjy1xDcbcux2p1YEQkN4UDFC")' }}>
+          <div className="absolute inset-0 bg-cover bg-center z-0 opacity-40" style={{ backgroundImage: `url("${basePath}/images/cta-bg.jpg")` }}>
           </div>
           {/* Gradient Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-[#1a1625] via-[#1a1625]/80 to-transparent z-10"></div>

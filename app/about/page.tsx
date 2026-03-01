@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useLocale } from '@/lib/locale-context';
+import { Github, Mail } from 'lucide-react';
 
 type SkillCategoryKey = 'frontend' | 'backend' | 'mobile' | 'aiMl' | 'devopsTools';
 
@@ -54,8 +55,24 @@ export default function AboutPage() {
         </p>
       </motion.div>
 
+      {/* Name Card */}
+      <motion.div {...fadeInUp} transition={{ duration: 0.5 }} className="mb-12">
+        <h2 className="text-2xl font-semibold text-moyin-text-primary mb-6 flex items-center gap-3">
+          <span className="w-8 h-0.5 bg-gradient-to-r from-moyin-pink to-transparent rounded-full" />
+          {t.about.names.title}
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {t.about.names.items.map((item, i) => (
+            <div key={i} className="glass-card p-5">
+              <p className="text-moyin-text-primary font-semibold text-lg mb-1">{item.name}</p>
+              <p className="text-sm text-moyin-text-hint">{item.description}</p>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-        {/* Left Column - Intro, Experience, Highlights */}
+        {/* Left Column - Intro, Experience, Highlights, How I Work, Philosophy */}
         <div className="lg:col-span-2 space-y-12">
           {/* Background */}
           <motion.div {...fadeInUp} transition={{ duration: 0.5 }}>
@@ -121,6 +138,22 @@ export default function AboutPage() {
             </div>
           </motion.div>
 
+          {/* How I Work */}
+          <motion.div {...fadeInUp} transition={{ duration: 0.5, delay: 0.22 }}>
+            <h2 className="text-2xl font-semibold text-moyin-text-primary mb-6 flex items-center gap-3">
+              <span className="w-8 h-0.5 bg-gradient-to-r from-moyin-pink to-transparent rounded-full" />
+              {t.about.howIWork.title}
+            </h2>
+            <div className="space-y-4">
+              {t.about.howIWork.items.map((item, i) => (
+                <div key={i} className="glass-card p-5">
+                  <h3 className="text-base font-medium text-moyin-pink-light mb-2">{item.heading}</h3>
+                  <p className="text-sm text-moyin-text-secondary leading-relaxed">{item.description}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
           {/* Philosophy */}
           <motion.div {...fadeInUp} transition={{ duration: 0.5, delay: 0.25 }}>
             <blockquote className="glass-card p-6 border-l-2 border-moyin-pink/50">
@@ -143,6 +176,32 @@ export default function AboutPage() {
                   <p className="text-xs text-moyin-text-muted">{lang.level}</p>
                 </div>
               ))}
+            </div>
+          </motion.div>
+
+          {/* Contact */}
+          <motion.div {...fadeInUp} transition={{ duration: 0.5, delay: 0.35 }}>
+            <h2 className="text-2xl font-semibold text-moyin-text-primary mb-6 flex items-center gap-3">
+              <span className="w-8 h-0.5 bg-gradient-to-r from-moyin-pink to-transparent rounded-full" />
+              {t.about.contact.title}
+            </h2>
+            <div className="flex flex-wrap gap-4">
+              <a
+                href="https://github.com/AtsushiHarimoto"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="glass-card px-6 py-4 flex items-center gap-3 hover:border-moyin-pink/30 transition-colors"
+              >
+                <Github className="w-5 h-5 text-moyin-pink" strokeWidth={1.5} />
+                <span className="text-moyin-text-primary font-medium">{t.about.contact.github}</span>
+              </a>
+              <a
+                href="mailto:akiracheung.atsushiharimoto@gmail.com"
+                className="glass-card px-6 py-4 flex items-center gap-3 hover:border-moyin-pink/30 transition-colors"
+              >
+                <Mail className="w-5 h-5 text-moyin-pink" strokeWidth={1.5} />
+                <span className="text-moyin-text-primary font-medium">{t.about.contact.email}</span>
+              </a>
             </div>
           </motion.div>
         </div>

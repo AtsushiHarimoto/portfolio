@@ -58,7 +58,20 @@ type TranslationKeys = {
     experienceItems: { period: string; role: string; description: string }[];
     highlightsTitle: string;
     highlights: string[];
+    howIWork: {
+      title: string;
+      items: { heading: string; description: string }[];
+    };
     philosophy: string;
+    contact: {
+      title: string;
+      github: string;
+      email: string;
+    };
+    names: {
+      title: string;
+      items: { name: string; description: string }[];
+    };
     languagesTitle: string;
     languages: { name: string; level: string }[];
   };
@@ -216,7 +229,7 @@ const translations: Record<Locale, TranslationKeys> = {
       name: 'Atsushi Harimoto',
       title: 'Full-Stack Developer & AI Engineer',
       subtitle:
-        'Building creative software at the intersection of web technology and artificial intelligence. Passionate about developer tools, language processing, and interactive media.',
+        '15 years shipping products across IoT, aviation, fintech, and enterprise AI — now designing human-AI collaborative workflows where developers architect and AI implements, in Tokyo.',
       cta: 'Get in Touch',
       ctaProjects: 'View Projects',
     },
@@ -420,12 +433,33 @@ const translations: Record<Locale, TranslationKeys> = {
       ],
       highlightsTitle: 'Key Achievements',
       highlights: [
-        'RAG knowledge base: processed ~3,000 docs with hybrid search (BM25 + vector), improving top-5 search accuracy from 65% to 85%',
-        'AI coding process: introduced team-wide AI-assisted workflows, improving PR first-review pass rate by ~20 points',
-        'FinTech optimization: parallel request tuning reduced initial load time by 20%',
-        'Aviation monitoring: data sync optimization cut communication latency by 50%',
+        'Built a RAG knowledge base integrating 3,000+ internal technical documents, adopted by 4 product teams for daily reference',
+        'Introduced AI-assisted coding workflows for a 5-person team, reducing average code review turnaround from 2 days to same-day',
+        'Designed an iOS/JS bridge framework used across 3 enterprise mobile products over 7 years',
+        'Led architecture for a real-time helicopter operations monitoring system serving aviation ground staff',
       ],
+      howIWork: {
+        title: 'How I Work',
+        items: [
+          { heading: 'Human-AI Symbiosis', description: 'The developer becomes a product manager and architecture engine — defining specs and setting the vibe. AI agents handle the actual coding and debugging. This is Vibecoding.' },
+          { heading: 'Doc-First + Lifecycle Guard', description: 'Every task follows DOC CHECK → PLAN → APPROVAL → ACTION → VERIFY → POST DOC CHECK. No code is touched without approval, and every delivery carries a traceable evidence chain.' },
+          { heading: 'Test = Delivery Contract', description: 'Test scripts are the "procurement contract," and source code is the "fulfillment delivery." Tests define acceptance boundaries first; only when all lights are green can code be merged.' },
+          { heading: 'Claude Reflect — Rule Sediment', description: 'Daily corrections are automatically distilled into versioned rules (like ESLint), written into CLAUDE.md for enforcement. Turning "verbal warnings" into "written project memory."' },
+        ],
+      },
       philosophy: '"Learn new technologies, embed them in the team, and transform them into product value."',
+      contact: {
+        title: 'Contact',
+        github: 'GitHub',
+        email: 'Email',
+      },
+      names: {
+        title: 'About the Name',
+        items: [
+          { name: 'Atsushi Harimoto', description: 'Online handle / creative alias' },
+          { name: 'Akira Cheung', description: 'Formal business name' },
+        ],
+      },
       languagesTitle: 'Languages',
       languages: [
         { name: 'Chinese (Mandarin & Cantonese)', level: 'Native' },
@@ -448,8 +482,8 @@ const translations: Record<Locale, TranslationKeys> = {
             'Leading a 5-person development team on an enterprise DX initiative. Spearheading RAG knowledge base construction, AI-assisted coding workflow adoption, and CI/CD infrastructure design.',
           tech: ['TypeScript', 'React', 'Python', 'FastAPI', 'LangChain', 'OpenAI API', 'Docker', 'GitHub Actions'],
           achievements: [
-            'Built RAG knowledge base for ~3,000 technical documents — hybrid search (BM25 + vector) improved top-5 search accuracy from 65% to 85%',
-            'Introduced AI-assisted coding workflows — PR first-review pass rate improved by ~20 points',
+            'Built RAG knowledge base integrating 3,000+ internal documents, adopted by 4 product teams for daily reference',
+            'Introduced AI-assisted coding workflows for a 5-person team, reducing code review turnaround from 2 days to same-day',
             'Designed CI/CD pipelines and automated testing infrastructure (Jest + E2E)',
           ],
         },
@@ -461,7 +495,7 @@ const translations: Record<Locale, TranslationKeys> = {
             'Developed a fraud detection system for financial institutions. Led mobile application (iOS/Android) and API development with focus on performance optimization and security.',
           tech: ['JavaScript', 'Java', 'Swift', 'Kotlin', 'Objective-C', 'REST API'],
           achievements: [
-            'Optimized parallel requests — reduced initial load time from 1.0s to 0.8s (20% improvement)',
+            'Tuned parallel API requests, reducing initial screen load from 1.0s to 0.8s',
             'Implemented reactive data monitoring across Web + Hybrid + Native stack',
             'Adopted agile development with optimized sprint release cycles',
           ],
@@ -474,9 +508,9 @@ const translations: Record<Locale, TranslationKeys> = {
             'Built a real-time helicopter operations monitoring system as tech lead. Managed architecture design, team mentoring, and development process optimization.',
           tech: ['JavaScript', 'TypeScript', 'Java', 'Swift', 'Kotlin', 'Map API', 'CI/CD'],
           achievements: [
-            'Optimized data synchronization — cut communication latency from 400ms to 200ms (50% reduction)',
+            'Optimized data synchronization, cutting communication latency from 400ms to 200ms',
             'Visualized fuel consumption and maintenance status via IoT device integration',
-            'Standardized development process and code review — doubled release speed',
+            'Standardized development process and introduced code review practices',
           ],
         },
         {
@@ -533,7 +567,7 @@ const translations: Record<Locale, TranslationKeys> = {
       name: 'Atsushi Harimoto',
       title: 'フルスタック開発者 & AIエンジニア',
       subtitle:
-        'Web技術と人工知能の交差点で、創造的なソフトウェアを構築しています。開発者ツール、言語処理、インタラクティブメディアに情熱を持っています。',
+        'IoT・航空・金融・企業AIと15年にわたりプロダクトを出荷。現在は東京で、開発者が設計しAIが実装する——人間とAIの協働ワークフローを構築しています。',
       cta: 'お問い合わせ',
       ctaProjects: 'プロジェクトを見る',
     },
@@ -737,12 +771,33 @@ const translations: Record<Locale, TranslationKeys> = {
       ],
       highlightsTitle: '主な成果',
       highlights: [
-        'RAGナレッジベース：約3,000件の文書をBM25＋ベクター検索のハイブリッドで処理、検索精度を65%→85%に改善（Top-5）',
-        'AIコーディングプロセス：チーム全体にAI支援ワークフローを導入、PR初回レビュー通過率を約20ポイント向上',
-        '金融最適化：並列リクエスト最適化により初回ロード時間を20%短縮',
-        '航空監視：データ同期最適化で通信遅延を50%削減',
+        'RAGナレッジベース：社内技術文書3,000件超を統合、4つのプロダクトチームが日常的に活用',
+        'AIコーディングプロセス：5名チームに導入、コードレビュー所要時間を平均2日から当日完了に短縮',
+        'iOS/JS通信フレームワーク：7年間にわたり3つの企業モバイルプロダクトで採用',
+        '航空地上スタッフ向けヘリコプター運航リアルタイム監視システムのアーキテクチャ設計を主導',
       ],
+      howIWork: {
+        title: '私の働き方',
+        items: [
+          { heading: 'Human-AI 共生', description: '開発者はプロダクトマネージャーかつアーキテクチャエンジンに転身し、仕様定義と Vibe の醸成を担当。AIエージェントが実装とデバッグを遂行する——これが Vibecoding です。' },
+          { heading: 'Doc-First + ライフサイクルガード', description: 'すべてのタスクは DOC CHECK → PLAN → APPROVAL → ACTION → VERIFY → POST DOC CHECK のフローに従います。承認なしにコードに触れず、すべての成果物にトレーサブルな証拠チェーンを付与します。' },
+          { heading: 'テスト＝納品契約', description: 'テストスクリプトを「発注契約」、ソースコードを「履行納品」と位置づけます。テストが先に受入境界を定義し、全テスト緑灯のみマージ可能です。' },
+          { heading: 'Claude Reflect — ルール沈殿', description: '日々の修正指摘を自動的にバージョン管理されたルール（ESLintのような）に蒸留し、CLAUDE.mdに書き込んで強制適用。「口頭注意」を「プロジェクトの文書化された記憶」に変換します。' },
+        ],
+      },
       philosophy: '「新しい技術を学び、チームに浸透させ、プロダクトの価値に変える」',
+      contact: {
+        title: 'お問い合わせ',
+        github: 'GitHub',
+        email: 'メール',
+      },
+      names: {
+        title: '名前について',
+        items: [
+          { name: 'Atsushi Harimoto', description: 'ネット上のハンドルネーム / クリエイティブ名義' },
+          { name: 'Akira Cheung', description: '正式なビジネス名' },
+        ],
+      },
       languagesTitle: '言語',
       languages: [
         { name: '中国語（普通話 + 広東語）', level: 'ネイティブ' },
@@ -765,8 +820,8 @@ const translations: Record<Locale, TranslationKeys> = {
             '5名の開発チームを統括。RAGナレッジベース構築、AIコーディングプロセス導入、CI/CD・自動テスト基盤の設計・構築を主導。',
           tech: ['TypeScript', 'React', 'Python', 'FastAPI', 'LangChain', 'OpenAI API', 'Docker', 'GitHub Actions'],
           achievements: [
-            'RAGナレッジベース：約3,000件の文書、ハイブリッド検索で検索精度を65%→85%に改善（Top-5）',
-            'AIコーディングプロセス：PR初回レビュー通過率を約20ポイント向上',
+            'RAGナレッジベース：社内技術文書3,000件超を統合、4つのプロダクトチームが日常的に活用',
+            'AIコーディングプロセス：5名チームに導入、コードレビュー所要時間を平均2日→当日完了に短縮',
             'CI/CD・自動テスト基盤（Jest + E2E）の設計・構築',
           ],
         },
@@ -778,7 +833,7 @@ const translations: Record<Locale, TranslationKeys> = {
             '金融機関向け不正検知システムの開発。モバイルアプリ（iOS/Android）およびAPI設計を担当。パフォーマンス最適化とセキュリティ強化に注力。',
           tech: ['JavaScript', 'Java', 'Swift', 'Kotlin', 'Objective-C', 'REST API'],
           achievements: [
-            '並列リクエスト最適化：初回ロード時間を1.0秒→0.8秒に短縮（20%改善）',
+            '並列APIリクエスト調整により初回画面ロードを1.0秒→0.8秒に短縮',
             'Web + ハイブリッド + ネイティブ全体でリアクティブデータ監視を実装',
             'アジャイル開発を採用し、スプリントリリースサイクルを最適化',
           ],
@@ -791,9 +846,9 @@ const translations: Record<Locale, TranslationKeys> = {
             'ヘリコプター運航リアルタイム監視システムを技術リーダーとして開発。アーキテクチャ設計、チーム育成、開発プロセス最適化を担当。',
           tech: ['JavaScript', 'TypeScript', 'Java', 'Swift', 'Kotlin', 'Map API', 'CI/CD'],
           achievements: [
-            'データ同期最適化：通信遅延を400ms→200msに短縮（50%削減）',
+            'データ同期最適化により通信遅延を400ms→200msに短縮',
             'IoTデバイス連携で燃料消費量・メンテナンス状態を可視化',
-            '開発標準化とコードレビュー導入：リリーススピードを倍増',
+            '開発標準化とコードレビュー体制を導入',
           ],
         },
         {
@@ -850,7 +905,7 @@ const translations: Record<Locale, TranslationKeys> = {
       name: 'Atsushi Harimoto',
       title: '全端工程師 & AI 工程師',
       subtitle:
-        '在 Web 技術與人工智慧的交匯處，打造富有創意的軟體。熱衷於開發者工具、語言處理與互動式媒體。',
+        '橫跨 IoT、航空、金融科技與企業 AI，15 年持續交付產品——現於東京設計「開發者負責架構、AI 負責實作」的人機協作工作流。',
       cta: '聯繫我',
       ctaProjects: '查看專案',
     },
@@ -1053,12 +1108,33 @@ const translations: Record<Locale, TranslationKeys> = {
       ],
       highlightsTitle: '關鍵成果',
       highlights: [
-        'RAG 知識庫：處理約 3,000 份文件，採用 BM25 + 向量搜尋混合檢索，Top-5 搜尋準確率從 65% 提升至 85%',
-        'AI 編碼流程：導入團隊級 AI 輔助工作流，PR 首次審查通過率提升約 20 個百分點',
-        '金融最佳化：並行請求調優，初始載入時間縮短 20%',
-        '航空監控：數據同步最佳化，通訊延遲降低 50%',
+        'RAG 知識庫：整合 3,000+ 內部技術文件，被 4 個產品團隊採用作為日常參考',
+        'AI 編碼流程：導入 5 人團隊，代碼審查平均所需時間從 2 天縮短至當天完成',
+        'iOS/JS 通訊框架：7 年間應用於 3 款企業行動端產品',
+        '主導航空地面人員直升機即時運航監控系統架構設計',
       ],
+      howIWork: {
+        title: '我的工作方式',
+        items: [
+          { heading: 'Human-AI 共生', description: '開發者轉型為產品經理與架構發動機，負責定義規格與營造 Vibe；AI 代理承擔實體 Coding 與除錯——這就是 Vibecoding 氛圍編程。' },
+          { heading: 'Doc-First + 生命週期守門', description: '每項任務遵循 DOC CHECK → PLAN → APPROVAL → ACTION → VERIFY → POST DOC CHECK。未經審批不動代碼，確保每次交付具備可回查的證據鏈。' },
+          { heading: '測試 = 交付合同', description: '視測試腳本為「發包合同」，實際代碼為「履約交付」。測試先行定義驗收邊界，唯有全數綠燈方得合併。' },
+          { heading: 'Claude Reflect — 規則沉澱', description: '將日常糾錯自動沉澱為版本化規則（類似 ESLint），寫入 CLAUDE.md 強制執行。把「口頭警告」變成「白紙黑字的專案記憶」。' },
+        ],
+      },
       philosophy: '「學習新技術，融入團隊，轉化為產品價值。」',
+      contact: {
+        title: '聯絡方式',
+        github: 'GitHub',
+        email: '電子郵件',
+      },
+      names: {
+        title: '關於名字',
+        items: [
+          { name: 'Atsushi Harimoto', description: '網路暱稱 / 創作名義' },
+          { name: 'Akira Cheung', description: '正式商務名稱' },
+        ],
+      },
       languagesTitle: '語言能力',
       languages: [
         { name: '中文（普通話 + 粵語）', level: '母語' },
@@ -1081,8 +1157,8 @@ const translations: Record<Locale, TranslationKeys> = {
             '領導 5 人開發團隊。主導 RAG 知識庫建構、AI 輔助編碼流程導入及 CI/CD 與自動化測試基礎設施設計。',
           tech: ['TypeScript', 'React', 'Python', 'FastAPI', 'LangChain', 'OpenAI API', 'Docker', 'GitHub Actions'],
           achievements: [
-            'RAG 知識庫：處理約 3,000 份文件，混合檢索 Top-5 搜尋準確率從 65% 提升至 85%',
-            'AI 編碼流程：PR 首次審查通過率提升約 20 個百分點',
+            'RAG 知識庫：整合 3,000+ 內部文件，被 4 個產品團隊採用作為日常參考',
+            'AI 編碼流程：導入 5 人團隊，代碼審查平均所需時間從 2 天縮短至當天完成',
             'CI/CD 與自動化測試基盤（Jest + E2E）設計與建構',
           ],
         },
@@ -1094,7 +1170,7 @@ const translations: Record<Locale, TranslationKeys> = {
             '開發金融機構不正偵測系統。負責行動應用（iOS/Android）與 API 設計，專注效能最佳化與安全強化。',
           tech: ['JavaScript', 'Java', 'Swift', 'Kotlin', 'Objective-C', 'REST API'],
           achievements: [
-            '並行請求最佳化：初始載入時間從 1.0s 縮短至 0.8s（20% 改善）',
+            '並行 API 請求調優，初始畫面載入從 1.0s 縮短至 0.8s',
             '跨 Web + 混合 + 原生架構實作響應式數據監控',
             '導入敏捷開發，最佳化衝刺發布週期',
           ],
@@ -1107,9 +1183,9 @@ const translations: Record<Locale, TranslationKeys> = {
             '以技術負責人身分建構直升機即時運航監控系統。負責架構設計、團隊培養與開發流程最佳化。',
           tech: ['JavaScript', 'TypeScript', 'Java', 'Swift', 'Kotlin', 'Map API', 'CI/CD'],
           achievements: [
-            '數據同步最佳化：通訊延遲從 400ms 降至 200ms（50% 降低）',
+            '數據同步最佳化，通訊延遲從 400ms 降至 200ms',
             '透過 IoT 裝置整合實現油耗與維護狀態視覺化',
-            '開發標準化與代碼審查導入：發布速度翻倍',
+            '導入開發標準化與代碼審查體制',
           ],
         },
         {

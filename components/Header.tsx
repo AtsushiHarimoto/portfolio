@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { useLocale } from '@/lib/locale-context';
+import { NAV_ITEMS } from '@/lib/nav';
 import LanguageSwitcher from './LanguageSwitcher';
 
 export default function Header() {
@@ -13,13 +14,10 @@ export default function Header() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const navItems = [
-    { href: '/', label: t.nav.home },
-    { href: '/projects/', label: t.nav.projects },
-    { href: '/articles/', label: t.nav.articles },
-    { href: '/career/', label: t.nav.career },
-    { href: '/about/', label: t.nav.about },
-  ];
+  const navItems = NAV_ITEMS.map((item) => ({
+    href: item.path,
+    label: t.nav[item.key as keyof typeof t.nav],
+  }));
 
   const isActive = (href: string) => {
     const normalizedPath = pathname.endsWith('/') ? pathname : pathname + '/';
@@ -35,7 +33,7 @@ export default function Header() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
-      className="fixed top-0 left-0 right-0 z-50 glass-card border-0 border-b border-white/5"
+      className="fixed top-0 left-0 right-0 z-header glass-card border-0 border-b border-white/5"
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}

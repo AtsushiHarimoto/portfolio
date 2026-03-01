@@ -1,10 +1,10 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useLocale } from '@/lib/locale-context';
-import gsap from 'gsap';
+import { NAV_ITEMS } from '@/lib/nav';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 interface NavItem {
@@ -16,27 +16,9 @@ interface NavItem {
   glowColor: string;
 }
 
-function useNavItems() {
-  const { t } = useLocale();
-  return [
-    { key: 'home', path: '/', label: t.nav.home, icon: '家', gradient: 'from-[#ffc0d3]/20 to-[#ffc0d3]/5', glowColor: 'rgba(255,192,211,0.4)' },
-    { key: 'projects', path: '/projects/', label: t.nav.projects, icon: '術', gradient: 'from-[#e8b4d4]/20 to-[#c096b4]/5', glowColor: 'rgba(232,180,212,0.4)' },
-    { key: 'articles', path: '/articles/', label: t.nav.articles, icon: '法', gradient: 'from-[#c096b4]/20 to-[#a78bfa]/5', glowColor: 'rgba(192,150,180,0.4)' },
-    { key: 'career', path: '/career/', label: t.nav.career, icon: '道', gradient: 'from-[#a78bfa]/20 to-[#8b7cf7]/5', glowColor: 'rgba(167,139,250,0.4)' },
-    { key: 'about', path: '/about/', label: t.nav.about, icon: '人', gradient: 'from-[#8b7cf7]/20 to-[#6c5ce7]/5', glowColor: 'rgba(108,92,231,0.4)' },
-  ] as NavItem[];
-}
-
 function NavCard({ item, index, onNavigate }: { item: NavItem; index: number; onNavigate: (path: string) => void }) {
   const cardRef = useRef<HTMLButtonElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
-
-  // Kill GSAP tweens on unmount to prevent memory leaks
-  useEffect(() => {
-    return () => {
-      if (cardRef.current) gsap.killTweensOf(cardRef.current);
-    };
-  }, []);
 
   function handleMouseMove(e: React.MouseEvent) {
     const card = cardRef.current;
@@ -49,13 +31,8 @@ function NavCard({ item, index, onNavigate }: { item: NavItem; index: number; on
     const centerY = rect.height / 2;
     const rotateX = ((y - centerY) / centerY) * -8;
     const rotateY = ((x - centerX) / centerX) * 8;
-    gsap.to(card, {
-      rotateX, rotateY,
-      duration: 0.4,
-      ease: 'power2.out',
-      transformPerspective: 800,
-      overwrite: 'auto',
-    });
+    card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    card.style.transition = 'transform 0.4s ease-out';
     glow.style.background = `radial-gradient(circle at ${x}px ${y}px, ${item.glowColor}, transparent 60%)`;
     glow.style.opacity = '1';
     card.style.boxShadow = `0 8px 40px ${item.glowColor}`;
@@ -65,7 +42,8 @@ function NavCard({ item, index, onNavigate }: { item: NavItem; index: number; on
     const card = cardRef.current;
     const glow = glowRef.current;
     if (card) {
-      gsap.to(card, { rotateX: 0, rotateY: 0, duration: 0.6, ease: 'elastic.out(1, 0.4)' });
+      card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg)';
+      card.style.transition = 'transform 0.6s cubic-bezier(0.68,-0.55,0.265,1.55)';
       card.style.boxShadow = 'none';
     }
     if (glow) glow.style.opacity = '0';
@@ -135,8 +113,12 @@ function NavCard({ item, index, onNavigate }: { item: NavItem; index: number; on
 
 export default function ImmersiveNav() {
   const router = useRouter();
-  const navItems = useNavItems();
+  const { t } = useLocale();
   const prefersReducedMotion = useReducedMotion();
+  const navItems: NavItem[] = NAV_ITEMS.map((item) => ({
+    ...item,
+    label: t.nav[item.key as keyof typeof t.nav],
+  }));
 
   function handleNavigate(path: string) {
     if (path === '/') {
@@ -148,7 +130,7 @@ export default function ImmersiveNav() {
   }
 
   return (
-    <div className="absolute inset-0 z-20 pointer-events-none">
+    <div className="absolute inset-0 z-immersive-nav pointer-events-none">
       {/* Navigation cards — bottom center */}
       <div className="absolute bottom-12 left-0 right-0 flex justify-center pointer-events-auto">
         <nav className="flex gap-2 md:gap-5 flex-wrap justify-center px-4" aria-label="Main navigation">
@@ -159,7 +141,7 @@ export default function ImmersiveNav() {
       </div>
 
       {/* Language switcher — top right */}
-      <div className="absolute top-6 right-6 z-40 pointer-events-auto">
+      <div className="absolute top-6 right-6 z-lang-switcher pointer-events-auto">
         <LanguageSwitcher />
       </div>
 

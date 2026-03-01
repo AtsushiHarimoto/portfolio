@@ -178,7 +178,7 @@ export default function FloatingSkillBubbles() {
   return (
     <div
       ref={canvasRef}
-      className="absolute inset-0 z-[12] pointer-events-none overflow-hidden"
+      className="absolute inset-0 z-skill-bubbles pointer-events-none overflow-hidden"
       aria-hidden="true"
     />
   );
