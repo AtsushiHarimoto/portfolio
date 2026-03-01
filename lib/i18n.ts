@@ -86,6 +86,116 @@ type TranslationKeys = {
     backToList: string;
     tableOfContents: string;
   };
+  demos: {
+    shared: {
+      backToHome: string;
+      backToProjects: string;
+      mockDataBadge: string;
+      source: string;
+    };
+    demoGateway: {
+      title: string;
+      subtitle: string;
+      tabs: { users: string; tokens: string; conversations: string; messages: string; stats: string; console: string };
+      userManagement: string;
+      createUser: string;
+      columnsUser: { userId: string; username: string; status: string; actions: string };
+      delete: string;
+      cancel: string;
+      tokenManagement: string;
+      generateToken: string;
+      columnsToken: { tokenId: string; tokenHash: string; userId: string; status: string; actions: string };
+      revoke: string;
+      conversationTitle: string;
+      newConversation: string;
+      columnsConversation: { convId: string; user: string; provider: string; model: string; messages: string; created: string; status: string; action: string };
+      view: string;
+      messageTitle: string;
+      backToConversations: string;
+      statsTitle: string;
+      columnsStats: { provider: string; model: string; requests: string; totalTokens: string; avgLatency: string; p95Latency: string };
+      consoleTitle: string;
+      replayStream: string;
+      stopStream: string;
+      waitingLogs: string;
+      noLogs: string;
+    };
+    demoDashboard: {
+      title: string;
+      subtitle: string;
+      navigation: string;
+      systemOnline: string;
+      navItems: { dashboard: string; sessions: string; skills: string; reports: string; kanban: string; settings: string };
+      statLabels: { totalSessions: string; activeSkills: string; issuesResolved: string; totalTokens: string; avgDuration: string; reportsGenerated: string };
+      sessionTrends: string;
+      last7days: string;
+      sessions: string;
+      quickInsights: string;
+      completionRate: string;
+      thisWeek: string;
+      tasks: string;
+      todoDoingDone: string;
+      errorRate: string;
+      last24h: string;
+      uptime: string;
+      systemHealth: string;
+      days: { mon: string; tue: string; wed: string; thu: string; fri: string; sat: string; sun: string };
+      sessionsPage: {
+        active: string;
+        paused: string;
+        completed: string;
+        totalTokens: string;
+        tableHeaders: { sessionId: string; project: string; startTime: string; duration: string; tokens: string; status: string; action: string };
+        pause: string;
+        resume: string;
+      };
+      skillsPage: {
+        syncAll: string;
+        syncing: string;
+        enabled: string;
+        disabled: string;
+        syncingStatus: string;
+        lastSync: string;
+      };
+      reportsPage: {
+        all: string;
+        daily: string;
+        weekly: string;
+        sprint: string;
+      };
+      kanbanPage: {
+        todo: string;
+        inProgress: string;
+        done: string;
+      };
+      settingsPage: {
+        autoSyncSkills: string;
+        autoSyncSkillsDesc: string;
+        darkMode: string;
+        darkModeDesc: string;
+        notifications: string;
+        notificationsDesc: string;
+        autoCommit: string;
+        autoCommitDesc: string;
+        language: string;
+      };
+    };
+    demoGame: {
+      title: string;
+      subtitle: string;
+      narrator: string;
+      scene: string;
+      menuItems: { save: string; load: string; settings: string; backlog: string; titleMenu: string };
+      saveGame: string;
+      loadGame: string;
+      clickToSkip: string;
+      textSpeed: string;
+      speedLabels: { slow: string; normal: string; fast: string };
+      autoPlay: string;
+      auto: string;
+      scenes: Record<string, { speaker: string; text: string; choices: string[] }>;
+    };
+  };
   footer: {
     copyright: string;
     builtWith: string;
@@ -119,6 +229,137 @@ const translations: Record<Locale, TranslationKeys> = {
         { name: 'Moyin-Dev-Dashboard', description: 'Developer Workflow Dashboard' },
         { name: 'Moyin-Game', description: 'AI Visual Novel Engine' },
       ],
+    },
+    demos: {
+      shared: {
+        backToHome: 'Back to Home',
+        backToProjects: 'Back to Projects',
+        mockDataBadge: 'Demo — Mock Data',
+        source: 'Source',
+      },
+      demoGateway: {
+        title: 'Admin Console',
+        subtitle: 'Multi-provider LLM gateway management interface',
+        tabs: { users: 'Users', tokens: 'Tokens', conversations: 'Conversations', messages: 'Messages', stats: 'Stats', console: 'Console' },
+        userManagement: 'User Management',
+        createUser: '+ Create User',
+        columnsUser: { userId: 'USER ID', username: 'USERNAME', status: 'STATUS', actions: 'ACTIONS' },
+        delete: 'Delete',
+        cancel: 'Cancel',
+        tokenManagement: 'Token Management',
+        generateToken: '+ Generate Token',
+        columnsToken: { tokenId: 'TOKEN ID', tokenHash: 'TOKEN HASH', userId: 'USER ID', status: 'STATUS', actions: 'ACTIONS' },
+        revoke: 'Revoke',
+        conversationTitle: 'Conversations',
+        newConversation: '+ New Conversation',
+        columnsConversation: { convId: 'CONV ID', user: 'USER', provider: 'PROVIDER', model: 'MODEL', messages: 'MESSAGES', created: 'CREATED', status: 'STATUS', action: 'ACTION' },
+        view: 'View',
+        messageTitle: 'Messages',
+        backToConversations: '\u2190 Back to Conversations',
+        statsTitle: 'Provider Statistics',
+        columnsStats: { provider: 'PROVIDER', model: 'MODEL', requests: 'REQUESTS', totalTokens: 'TOTAL TOKENS', avgLatency: 'AVG LATENCY', p95Latency: 'P95 LATENCY' },
+        consoleTitle: 'Console',
+        replayStream: 'Replay Stream',
+        stopStream: 'Stop Stream',
+        waitingLogs: 'Waiting for logs...',
+        noLogs: 'No logs. Click "Replay Stream" to start.',
+      },
+      demoDashboard: {
+        title: 'Moyin-Dev-Dashboard',
+        subtitle: 'Developer workflow management & metrics',
+        navigation: 'NAVIGATION',
+        systemOnline: 'SYSTEM ONLINE',
+        navItems: { dashboard: 'Dashboard', sessions: 'Sessions', skills: 'Skills', reports: 'Reports', kanban: 'Kanban', settings: 'Settings' },
+        statLabels: { totalSessions: 'Total Sessions', activeSkills: 'Active Skills', issuesResolved: 'Issues Resolved', totalTokens: 'Total Tokens', avgDuration: 'Avg Duration', reportsGenerated: 'Reports Generated' },
+        sessionTrends: 'Session Trends',
+        last7days: 'Last 7 days',
+        sessions: 'Sessions',
+        quickInsights: 'QUICK INSIGHTS',
+        completionRate: 'Completion Rate',
+        thisWeek: 'THIS WEEK',
+        tasks: 'Tasks',
+        todoDoingDone: 'TODO / DOING / DONE',
+        errorRate: 'Error Rate',
+        last24h: 'LAST 24H',
+        uptime: 'Uptime',
+        systemHealth: 'SYSTEM HEALTH',
+        days: { mon: 'Mon', tue: 'Tue', wed: 'Wed', thu: 'Thu', fri: 'Fri', sat: 'Sat', sun: 'Sun' },
+        sessionsPage: {
+          active: 'Active',
+          paused: 'Paused',
+          completed: 'Completed',
+          totalTokens: 'Total Tokens',
+          tableHeaders: { sessionId: 'Session ID', project: 'Project', startTime: 'Start Time', duration: 'Duration', tokens: 'Tokens', status: 'Status', action: 'Action' },
+          pause: 'Pause',
+          resume: 'Resume',
+        },
+        skillsPage: {
+          syncAll: 'Sync All',
+          syncing: 'Syncing...',
+          enabled: 'Enabled',
+          disabled: 'Disabled',
+          syncingStatus: 'Syncing',
+          lastSync: 'Last sync:',
+        },
+        reportsPage: {
+          all: 'All',
+          daily: 'Daily',
+          weekly: 'Weekly',
+          sprint: 'Sprint',
+        },
+        kanbanPage: {
+          todo: 'Todo',
+          inProgress: 'In Progress',
+          done: 'Done',
+        },
+        settingsPage: {
+          autoSyncSkills: 'Auto-sync Skills',
+          autoSyncSkillsDesc: 'Automatically sync skills from remote repositories',
+          darkMode: 'Dark Mode',
+          darkModeDesc: 'Toggle dark mode appearance',
+          notifications: 'Notifications',
+          notificationsDesc: 'Enable desktop notifications for events',
+          autoCommit: 'Auto-commit',
+          autoCommitDesc: 'Automatically commit changes after each session',
+          language: 'Language',
+        },
+      },
+      demoGame: {
+        title: 'Visual Novel Engine',
+        subtitle: 'AI-driven narrative system with dynamic storytelling',
+        narrator: 'NARRATOR',
+        scene: 'SCENE',
+        menuItems: { save: 'Save', load: 'Load', settings: 'Settings', backlog: 'Backlog', titleMenu: 'Title' },
+        saveGame: 'Save Game',
+        loadGame: 'Load Game',
+        clickToSkip: 'Click to skip',
+        textSpeed: 'Text Speed',
+        speedLabels: { slow: 'Slow', normal: 'Normal', fast: 'Fast' },
+        autoPlay: 'Auto Play',
+        auto: 'AUTO',
+        scenes: {
+          scene1: {
+            speaker: 'Narrator',
+            text: 'You find yourself in a mysterious library filled with ancient books. The air is thick with the scent of old parchment, and a soft, otherworldly glow emanates from somewhere deep within the shelves...',
+            choices: ['Examine the glowing book', 'Look for an exit'],
+          },
+          scene2a: {
+            speaker: 'Narrator',
+            text: 'You reach out and touch the glowing book. It opens on its own, pages fluttering in an invisible breeze. Ancient text rearranges itself before your eyes, revealing a detailed map to a hidden garden beyond the library walls...',
+            choices: ['Follow the map'],
+          },
+          scene2b: {
+            speaker: 'Narrator',
+            text: 'You navigate through the towering bookshelves, searching for a way out. At last, you find a heavy wooden door -- but it is locked. Carved into its surface is an intricate puzzle: rotating rings of symbols that seem to pulse with faint light...',
+            choices: ['Solve the puzzle'],
+          },
+          scene3: {
+            speaker: 'Narrator',
+            text: 'You step through into a breathtaking garden bathed in moonlight. Cherry blossom petals drift gently through the cool night air, landing softly on a stone path that winds towards a serene pond. The stars above seem brighter here, as if the garden exists closer to the heavens...',
+            choices: ['Play again'],
+          },
+        },
+      },
     },
     projects: {
       pageTitle: 'Projects',
@@ -306,6 +547,137 @@ const translations: Record<Locale, TranslationKeys> = {
         { name: 'Moyin-Game', description: 'AIビジュアルノベルエンジン' },
       ],
     },
+    demos: {
+      shared: {
+        backToHome: 'ホームに戻る',
+        backToProjects: 'プロジェクトに戻る',
+        mockDataBadge: 'デモ — モックデータ',
+        source: 'ソース',
+      },
+      demoGateway: {
+        title: '管理コンソール',
+        subtitle: 'マルチプロバイダー LLM ゲートウェイ管理画面',
+        tabs: { users: 'ユーザー', tokens: 'トークン', conversations: '会話', messages: 'メッセージ', stats: '統計', console: 'コンソール' },
+        userManagement: 'ユーザー管理',
+        createUser: '+ ユーザー作成',
+        columnsUser: { userId: 'ユーザーID', username: 'ユーザー名', status: 'ステータス', actions: '操作' },
+        delete: '削除',
+        cancel: 'キャンセル',
+        tokenManagement: 'トークン管理',
+        generateToken: '+ トークン生成',
+        columnsToken: { tokenId: 'トークンID', tokenHash: 'トークンハッシュ', userId: 'ユーザーID', status: 'ステータス', actions: '操作' },
+        revoke: '失効',
+        conversationTitle: '会話一覧',
+        newConversation: '+ 新規会話',
+        columnsConversation: { convId: '会話ID', user: 'ユーザー', provider: 'プロバイダー', model: 'モデル', messages: 'メッセージ数', created: '作成日時', status: 'ステータス', action: '操作' },
+        view: '表示',
+        messageTitle: 'メッセージ',
+        backToConversations: '\u2190 会話一覧に戻る',
+        statsTitle: 'プロバイダー統計',
+        columnsStats: { provider: 'プロバイダー', model: 'モデル', requests: 'リクエスト数', totalTokens: '総トークン数', avgLatency: '平均レイテンシ', p95Latency: 'P95レイテンシ' },
+        consoleTitle: 'コンソール',
+        replayStream: 'ストリーム再生',
+        stopStream: 'ストリーム停止',
+        waitingLogs: 'ログを待機中...',
+        noLogs: 'ログがありません。「ストリーム再生」をクリックして開始してください。',
+      },
+      demoDashboard: {
+        title: 'Moyin-Dev-Dashboard',
+        subtitle: '開発ワークフロー管理 & メトリクス',
+        navigation: 'ナビゲーション',
+        systemOnline: 'システムオンライン',
+        navItems: { dashboard: 'ダッシュボード', sessions: 'セッション', skills: 'スキル', reports: 'レポート', kanban: 'かんばん', settings: '設定' },
+        statLabels: { totalSessions: '総セッション数', activeSkills: 'アクティブスキル', issuesResolved: '解決済み課題', totalTokens: '総トークン数', avgDuration: '平均所要時間', reportsGenerated: '生成レポート数' },
+        sessionTrends: 'セッション推移',
+        last7days: '直近7日間',
+        sessions: 'セッション',
+        quickInsights: 'クイックインサイト',
+        completionRate: '完了率',
+        thisWeek: '今週',
+        tasks: 'タスク',
+        todoDoingDone: 'TODO / 進行中 / 完了',
+        errorRate: 'エラー率',
+        last24h: '直近24時間',
+        uptime: '稼働時間',
+        systemHealth: 'システム健全性',
+        days: { mon: '月', tue: '火', wed: '水', thu: '木', fri: '金', sat: '土', sun: '日' },
+        sessionsPage: {
+          active: 'アクティブ',
+          paused: '一時停止',
+          completed: '完了',
+          totalTokens: '総トークン数',
+          tableHeaders: { sessionId: 'セッションID', project: 'プロジェクト', startTime: '開始時刻', duration: '所要時間', tokens: 'トークン', status: 'ステータス', action: '操作' },
+          pause: '一時停止',
+          resume: '再開',
+        },
+        skillsPage: {
+          syncAll: '全て同期',
+          syncing: '同期中...',
+          enabled: '有効',
+          disabled: '無効',
+          syncingStatus: '同期中',
+          lastSync: '最終同期:',
+        },
+        reportsPage: {
+          all: 'すべて',
+          daily: '日次',
+          weekly: '週次',
+          sprint: 'スプリント',
+        },
+        kanbanPage: {
+          todo: '未着手',
+          inProgress: '進行中',
+          done: '完了',
+        },
+        settingsPage: {
+          autoSyncSkills: 'スキル自動同期',
+          autoSyncSkillsDesc: 'リモートリポジトリからスキルを自動同期する',
+          darkMode: 'ダークモード',
+          darkModeDesc: 'ダークモードの外観を切り替える',
+          notifications: '通知',
+          notificationsDesc: 'イベントのデスクトップ通知を有効にする',
+          autoCommit: '自動コミット',
+          autoCommitDesc: 'セッション終了後に自動で変更をコミットする',
+          language: '言語',
+        },
+      },
+      demoGame: {
+        title: 'ビジュアルノベルエンジン',
+        subtitle: 'AI駆動のダイナミックストーリーテリングシステム',
+        narrator: 'ナレーター',
+        scene: 'シーン',
+        menuItems: { save: 'セーブ', load: 'ロード', settings: '設定', backlog: 'バックログ', titleMenu: 'タイトル' },
+        saveGame: 'ゲームをセーブ',
+        loadGame: 'ゲームをロード',
+        clickToSkip: 'クリックでスキップ',
+        textSpeed: 'テキスト速度',
+        speedLabels: { slow: '遅い', normal: '普通', fast: '速い' },
+        autoPlay: 'オートプレイ',
+        auto: 'AUTO',
+        scenes: {
+          scene1: {
+            speaker: 'ナレーター',
+            text: '古い書物が所狭しと並ぶ、不思議な図書館に迷い込んだ。古い羊皮紙の香りが漂い、書棚の奥深くから淡い神秘的な光が漏れている……',
+            choices: ['光る本を調べる', '出口を探す'],
+          },
+          scene2a: {
+            speaker: 'ナレーター',
+            text: '手を伸ばして光る本に触れると、見えない風にページがはためき、ひとりでに本が開いた。古代の文字が目の前で並び替わり、図書館の壁の向こうにある隠された庭園への地図が浮かび上がる……',
+            choices: ['地図に従う'],
+          },
+          scene2b: {
+            speaker: 'ナレーター',
+            text: 'そびえ立つ書棚の間を縫うように出口を探す。ようやく重厚な木の扉を見つけたが、鍵がかかっている。扉の表面には複雑なパズルが刻まれており、回転するシンボルの環が微かな光を放っている……',
+            choices: ['パズルを解く'],
+          },
+          scene3: {
+            speaker: 'ナレーター',
+            text: '月明かりに照らされた息をのむほど美しい庭園に足を踏み入れた。涼やかな夜風に桜の花びらが舞い、静かな池へと続く石畳の小道にそっと降り注ぐ。ここでは星がひときわ明るく輝いている。まるでこの庭園が天に近い場所にあるかのように……',
+            choices: ['もう一度遊ぶ'],
+          },
+        },
+      },
+    },
     projects: {
       pageTitle: 'プロジェクト',
       pageSubtitle:
@@ -491,6 +863,137 @@ const translations: Record<Locale, TranslationKeys> = {
         { name: 'Moyin-Dev-Dashboard', description: '開發者工作流儀表板' },
         { name: 'Moyin-Game', description: 'AI 視覺小說引擎' },
       ],
+    },
+    demos: {
+      shared: {
+        backToHome: '返回首頁',
+        backToProjects: '返回專案',
+        mockDataBadge: '演示 — 模擬資料',
+        source: '原始碼',
+      },
+      demoGateway: {
+        title: '管理控制台',
+        subtitle: '多供應商 LLM 閘道管理介面',
+        tabs: { users: '使用者', tokens: '權杖', conversations: '對話', messages: '訊息', stats: '統計', console: '主控台' },
+        userManagement: '使用者管理',
+        createUser: '+ 建立使用者',
+        columnsUser: { userId: '使用者 ID', username: '使用者名稱', status: '狀態', actions: '操作' },
+        delete: '刪除',
+        cancel: '取消',
+        tokenManagement: '權杖管理',
+        generateToken: '+ 產生權杖',
+        columnsToken: { tokenId: '權杖 ID', tokenHash: '權杖雜湊', userId: '使用者 ID', status: '狀態', actions: '操作' },
+        revoke: '撤銷',
+        conversationTitle: '對話列表',
+        newConversation: '+ 新增對話',
+        columnsConversation: { convId: '對話 ID', user: '使用者', provider: '供應商', model: '模型', messages: '訊息數', created: '建立時間', status: '狀態', action: '操作' },
+        view: '檢視',
+        messageTitle: '訊息',
+        backToConversations: '\u2190 返回對話列表',
+        statsTitle: '供應商統計',
+        columnsStats: { provider: '供應商', model: '模型', requests: '請求數', totalTokens: '總權杖數', avgLatency: '平均延遲', p95Latency: 'P95 延遲' },
+        consoleTitle: '主控台',
+        replayStream: '重播串流',
+        stopStream: '停止串流',
+        waitingLogs: '等待日誌...',
+        noLogs: '尚無日誌。點擊「重播串流」開始。',
+      },
+      demoDashboard: {
+        title: 'Moyin-Dev-Dashboard',
+        subtitle: '開發者工作流管理與指標',
+        navigation: '導覽',
+        systemOnline: '系統在線',
+        navItems: { dashboard: '儀表板', sessions: '工作階段', skills: '技能', reports: '報告', kanban: '看板', settings: '設定' },
+        statLabels: { totalSessions: '總工作階段', activeSkills: '啟用技能', issuesResolved: '已解決問題', totalTokens: '總權杖數', avgDuration: '平均時長', reportsGenerated: '已生成報告' },
+        sessionTrends: '工作階段趨勢',
+        last7days: '最近 7 天',
+        sessions: '工作階段',
+        quickInsights: '快速洞察',
+        completionRate: '完成率',
+        thisWeek: '本週',
+        tasks: '任務',
+        todoDoingDone: '待辦 / 進行中 / 已完成',
+        errorRate: '錯誤率',
+        last24h: '最近 24 小時',
+        uptime: '運行時間',
+        systemHealth: '系統健康度',
+        days: { mon: '一', tue: '二', wed: '三', thu: '四', fri: '五', sat: '六', sun: '日' },
+        sessionsPage: {
+          active: '進行中',
+          paused: '已暫停',
+          completed: '已完成',
+          totalTokens: '總權杖數',
+          tableHeaders: { sessionId: '階段 ID', project: '專案', startTime: '開始時間', duration: '時長', tokens: '權杖', status: '狀態', action: '操作' },
+          pause: '暫停',
+          resume: '繼續',
+        },
+        skillsPage: {
+          syncAll: '全部同步',
+          syncing: '同步中...',
+          enabled: '已啟用',
+          disabled: '已停用',
+          syncingStatus: '同步中',
+          lastSync: '上次同步：',
+        },
+        reportsPage: {
+          all: '全部',
+          daily: '每日',
+          weekly: '每週',
+          sprint: '衝刺',
+        },
+        kanbanPage: {
+          todo: '待辦',
+          inProgress: '進行中',
+          done: '已完成',
+        },
+        settingsPage: {
+          autoSyncSkills: '自動同步技能',
+          autoSyncSkillsDesc: '自動從遠端儲存庫同步技能',
+          darkMode: '深色模式',
+          darkModeDesc: '切換深色模式外觀',
+          notifications: '通知',
+          notificationsDesc: '啟用事件桌面通知',
+          autoCommit: '自動提交',
+          autoCommitDesc: '每次工作階段結束後自動提交變更',
+          language: '語言',
+        },
+      },
+      demoGame: {
+        title: '視覺小說引擎',
+        subtitle: 'AI 驅動的動態敘事系統',
+        narrator: '旁白',
+        scene: '場景',
+        menuItems: { save: '存檔', load: '讀檔', settings: '設定', backlog: '對話紀錄', titleMenu: '標題' },
+        saveGame: '儲存遊戲',
+        loadGame: '載入遊戲',
+        clickToSkip: '點擊跳過',
+        textSpeed: '文字速度',
+        speedLabels: { slow: '慢', normal: '普通', fast: '快' },
+        autoPlay: '自動播放',
+        auto: 'AUTO',
+        scenes: {
+          scene1: {
+            speaker: '旁白',
+            text: '你發現自己身處一座神秘的圖書館，四周堆滿了古老的書籍。空氣中瀰漫著陳舊羊皮紙的氣息，書架深處隱約透出一縷幽幽的光芒……',
+            choices: ['查看發光的書', '尋找出口'],
+          },
+          scene2a: {
+            speaker: '旁白',
+            text: '你伸手觸碰那本發光的書。它自行翻開，書頁在無形的微風中翻動。古老的文字在你眼前重新排列，浮現出一幅通往圖書館牆外隱秘花園的地圖……',
+            choices: ['跟隨地圖'],
+          },
+          scene2b: {
+            speaker: '旁白',
+            text: '你穿梭在高聳的書架之間，尋找著出路。終於找到一扇沉重的木門——但門是鎖著的。門面上刻著精巧的謎題：旋轉的符文環閃爍著微弱的光芒……',
+            choices: ['解開謎題'],
+          },
+          scene3: {
+            speaker: '旁白',
+            text: '你踏入一座沐浴在月光下的絕美花園。櫻花花瓣在涼爽的夜風中輕輕飄落，柔柔地灑在通往寧靜池塘的石板小徑上。這裡的星星格外明亮，彷彿這座花園離天堂更近一些……',
+            choices: ['重新開始'],
+          },
+        },
+      },
     },
     projects: {
       pageTitle: '專案作品',

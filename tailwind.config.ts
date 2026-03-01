@@ -32,6 +32,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: [
+          'var(--font-openhuninn)',
           'Inter',
           '-apple-system',
           'BlinkMacSystemFont',
@@ -41,6 +42,7 @@ const config: Config = {
           'sans-serif',
         ],
         serif: [
+          'var(--font-openhuninn)',
           'Playfair Display',
           'Source Han Serif',
           'Georgia',

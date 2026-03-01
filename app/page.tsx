@@ -7,8 +7,7 @@ import { ArrowRight, Server, LayoutDashboard, Gamepad2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
 const ImmersiveNav = dynamic(() => import('@/components/webgl/ImmersiveNav'), { ssr: false });
-
-const techBadges = ['Vue 3', 'TypeScript', 'Python', 'React', 'FastAPI', 'LLM/AI'];
+const FloatingSkillBubbles = dynamic(() => import('@/components/webgl/FloatingSkillBubbles'), { ssr: false });
 
 const demoLinks = [
   { key: 0, href: '/projects/moyin-gateway-demo/?from=home', icon: <Server className="w-6 h-6" strokeWidth={1.5} /> },
@@ -23,6 +22,9 @@ export default function HomePage() {
     <>
       {/* Hero Section — Immersive WebGL */}
       <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Floating skill bubbles — background layer */}
+        <FloatingSkillBubbles />
+
         {/* 3D Immersive Navigation Overlay — z-10, objects at top arc */}
         <ImmersiveNav />
 
@@ -104,39 +106,6 @@ export default function HomePage() {
             {t.hero.subtitle}
           </motion.p>
 
-          {/* Tech badges — staggered pop-in with float */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.01, delay: 1.8 }}
-            className="flex flex-wrap gap-2.5 justify-center mt-2"
-          >
-            {techBadges.map((tech, i) => (
-              <motion.span
-                key={tech}
-                initial={{ opacity: 0, scale: 0, filter: 'blur(4px)' }}
-                animate={{
-                  opacity: 1,
-                  scale: 1,
-                  filter: 'blur(0px)',
-                  ...(prefersReducedMotion ? {} : { y: [0, -5, 0] }),
-                }}
-                transition={{
-                  opacity: { duration: 0.5, delay: 2.0 + i * 0.1 },
-                  scale: { duration: 0.5, delay: 2.0 + i * 0.1, type: 'spring', stiffness: 300, damping: 15 },
-                  filter: { duration: 0.5, delay: 2.0 + i * 0.1 },
-                  y: prefersReducedMotion ? {} : { duration: 3 + i * 0.4, repeat: Infinity, ease: 'easeInOut', delay: 2.5 + i * 0.2 },
-                }}
-                className="px-4 py-1.5 text-xs font-mono text-moyin-text-secondary
-                           border border-moyin-pink/10 rounded-lg bg-white/[0.03] backdrop-blur-sm
-                           shadow-[0_0_12px_rgba(255,192,211,0.06)]
-                           hover:border-moyin-pink/30 hover:bg-moyin-pink/5 hover:text-moyin-pink-light
-                           transition-colors duration-300"
-              >
-                {tech}
-              </motion.span>
-            ))}
-          </motion.div>
         </div>
       </section>
 

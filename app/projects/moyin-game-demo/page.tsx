@@ -16,6 +16,7 @@ import {
   LayoutGrid,
 } from 'lucide-react';
 import BackLink from '@/components/BackLink';
+import { useLocale } from '@/lib/locale-context';
 
 // ---------------------------------------------------------------------------
 // Base Path Helper
@@ -279,12 +280,13 @@ interface SystemMenuProps {
 }
 
 function SystemMenu({ onClose, onSave, onLoad, onSettings, onBacklog, onTitle }: SystemMenuProps) {
+  const { t } = useLocale();
   const items: { label: string; icon: React.ReactNode; action: () => void }[] = [
-    { label: 'Save', icon: <Save className="w-4 h-4 shrink-0" strokeWidth={1.5} />, action: onSave },
-    { label: 'Load', icon: <FolderOpen className="w-4 h-4 shrink-0" strokeWidth={1.5} />, action: onLoad },
-    { label: 'Settings', icon: <SettingsIcon className="w-4 h-4 shrink-0" strokeWidth={1.5} />, action: onSettings },
-    { label: 'Backlog', icon: <ScrollText className="w-4 h-4 shrink-0" strokeWidth={1.5} />, action: onBacklog },
-    { label: 'Title', icon: <Home className="w-4 h-4 shrink-0" strokeWidth={1.5} />, action: onTitle },
+    { label: t.demos.demoGame.menuItems.save, icon: <Save className="w-4 h-4 shrink-0" strokeWidth={1.5} />, action: onSave },
+    { label: t.demos.demoGame.menuItems.load, icon: <FolderOpen className="w-4 h-4 shrink-0" strokeWidth={1.5} />, action: onLoad },
+    { label: t.demos.demoGame.menuItems.settings, icon: <SettingsIcon className="w-4 h-4 shrink-0" strokeWidth={1.5} />, action: onSettings },
+    { label: t.demos.demoGame.menuItems.backlog, icon: <ScrollText className="w-4 h-4 shrink-0" strokeWidth={1.5} />, action: onBacklog },
+    { label: t.demos.demoGame.menuItems.titleMenu, icon: <Home className="w-4 h-4 shrink-0" strokeWidth={1.5} />, action: onTitle },
   ];
 
   return (
@@ -353,6 +355,7 @@ function SystemMenu({ onClose, onSave, onLoad, onSettings, onBacklog, onTitle }:
 // ---------------------------------------------------------------------------
 
 function BacklogPanel({ entries, onClose }: { entries: BacklogEntry[]; onClose: () => void }) {
+  const { t } = useLocale();
   return (
     <motion.div
       className="absolute inset-0 z-[60] flex flex-col"
@@ -377,7 +380,7 @@ function BacklogPanel({ entries, onClose }: { entries: BacklogEntry[]; onClose: 
           className="text-sm font-bold tracking-[0.12em] uppercase"
           style={{ color: '#ffc0d3' }}
         >
-          Backlog
+          {t.demos.demoGame.menuItems.backlog}
         </h3>
         <button
           type="button"
@@ -444,6 +447,7 @@ function SettingsPanel({
   seVolume,
   onSeVolumeChange,
 }: SettingsPanelProps) {
+  const { t } = useLocale();
   const speedOptions: TextSpeedLabel[] = ['slow', 'normal', 'fast'];
 
   return (
@@ -474,14 +478,14 @@ function SettingsPanel({
           className="text-sm font-bold tracking-[0.12em] uppercase mb-6 text-center"
           style={{ color: '#ffc0d3' }}
         >
-          Settings
+          {t.demos.demoGame.menuItems.settings}
         </h3>
 
         <div className="flex flex-col gap-5">
           {/* Text Speed */}
           <div>
             <label className="block text-xs text-moyin-text-muted uppercase tracking-wider mb-2">
-              Text Speed
+              {t.demos.demoGame.textSpeed}
             </label>
             <div className="flex gap-2">
               {speedOptions.map((opt) => (
@@ -489,13 +493,13 @@ function SettingsPanel({
                   key={opt}
                   type="button"
                   onClick={() => onTextSpeedChange(opt)}
-                  className={`flex-1 py-2 rounded-lg text-xs font-medium capitalize transition-all duration-200 border ${
+                  className={`flex-1 py-2 rounded-lg text-xs font-medium transition-all duration-200 border ${
                     textSpeed === opt
                       ? 'border-moyin-pink/50 text-moyin-pink-light bg-moyin-pink/10'
                       : 'border-white/[0.06] text-moyin-text-secondary hover:border-white/10 hover:text-moyin-text-primary'
                   }`}
                 >
-                  {opt}
+                  {t.demos.demoGame.speedLabels[opt]}
                 </button>
               ))}
             </div>
@@ -504,7 +508,7 @@ function SettingsPanel({
           {/* Auto Mode */}
           <div className="flex items-center justify-between">
             <label className="text-xs text-moyin-text-muted uppercase tracking-wider">
-              Auto Mode
+              {t.demos.demoGame.autoPlay}
             </label>
             <button
               type="button"
@@ -585,7 +589,8 @@ function SettingsPanel({
 // ---------------------------------------------------------------------------
 
 function SaveLoadPanel({ mode, onClose }: { mode: 'save' | 'load'; onClose: () => void }) {
-  const title = mode === 'save' ? 'Save Game' : 'Load Game';
+  const { t } = useLocale();
+  const title = mode === 'save' ? t.demos.demoGame.saveGame : t.demos.demoGame.loadGame;
   const slots = Array.from({ length: 6 }, (_, i) => i + 1);
 
   return (
@@ -658,9 +663,20 @@ function SaveLoadPanel({ mode, onClose }: { mode: 'save' | 'load'; onClose: () =
 // ---------------------------------------------------------------------------
 
 export default function MoyinGameDemoPage() {
+  const { t } = useLocale();
   const [currentSceneId, setCurrentSceneId] = useState('scene1');
   const [sceneKey, setSceneKey] = useState(0); // force re-render on scene change
-  const scene = SCENES[currentSceneId];
+  const baseScene = SCENES[currentSceneId];
+  const sceneI18n = t.demos.demoGame.scenes[currentSceneId];
+  const scene = {
+    ...baseScene,
+    speaker: sceneI18n?.speaker ?? baseScene.speaker,
+    text: sceneI18n?.text ?? baseScene.text,
+    choices: baseScene.choices.map((c, i) => ({
+      ...c,
+      text: sceneI18n?.choices[i] ?? c.text,
+    })),
+  };
   const petals = useSakuraPetals(7);
 
   // Settings state
@@ -834,15 +850,15 @@ export default function MoyinGameDemoPage() {
           <div>
             <h1 className="text-3xl md:text-4xl font-bold">
               <span className="gradient-text">Moyin-Game</span>
-              <span className="text-moyin-text-secondary text-lg ml-3 font-normal">Visual Novel Engine</span>
+              <span className="text-moyin-text-secondary text-lg ml-3 font-normal">{t.demos.demoGame.title}</span>
             </h1>
-            <p className="text-moyin-text-hint text-sm mt-1">AI-driven narrative system with dynamic storytelling</p>
+            <p className="text-moyin-text-hint text-sm mt-1">{t.demos.demoGame.subtitle}</p>
           </div>
 
           <div className="flex items-center gap-3">
             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">
               <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse" />
-              Demo &mdash; Mock Data
+              {t.demos.shared.mockDataBadge}
             </span>
             <a
               href="https://github.com/AtsushiHarimoto/moyin-game"
@@ -851,7 +867,7 @@ export default function MoyinGameDemoPage() {
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-moyin-text-secondary hover:text-moyin-pink-light border border-white/10 hover:border-moyin-pink/30 transition-all"
             >
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" /></svg>
-              Source
+              {t.demos.shared.source}
             </a>
           </div>
         </div>
@@ -1011,7 +1027,7 @@ export default function MoyinGameDemoPage() {
               {/* Click hint */}
               {isTyping && (
                 <div className="absolute bottom-2 right-3 text-[10px] text-moyin-text-muted opacity-60">
-                  Click to skip
+                  {t.demos.demoGame.clickToSkip}
                 </div>
               )}
             </motion.div>
@@ -1091,7 +1107,7 @@ export default function MoyinGameDemoPage() {
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/30 backdrop-blur-md border border-white/[0.06]">
             <span className="w-1.5 h-1.5 rounded-full bg-moyin-pink animate-pulse" />
             <span className="text-[10px] font-mono text-moyin-text-muted uppercase tracking-wider">
-              Scene {currentSceneId.replace('scene', '').toUpperCase()}
+              {t.demos.demoGame.scene} {currentSceneId.replace('scene', '').toUpperCase()}
             </span>
             {/* Auto mode indicator */}
             <AnimatePresence>
@@ -1102,7 +1118,7 @@ export default function MoyinGameDemoPage() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -5 }}
                 >
-                  AUTO
+                  {t.demos.demoGame.auto}
                 </motion.span>
               )}
             </AnimatePresence>

@@ -21,6 +21,7 @@ import {
   Menu,
 } from 'lucide-react';
 import BackLink from '@/components/BackLink';
+import { useLocale } from '@/lib/locale-context';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -30,7 +31,6 @@ type PageId = 'dashboard' | 'sessions' | 'skills' | 'reports' | 'kanban' | 'sett
 
 interface NavItem {
   id: PageId;
-  label: string;
   icon: React.ReactNode;
 }
 
@@ -40,7 +40,7 @@ interface NavItem {
 
 const STAT_CARDS = [
   {
-    label: 'Total Sessions',
+    key: 'totalSessions' as const,
     value: '142',
     icon: <MessageSquare className="w-5 h-5" strokeWidth={1.5} />,
     trend: { direction: 'up' as const, value: 12 },
@@ -48,7 +48,7 @@ const STAT_CARDS = [
     iconBg: 'bg-blue-500/20 text-blue-400',
   },
   {
-    label: 'Active Skills',
+    key: 'activeSkills' as const,
     value: '8',
     icon: <Puzzle className="w-5 h-5" strokeWidth={1.5} />,
     trend: { direction: 'up' as const, value: 3 },
@@ -56,7 +56,7 @@ const STAT_CARDS = [
     iconBg: 'bg-moyin-purple/20 text-moyin-accent',
   },
   {
-    label: 'Issues Resolved',
+    key: 'issuesResolved' as const,
     value: '34',
     icon: <CheckCircle className="w-5 h-5" strokeWidth={1.5} />,
     trend: { direction: 'up' as const, value: 28 },
@@ -64,7 +64,7 @@ const STAT_CARDS = [
     iconBg: 'bg-emerald-500/20 text-emerald-400',
   },
   {
-    label: 'Total Tokens',
+    key: 'totalTokens' as const,
     value: '1.25M',
     icon: <Tag className="w-5 h-5" strokeWidth={1.5} />,
     trend: { direction: 'up' as const, value: 18 },
@@ -72,7 +72,7 @@ const STAT_CARDS = [
     iconBg: 'bg-moyin-pink/20 text-moyin-pink',
   },
   {
-    label: 'Avg Duration',
+    key: 'avgDuration' as const,
     value: '47m',
     icon: <Clock className="w-5 h-5" strokeWidth={1.5} />,
     trend: { direction: 'down' as const, value: 5 },
@@ -80,7 +80,7 @@ const STAT_CARDS = [
     iconBg: 'bg-orange-500/20 text-orange-400',
   },
   {
-    label: 'Reports Generated',
+    key: 'reportsGenerated' as const,
     value: '12',
     icon: <FileBarChart className="w-5 h-5" strokeWidth={1.5} />,
     trend: { direction: 'up' as const, value: 8 },
@@ -90,13 +90,13 @@ const STAT_CARDS = [
 ];
 
 const SESSION_TREND = [
-  { day: 'Mon', sessions: 18 },
-  { day: 'Tue', sessions: 24 },
-  { day: 'Wed', sessions: 16 },
-  { day: 'Thu', sessions: 32 },
-  { day: 'Fri', sessions: 28 },
-  { day: 'Sat', sessions: 12 },
-  { day: 'Sun', sessions: 22 },
+  { dayKey: 'mon' as const, sessions: 18 },
+  { dayKey: 'tue' as const, sessions: 24 },
+  { dayKey: 'wed' as const, sessions: 16 },
+  { dayKey: 'thu' as const, sessions: 32 },
+  { dayKey: 'fri' as const, sessions: 28 },
+  { dayKey: 'sat' as const, sessions: 12 },
+  { dayKey: 'sun' as const, sessions: 22 },
 ];
 
 const SKILLS_LIST = [
@@ -156,32 +156,26 @@ const KANBAN_DATA = {
 const NAV_ITEMS: NavItem[] = [
   {
     id: 'dashboard',
-    label: 'Dashboard',
     icon: <LayoutDashboard className="w-5 h-5" strokeWidth={1.5} />,
   },
   {
     id: 'sessions',
-    label: 'Sessions',
     icon: <MessageSquare className="w-5 h-5" strokeWidth={1.5} />,
   },
   {
     id: 'skills',
-    label: 'Skills',
     icon: <Puzzle className="w-5 h-5" strokeWidth={1.5} />,
   },
   {
     id: 'reports',
-    label: 'Reports',
     icon: <FileBarChart className="w-5 h-5" strokeWidth={1.5} />,
   },
   {
     id: 'kanban',
-    label: 'Kanban',
     icon: <ClipboardList className="w-5 h-5" strokeWidth={1.5} />,
   },
   {
     id: 'settings',
-    label: 'Settings',
     icon: <Settings className="w-5 h-5" strokeWidth={1.5} />,
   },
 ];
@@ -201,6 +195,8 @@ const pageVariants = {
 // ---------------------------------------------------------------------------
 
 function DashboardPage() {
+  const { t } = useLocale();
+  const dd = t.demos.demoDashboard;
   const maxSessions = Math.max(...SESSION_TREND.map((d) => d.sessions));
   const [hoveredBar, setHoveredBar] = useState<number | null>(null);
 
@@ -210,7 +206,7 @@ function DashboardPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mb-8">
         {STAT_CARDS.map((card, i) => (
           <motion.div
-            key={card.label}
+            key={card.key}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.05 + i * 0.06 }}
@@ -222,7 +218,7 @@ function DashboardPage() {
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${card.iconBg}`}>
                   {card.icon}
                 </div>
-                <span className="text-xs font-medium text-moyin-text-hint uppercase tracking-wider">{card.label}</span>
+                <span className="text-xs font-medium text-moyin-text-hint uppercase tracking-wider">{dd.statLabels[card.key]}</span>
               </div>
               <div
                 className={`flex items-center gap-1 text-xs font-bold ${
@@ -251,12 +247,12 @@ function DashboardPage() {
         >
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h3 className="text-lg font-semibold text-moyin-text-primary">Session Trends</h3>
-              <p className="text-xs text-moyin-text-hint mt-0.5">Last 7 days</p>
+              <h3 className="text-lg font-semibold text-moyin-text-primary">{dd.sessionTrends}</h3>
+              <p className="text-xs text-moyin-text-hint mt-0.5">{dd.last7days}</p>
             </div>
             <div className="flex items-center gap-2 text-xs text-moyin-text-muted">
               <span className="w-2.5 h-2.5 rounded-sm bg-gradient-to-t from-moyin-pink/60 to-moyin-purple/60" />
-              Sessions
+              {dd.sessions}
             </div>
           </div>
 
@@ -286,7 +282,7 @@ function DashboardPage() {
                 const y = 180 - barHeight;
                 const isHovered = hoveredBar === i;
                 return (
-                  <g key={d.day}>
+                  <g key={d.dayKey}>
                     <rect x={x} y={20} width={barWidth} height={160} fill="transparent"
                       onMouseEnter={() => setHoveredBar(i)} onMouseLeave={() => setHoveredBar(null)}
                       style={{ cursor: 'pointer' }}
@@ -311,7 +307,7 @@ function DashboardPage() {
                     <text x={x + barWidth / 2} y={198} textAnchor="middle" fill="rgba(255,255,255,0.4)"
                       fontSize="11" fontFamily="sans-serif"
                     >
-                      {d.day}
+                      {dd.days[d.dayKey]}
                     </text>
                   </g>
                 );
@@ -333,33 +329,33 @@ function DashboardPage() {
           transition={{ duration: 0.5, delay: 0.5 }}
           className="glass-card p-6"
         >
-          <h3 className="text-xs font-bold text-moyin-text-hint uppercase tracking-widest mb-5">Quick Insights</h3>
+          <h3 className="text-xs font-bold text-moyin-text-hint uppercase tracking-widest mb-5">{dd.quickInsights}</h3>
           <ul className="space-y-5">
             <li className="flex items-center justify-between border-b border-white/[0.04] pb-3">
               <div>
-                <span className="text-sm text-moyin-text-primary">Completion Rate</span>
-                <span className="block text-[10px] text-moyin-text-muted uppercase">this week</span>
+                <span className="text-sm text-moyin-text-primary">{dd.completionRate}</span>
+                <span className="block text-[10px] text-moyin-text-muted uppercase">{dd.thisWeek}</span>
               </div>
               <span className="text-2xl font-bold text-moyin-text-primary font-mono">87%</span>
             </li>
             <li className="flex items-center justify-between border-b border-white/[0.04] pb-3">
               <div>
-                <span className="text-sm text-moyin-text-primary">Tasks</span>
-                <span className="block text-[10px] text-moyin-text-muted uppercase">todo / doing / done</span>
+                <span className="text-sm text-moyin-text-primary">{dd.tasks}</span>
+                <span className="block text-[10px] text-moyin-text-muted uppercase">{dd.todoDoingDone}</span>
               </div>
               <span className="text-2xl font-bold text-moyin-text-primary font-mono">5/3/34</span>
             </li>
             <li className="flex items-center justify-between border-b border-white/[0.04] pb-3">
               <div>
-                <span className="text-sm text-moyin-text-primary">Error Rate</span>
-                <span className="block text-[10px] text-moyin-text-muted uppercase">last 24h</span>
+                <span className="text-sm text-moyin-text-primary">{dd.errorRate}</span>
+                <span className="block text-[10px] text-moyin-text-muted uppercase">{dd.last24h}</span>
               </div>
               <span className="text-2xl font-bold text-emerald-400 font-mono">0.3%</span>
             </li>
             <li className="flex items-center justify-between">
               <div>
-                <span className="text-sm text-moyin-text-primary">Uptime</span>
-                <span className="block text-[10px] text-moyin-text-muted uppercase">system health</span>
+                <span className="text-sm text-moyin-text-primary">{dd.uptime}</span>
+                <span className="block text-[10px] text-moyin-text-muted uppercase">{dd.systemHealth}</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -374,6 +370,8 @@ function DashboardPage() {
 }
 
 function SessionsPage() {
+  const { t } = useLocale();
+  const dd = t.demos.demoDashboard;
   const [sessions, setSessions] = useState(SESSIONS_DATA);
 
   const toggleSession = (id: string) => {
@@ -416,10 +414,10 @@ function SessionsPage() {
       {/* Summary row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
         {[
-          { label: 'Active', count: sessions.filter((s) => s.status === 'active').length, color: 'text-emerald-400' },
-          { label: 'Paused', count: sessions.filter((s) => s.status === 'paused').length, color: 'text-yellow-400' },
-          { label: 'Completed', count: sessions.filter((s) => s.status === 'completed').length, color: 'text-moyin-text-secondary' },
-          { label: 'Total Tokens', count: `${(sessions.reduce((a, s) => a + s.tokens, 0) / 1000).toFixed(0)}k`, color: 'text-moyin-pink' },
+          { label: dd.sessionsPage.active, count: sessions.filter((s) => s.status === 'active').length, color: 'text-emerald-400' },
+          { label: dd.sessionsPage.paused, count: sessions.filter((s) => s.status === 'paused').length, color: 'text-yellow-400' },
+          { label: dd.sessionsPage.completed, count: sessions.filter((s) => s.status === 'completed').length, color: 'text-moyin-text-secondary' },
+          { label: dd.sessionsPage.totalTokens, count: `${(sessions.reduce((a, s) => a + s.tokens, 0) / 1000).toFixed(0)}k`, color: 'text-moyin-pink' },
         ].map((item, i) => (
           <motion.div
             key={item.label}
@@ -445,7 +443,7 @@ function SessionsPage() {
           <table className="w-full">
             <thead>
               <tr className="border-b border-white/[0.06]">
-                {['Session ID', 'Project', 'Start Time', 'Duration', 'Tokens', 'Status', 'Action'].map((h) => (
+                {[dd.sessionsPage.tableHeaders.sessionId, dd.sessionsPage.tableHeaders.project, dd.sessionsPage.tableHeaders.startTime, dd.sessionsPage.tableHeaders.duration, dd.sessionsPage.tableHeaders.tokens, dd.sessionsPage.tableHeaders.status, dd.sessionsPage.tableHeaders.action].map((h) => (
                   <th key={h} className="text-left text-[10px] font-bold text-moyin-text-muted uppercase tracking-wider px-5 py-3.5">
                     {h}
                   </th>
@@ -484,7 +482,7 @@ function SessionsPage() {
                             : 'text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/10'
                         }`}
                       >
-                        {session.status === 'active' ? 'Pause' : 'Resume'}
+                        {session.status === 'active' ? dd.sessionsPage.pause : dd.sessionsPage.resume}
                       </motion.button>
                     )}
                   </td>
@@ -499,6 +497,8 @@ function SessionsPage() {
 }
 
 function SkillsPage() {
+  const { t } = useLocale();
+  const dd = t.demos.demoDashboard;
   const [skills, setSkills] = useState(SKILLS_LIST);
   const [syncing, setSyncing] = useState(false);
 
@@ -554,16 +554,16 @@ function SkillsPage() {
           className="btn-primary text-sm !px-4 !py-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <RefreshCw className={`w-4 h-4 ${syncing ? 'animate-spin' : ''}`} strokeWidth={2} />
-          {syncing ? 'Syncing...' : 'Sync All'}
+          {syncing ? dd.skillsPage.syncing : dd.skillsPage.syncAll}
         </motion.button>
       </div>
 
       {/* Summary stats */}
       <div className="grid grid-cols-3 gap-3 mb-6">
         {[
-          { label: 'Enabled', count: skills.filter((s) => s.enabled).length, color: 'text-emerald-400' },
-          { label: 'Disabled', count: skills.filter((s) => !s.enabled).length, color: 'text-moyin-text-muted' },
-          { label: 'Syncing', count: skills.filter((s) => s.status === 'syncing').length, color: 'text-yellow-400' },
+          { label: dd.skillsPage.enabled, count: skills.filter((s) => s.enabled).length, color: 'text-emerald-400' },
+          { label: dd.skillsPage.disabled, count: skills.filter((s) => !s.enabled).length, color: 'text-moyin-text-muted' },
+          { label: dd.skillsPage.syncingStatus, count: skills.filter((s) => s.status === 'syncing').length, color: 'text-yellow-400' },
         ].map((item, i) => (
           <motion.div
             key={item.label}
@@ -626,7 +626,7 @@ function SkillsPage() {
 
             <div className="mt-4 pt-3 border-t border-white/[0.04] flex justify-between items-center pl-2 opacity-50 group-hover:opacity-100 transition-opacity">
               <span className="text-[10px] font-mono text-moyin-text-muted">
-                Last sync: {skill.lastSync}
+                {dd.skillsPage.lastSync} {skill.lastSync}
               </span>
               <span
                 className={`text-[10px] font-mono font-bold tracking-wider px-2 py-1 rounded border uppercase ${
@@ -648,6 +648,8 @@ function SkillsPage() {
 }
 
 function ReportsPage() {
+  const { t } = useLocale();
+  const dd = t.demos.demoDashboard;
   const [expandedReport, setExpandedReport] = useState<string | null>(null);
 
   const typeColor = (type: string) => {
@@ -685,7 +687,7 @@ function ReportsPage() {
 
       {/* Filter pills */}
       <div className="flex items-center gap-2 mb-6">
-        {['All', 'Daily', 'Weekly', 'Sprint'].map((filter) => (
+        {[dd.reportsPage.all, dd.reportsPage.daily, dd.reportsPage.weekly, dd.reportsPage.sprint].map((filter) => (
           <button
             key={filter}
             className="px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors text-moyin-text-secondary border-white/10 hover:border-moyin-pink/30 hover:text-moyin-pink-light"
@@ -762,10 +764,12 @@ function ReportsPage() {
 }
 
 function KanbanPage() {
+  const { t } = useLocale();
+  const dd = t.demos.demoDashboard;
   const columns = [
-    { id: 'todo', title: 'Todo', items: KANBAN_DATA.todo, headerColor: 'text-blue-400', dotColor: 'bg-blue-400', borderColor: 'border-blue-500/30' },
-    { id: 'inProgress', title: 'In Progress', items: KANBAN_DATA.inProgress, headerColor: 'text-yellow-400', dotColor: 'bg-yellow-400', borderColor: 'border-yellow-500/30' },
-    { id: 'done', title: 'Done', items: KANBAN_DATA.done, headerColor: 'text-emerald-400', dotColor: 'bg-emerald-400', borderColor: 'border-emerald-500/30' },
+    { id: 'todo', title: dd.kanbanPage.todo, items: KANBAN_DATA.todo, headerColor: 'text-blue-400', dotColor: 'bg-blue-400', borderColor: 'border-blue-500/30' },
+    { id: 'inProgress', title: dd.kanbanPage.inProgress, items: KANBAN_DATA.inProgress, headerColor: 'text-yellow-400', dotColor: 'bg-yellow-400', borderColor: 'border-yellow-500/30' },
+    { id: 'done', title: dd.kanbanPage.done, items: KANBAN_DATA.done, headerColor: 'text-emerald-400', dotColor: 'bg-emerald-400', borderColor: 'border-emerald-500/30' },
   ];
 
   const priorityColor = (priority: string) => {
@@ -859,6 +863,8 @@ function KanbanPage() {
 }
 
 function SettingsPage() {
+  const { t } = useLocale();
+  const dd = t.demos.demoDashboard;
   const [settings, setSettings] = useState({
     autoSync: true,
     darkMode: true,
@@ -873,10 +879,10 @@ function SettingsPage() {
   };
 
   const toggleItems: { key: keyof typeof settings; label: string; description: string; locked?: boolean }[] = [
-    { key: 'autoSync', label: 'Auto-sync Skills', description: 'Automatically sync skills when changes are detected in ~/.claude/skills/' },
-    { key: 'darkMode', label: 'Dark Mode', description: 'Always-on dark theme (Moyin brand standard)', locked: true },
-    { key: 'notifications', label: 'Notifications', description: 'Show desktop notifications for session events and skill sync status' },
-    { key: 'autoCommit', label: 'Auto-commit', description: 'Automatically commit skill config changes to the remote repository' },
+    { key: 'autoSync', label: dd.settingsPage.autoSyncSkills, description: dd.settingsPage.autoSyncSkillsDesc },
+    { key: 'darkMode', label: dd.settingsPage.darkMode, description: dd.settingsPage.darkModeDesc, locked: true },
+    { key: 'notifications', label: dd.settingsPage.notifications, description: dd.settingsPage.notificationsDesc },
+    { key: 'autoCommit', label: dd.settingsPage.autoCommit, description: dd.settingsPage.autoCommitDesc },
   ];
 
   const languages = [
@@ -944,7 +950,7 @@ function SettingsPage() {
         >
           <div className="flex items-center justify-between">
             <div className="flex-1 pr-4">
-              <span className="text-sm font-medium text-moyin-text-primary">Language</span>
+              <span className="text-sm font-medium text-moyin-text-primary">{dd.settingsPage.language}</span>
               <p className="text-xs text-moyin-text-hint mt-1">Select the display language for the dashboard interface</p>
             </div>
             <select
@@ -993,6 +999,8 @@ function SettingsPage() {
 // ---------------------------------------------------------------------------
 
 export default function MoyinDevDashboardDemoPage() {
+  const { t } = useLocale();
+  const dd = t.demos.demoDashboard;
   const [activePage, setActivePage] = useState<PageId>('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -1035,16 +1043,16 @@ export default function MoyinDevDashboardDemoPage() {
 
               <div>
                 <h1 className="text-3xl md:text-4xl font-bold">
-                  <span className="gradient-text">Moyin-Dev-Dashboard</span>
+                  <span className="gradient-text">{dd.title}</span>
                 </h1>
-                <p className="text-moyin-text-hint text-sm mt-1">Developer workflow management &amp; metrics</p>
+                <p className="text-moyin-text-hint text-sm mt-1">{dd.subtitle}</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">
                 <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse" />
-                Demo &mdash; Mock Data
+                {t.demos.shared.mockDataBadge}
               </span>
               <a
                 href="https://github.com/AtsushiHarimoto/moyin-dev-dashboard"
@@ -1053,7 +1061,7 @@ export default function MoyinDevDashboardDemoPage() {
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-moyin-text-secondary hover:text-moyin-pink-light border border-white/10 hover:border-moyin-pink/30 transition-all"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" /></svg>
-                Source
+                {t.demos.shared.source}
               </a>
             </div>
           </div>
@@ -1093,7 +1101,7 @@ export default function MoyinDevDashboardDemoPage() {
             <div className="p-4">
               {/* Sidebar title for mobile */}
               <div className="flex items-center justify-between mb-4 lg:hidden">
-                <span className="text-xs font-bold text-moyin-text-hint uppercase tracking-widest">Navigation</span>
+                <span className="text-xs font-bold text-moyin-text-hint uppercase tracking-widest">{dd.navigation}</span>
                 <button onClick={() => setSidebarOpen(false)} className="p-1 text-moyin-text-muted hover:text-moyin-pink transition-colors">
                   <X className="w-4 h-4" strokeWidth={2} />
                 </button>
@@ -1101,7 +1109,7 @@ export default function MoyinDevDashboardDemoPage() {
 
               {/* Nav section label */}
               <span className="hidden lg:block text-[10px] font-bold text-moyin-text-muted uppercase tracking-widest px-3 mb-3">
-                Navigation
+                {dd.navigation}
               </span>
 
               {/* Nav items */}
@@ -1132,7 +1140,7 @@ export default function MoyinDevDashboardDemoPage() {
                       <span className={isActive ? 'text-moyin-pink' : 'text-moyin-text-muted group-hover:text-moyin-text-secondary'}>
                         {item.icon}
                       </span>
-                      {item.label}
+                      {dd.navItems[item.id]}
                     </button>
                   );
                 })}
@@ -1143,7 +1151,7 @@ export default function MoyinDevDashboardDemoPage() {
                 <div className="px-3">
                   <div className="flex items-center gap-2 mb-2">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">System Online</span>
+                    <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">{dd.systemOnline}</span>
                   </div>
                   <p className="text-[10px] text-moyin-text-muted font-mono">v0.3.0-beta</p>
                 </div>

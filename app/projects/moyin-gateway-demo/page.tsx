@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check } from 'lucide-react';
 import BackLink from '@/components/BackLink';
+import { useLocale } from '@/lib/locale-context';
 
 // ---------------------------------------------------------------------------
 // Mock Data
@@ -115,8 +116,8 @@ const MOCK_MESSAGES_BY_CONV: Record<string, Message[]> = {
 // Tab type
 // ---------------------------------------------------------------------------
 
-type Tab = 'Users' | 'Tokens' | 'Stats' | 'Console' | 'Conversations' | 'Messages';
-const TABS: Tab[] = ['Users', 'Tokens', 'Conversations', 'Messages', 'Stats', 'Console'];
+type Tab = 'users' | 'tokens' | 'stats' | 'console' | 'conversations' | 'messages';
+const TABS: Tab[] = ['users', 'tokens', 'conversations', 'messages', 'stats', 'console'];
 
 // ---------------------------------------------------------------------------
 // Level badge colors
@@ -170,7 +171,8 @@ function roleBadgeColor(role: string) {
 // ---------------------------------------------------------------------------
 
 export default function MoyinGatewayDemoPage() {
-  const [activeTab, setActiveTab] = useState<Tab>('Users');
+  const { t } = useLocale();
+  const [activeTab, setActiveTab] = useState<Tab>('users');
   const [keyword, setKeyword] = useState('');
   const [users, setUsers] = useState(INITIAL_USERS);
   const [tokens, setTokens] = useState(INITIAL_TOKENS);
@@ -197,16 +199,16 @@ export default function MoyinGatewayDemoPage() {
           <div>
             <h1 className="text-3xl md:text-4xl font-bold">
               <span className="gradient-text">Moyin-Gateway</span>
-              <span className="text-moyin-text-secondary text-lg ml-3 font-normal">Admin Console</span>
+              <span className="text-moyin-text-secondary text-lg ml-3 font-normal">{t.demos.demoGateway.title}</span>
             </h1>
-            <p className="text-moyin-text-hint text-sm mt-1">Multi-provider LLM gateway management interface</p>
+            <p className="text-moyin-text-hint text-sm mt-1">{t.demos.demoGateway.subtitle}</p>
           </div>
 
           <div className="flex items-center gap-3">
             {/* Demo badge */}
             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">
               <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse" />
-              Demo &mdash; Mock Data
+              {t.demos.shared.mockDataBadge}
             </span>
             {/* GitHub link */}
             <a
@@ -216,7 +218,7 @@ export default function MoyinGatewayDemoPage() {
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-moyin-text-secondary hover:text-moyin-pink-light border border-white/10 hover:border-moyin-pink/30 transition-all"
             >
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" /></svg>
-              Source
+              {t.demos.shared.source}
             </a>
           </div>
         </div>
@@ -241,7 +243,7 @@ export default function MoyinGatewayDemoPage() {
                   : 'text-moyin-text-hint hover:text-moyin-text-secondary'
               }`}
             >
-              {tab}
+              {t.demos.demoGateway.tabs[tab]}
               {activeTab === tab && (
                 <motion.div
                   layoutId="gateway-tab"
@@ -256,7 +258,7 @@ export default function MoyinGatewayDemoPage() {
         {/* Tab Content */}
         <div className="p-6">
           <AnimatePresence mode="wait">
-            {activeTab === 'Users' && (
+            {activeTab === 'users' && (
               <motion.div
                 key="users"
                 initial={{ opacity: 0, x: -10 }}
@@ -267,7 +269,7 @@ export default function MoyinGatewayDemoPage() {
                 <UsersTab users={users} setUsers={setUsers} />
               </motion.div>
             )}
-            {activeTab === 'Tokens' && (
+            {activeTab === 'tokens' && (
               <motion.div
                 key="tokens"
                 initial={{ opacity: 0, x: -10 }}
@@ -278,7 +280,7 @@ export default function MoyinGatewayDemoPage() {
                 <TokensTab tokens={tokens} setTokens={setTokens} users={users} />
               </motion.div>
             )}
-            {activeTab === 'Conversations' && (
+            {activeTab === 'conversations' && (
               <motion.div
                 key="conversations"
                 initial={{ opacity: 0, x: -10 }}
@@ -292,12 +294,12 @@ export default function MoyinGatewayDemoPage() {
                   users={users}
                   onViewMessages={(convId) => {
                     setSelectedConversation(convId);
-                    setActiveTab('Messages');
+                    setActiveTab('messages');
                   }}
                 />
               </motion.div>
             )}
-            {activeTab === 'Messages' && (
+            {activeTab === 'messages' && (
               <motion.div
                 key="messages"
                 initial={{ opacity: 0, x: -10 }}
@@ -312,7 +314,7 @@ export default function MoyinGatewayDemoPage() {
                 />
               </motion.div>
             )}
-            {activeTab === 'Stats' && (
+            {activeTab === 'stats' && (
               <motion.div
                 key="stats"
                 initial={{ opacity: 0, x: -10 }}
@@ -323,7 +325,7 @@ export default function MoyinGatewayDemoPage() {
                 <StatsTab />
               </motion.div>
             )}
-            {activeTab === 'Console' && (
+            {activeTab === 'console' && (
               <motion.div
                 key="console"
                 initial={{ opacity: 0, x: -10 }}
@@ -357,6 +359,7 @@ function UsersTab({
   users: typeof INITIAL_USERS;
   setUsers: React.Dispatch<React.SetStateAction<typeof INITIAL_USERS>>;
 }) {
+  const { t } = useLocale();
   const [showForm, setShowForm] = useState(false);
   const [newUsername, setNewUsername] = useState('');
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
@@ -382,12 +385,12 @@ function UsersTab({
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-moyin-text-primary">User Management</h3>
+        <h3 className="text-lg font-semibold text-moyin-text-primary">{t.demos.demoGateway.userManagement}</h3>
         <button
           onClick={() => setShowForm(!showForm)}
           className="px-3 py-1.5 text-xs font-medium rounded-lg border bg-moyin-pink/10 border-moyin-pink/30 text-moyin-pink-light hover:bg-moyin-pink/20 transition-all"
         >
-          {showForm ? 'Cancel' : '+ Create User'}
+          {showForm ? t.demos.demoGateway.cancel : t.demos.demoGateway.createUser}
         </button>
       </div>
 
@@ -427,10 +430,10 @@ function UsersTab({
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-white/[0.06]">
-              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">User ID</th>
-              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">Username</th>
-              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">Status</th>
-              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">Actions</th>
+              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">{t.demos.demoGateway.columnsUser.userId}</th>
+              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">{t.demos.demoGateway.columnsUser.username}</th>
+              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">{t.demos.demoGateway.columnsUser.status}</th>
+              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">{t.demos.demoGateway.columnsUser.actions}</th>
             </tr>
           </thead>
           <tbody>
@@ -471,7 +474,7 @@ function UsersTab({
                       onClick={() => setConfirmDeleteId(user.user_id)}
                       className="text-xs text-moyin-text-hint hover:text-red-400 transition-colors"
                     >
-                      Delete
+                      {t.demos.demoGateway.delete}
                     </button>
                   )}
                 </td>
@@ -504,6 +507,7 @@ function TokensTab({
   setTokens: React.Dispatch<React.SetStateAction<typeof INITIAL_TOKENS>>;
   users: typeof INITIAL_USERS;
 }) {
+  const { t } = useLocale();
   const [showForm, setShowForm] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState('');
 
@@ -540,12 +544,12 @@ function TokensTab({
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-moyin-text-primary">Token Management</h3>
+        <h3 className="text-lg font-semibold text-moyin-text-primary">{t.demos.demoGateway.tokenManagement}</h3>
         <button
           onClick={() => setShowForm(!showForm)}
           className="px-3 py-1.5 text-xs font-medium rounded-lg border bg-moyin-pink/10 border-moyin-pink/30 text-moyin-pink-light hover:bg-moyin-pink/20 transition-all"
         >
-          {showForm ? 'Cancel' : '+ Generate Token'}
+          {showForm ? t.demos.demoGateway.cancel : t.demos.demoGateway.generateToken}
         </button>
       </div>
 
@@ -588,11 +592,11 @@ function TokensTab({
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-white/[0.06]">
-              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">Token ID</th>
-              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">Hash</th>
-              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">User</th>
-              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">Status</th>
-              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">Actions</th>
+              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">{t.demos.demoGateway.columnsToken.tokenId}</th>
+              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">{t.demos.demoGateway.columnsToken.tokenHash}</th>
+              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">{t.demos.demoGateway.columnsToken.userId}</th>
+              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">{t.demos.demoGateway.columnsToken.status}</th>
+              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">{t.demos.demoGateway.columnsToken.actions}</th>
             </tr>
           </thead>
           <tbody>
@@ -618,7 +622,7 @@ function TokensTab({
                       onClick={() => handleRevokeToken(token.token_id)}
                       className="text-xs text-moyin-text-hint hover:text-red-400 transition-colors"
                     >
-                      Revoke
+                      {t.demos.demoGateway.revoke}
                     </button>
                   ) : (
                     <span className="text-xs text-moyin-text-muted">--</span>
@@ -655,6 +659,7 @@ function ConversationsTab({
   users: typeof INITIAL_USERS;
   onViewMessages: (convId: string) => void;
 }) {
+  const { t } = useLocale();
   const [showForm, setShowForm] = useState(false);
   const [formUser, setFormUser] = useState('');
   const [formProvider, setFormProvider] = useState('');
@@ -691,12 +696,12 @@ function ConversationsTab({
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-moyin-text-primary">Conversations</h3>
+        <h3 className="text-lg font-semibold text-moyin-text-primary">{t.demos.demoGateway.conversationTitle}</h3>
         <button
           onClick={() => setShowForm(!showForm)}
           className="px-3 py-1.5 text-xs font-medium rounded-lg border bg-moyin-pink/10 border-moyin-pink/30 text-moyin-pink-light hover:bg-moyin-pink/20 transition-all"
         >
-          {showForm ? 'Cancel' : '+ New Conversation'}
+          {showForm ? t.demos.demoGateway.cancel : t.demos.demoGateway.newConversation}
         </button>
       </div>
 
@@ -763,13 +768,13 @@ function ConversationsTab({
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-white/[0.06]">
-              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">Conv ID</th>
-              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">User</th>
-              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">Provider / Model</th>
-              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">Messages</th>
-              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">Created</th>
-              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">Status</th>
-              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">Actions</th>
+              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">{t.demos.demoGateway.columnsConversation.convId}</th>
+              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">{t.demos.demoGateway.columnsConversation.user}</th>
+              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">{t.demos.demoGateway.columnsConversation.provider} / {t.demos.demoGateway.columnsConversation.model}</th>
+              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">{t.demos.demoGateway.columnsConversation.messages}</th>
+              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">{t.demos.demoGateway.columnsConversation.created}</th>
+              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">{t.demos.demoGateway.columnsConversation.status}</th>
+              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">{t.demos.demoGateway.columnsConversation.action}</th>
             </tr>
           </thead>
           <tbody>
@@ -801,7 +806,7 @@ function ConversationsTab({
                       onClick={() => onViewMessages(conv.conversation_id)}
                       className="text-xs text-moyin-pink-light hover:text-moyin-pink transition-colors"
                     >
-                      View Messages
+                      {t.demos.demoGateway.view}
                     </button>
                   ) : (
                     <span className="text-xs text-moyin-text-muted">No messages</span>
@@ -836,6 +841,7 @@ function MessagesTab({
   selectedConversation: string;
   setSelectedConversation: (id: string) => void;
 }) {
+  const { t } = useLocale();
   const messages = MOCK_MESSAGES_BY_CONV[selectedConversation] || [];
   const currentConv = conversations.find((c) => c.conversation_id === selectedConversation);
 
@@ -846,7 +852,7 @@ function MessagesTab({
   return (
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
-        <h3 className="text-lg font-semibold text-moyin-text-primary">Messages</h3>
+        <h3 className="text-lg font-semibold text-moyin-text-primary">{t.demos.demoGateway.messageTitle}</h3>
         <div className="flex-1" />
         <div className="flex items-center gap-2">
           <span className="text-xs text-moyin-text-hint">Conversation:</span>
@@ -953,21 +959,22 @@ function MessagesTab({
 // ---------------------------------------------------------------------------
 
 function StatsTab() {
+  const { t } = useLocale();
   const maxCount = Math.max(...MOCK_STATS.map((s) => s.request_count));
 
   return (
     <div>
-      <h3 className="text-lg font-semibold text-moyin-text-primary mb-4">Provider / Model Statistics</h3>
+      <h3 className="text-lg font-semibold text-moyin-text-primary mb-4">{t.demos.demoGateway.statsTitle}</h3>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-white/[0.06]">
-              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">Provider</th>
-              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">Model</th>
-              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">Requests</th>
-              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">Total Tokens</th>
-              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">Avg Latency</th>
-              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">P95 Latency</th>
+              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">{t.demos.demoGateway.columnsStats.provider}</th>
+              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">{t.demos.demoGateway.columnsStats.model}</th>
+              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">{t.demos.demoGateway.columnsStats.requests}</th>
+              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">{t.demos.demoGateway.columnsStats.totalTokens}</th>
+              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">{t.demos.demoGateway.columnsStats.avgLatency}</th>
+              <th className="text-left py-3 px-4 text-moyin-text-hint font-medium text-xs uppercase tracking-wider">{t.demos.demoGateway.columnsStats.p95Latency}</th>
             </tr>
           </thead>
           <tbody>
@@ -1021,6 +1028,7 @@ function ConsoleTab({
   logLevelFilters: Record<'INFO' | 'WARN' | 'ERROR', boolean>;
   setLogLevelFilters: React.Dispatch<React.SetStateAction<Record<'INFO' | 'WARN' | 'ERROR', boolean>>>;
 }) {
+  const { t } = useLocale();
   const [visibleLogs, setVisibleLogs] = useState<Array<{ id: number; level: string; message: string; timestamp: string }>>([]);
   const [isStreaming, setIsStreaming] = useState(false);
   const logEndRef = useRef<HTMLDivElement>(null);
@@ -1097,7 +1105,7 @@ function ConsoleTab({
   return (
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
-        <h3 className="text-lg font-semibold text-moyin-text-primary">Console Logs</h3>
+        <h3 className="text-lg font-semibold text-moyin-text-primary">{t.demos.demoGateway.consoleTitle}</h3>
         <div className="flex-1" />
         <div className="flex flex-wrap items-center gap-2">
           {/* Log level filter checkboxes */}
@@ -1150,7 +1158,7 @@ function ConsoleTab({
                 : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20'
             }`}
           >
-            {isStreaming ? 'Stop Stream' : 'Replay Stream'}
+            {isStreaming ? t.demos.demoGateway.stopStream : t.demos.demoGateway.replayStream}
           </button>
         </div>
       </div>
@@ -1159,7 +1167,7 @@ function ConsoleTab({
       <div className="bg-moyin-dark rounded-xl border border-white/[0.06] p-4 h-[420px] overflow-y-auto font-mono text-xs scrollbar-thin">
         {filteredLogs.length === 0 && (
           <div className="flex items-center justify-center h-full text-moyin-text-muted">
-            {isStreaming ? 'Waiting for logs...' : 'No logs. Click "Replay Stream" to start.'}
+            {isStreaming ? t.demos.demoGateway.waitingLogs : t.demos.demoGateway.noLogs}
           </div>
         )}
         {filteredLogs.map((log) => (

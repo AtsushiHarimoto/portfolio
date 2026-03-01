@@ -34,11 +34,11 @@ export default function CareerPage() {
       {/* Timeline */}
       <div ref={containerRef} className="relative max-w-5xl mx-auto">
         {/* Center spine — background track */}
-        <div className="absolute left-4 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-0.5 bg-moyin-dark-lighter" />
+        <div className="absolute left-4 md:left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5 bg-moyin-dark-lighter" />
 
         {/* Center spine — animated fill */}
         <motion.div
-          className="absolute left-4 md:left-1/2 md:-translate-x-px top-0 w-0.5 bg-gradient-to-b from-moyin-pink via-moyin-petal to-moyin-purple origin-top"
+          className="absolute left-4 md:left-1/2 -translate-x-1/2 top-0 w-0.5 bg-gradient-to-b from-moyin-pink via-moyin-petal to-moyin-purple origin-top"
           style={{ scaleY: lineScaleY, height: '100%' }}
         />
 
@@ -100,12 +100,12 @@ function TimelineItem({
       }`}
     >
       {/* Timeline dot */}
-      <motion.div
-        className="absolute left-4 md:left-1/2 -translate-x-1/2 z-10 flex items-center justify-center"
-        style={{ scale: dotScale, opacity: dotOpacity }}
-      >
-        <span className="w-4 h-4 rounded-full bg-moyin-pink shadow-[0_0_12px_rgba(255,192,211,0.5)] border-2 border-moyin-dark" />
-      </motion.div>
+      <div className="absolute left-4 md:left-1/2 -translate-x-1/2 z-10 flex items-center justify-center">
+        <motion.span
+          className="w-4 h-4 rounded-full bg-moyin-pink shadow-[0_0_12px_rgba(255,192,211,0.5)] border-2 border-moyin-dark block"
+          style={{ scale: dotScale, opacity: dotOpacity }}
+        />
+      </div>
 
       {/* Card */}
       <motion.div

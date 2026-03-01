@@ -163,21 +163,6 @@ export default function ImmersiveNav() {
         <LanguageSwitcher />
       </div>
 
-      {/* Scroll hint */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 1 }}
-        className="absolute bottom-3 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 pointer-events-none"
-      >
-        <motion.div
-          animate={prefersReducedMotion ? {} : { y: [0, 6, 0] }}
-          transition={prefersReducedMotion ? {} : { duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-          className="w-5 h-8 rounded-full border border-white/20 flex justify-center pt-1.5"
-        >
-          <div className="w-1 h-2 rounded-full bg-white/40" />
-        </motion.div>
-      </motion.div>
     </div>
   );
 }

@@ -1,6 +1,13 @@
 import type { Metadata } from 'next';
+import localFont from 'next/font/local';
 import './globals.css';
 import ClientLayout from './client-layout';
+
+const openhuninn = localFont({
+  src: '../public/jf-openhuninn-2.1.ttf',
+  display: 'swap',
+  variable: '--font-openhuninn',
+});
 
 export const metadata: Metadata = {
   title: {
@@ -49,6 +56,9 @@ export const metadata: Metadata = {
     follow: true,
   },
   metadataBase: new URL('https://atsushiharimoto.github.io/portfolio'),
+  icons: {
+    icon: { url: '/favicon.svg', type: 'image/svg+xml' },
+  },
 };
 
 export default function RootLayout({
@@ -57,9 +67,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className={`dark ${openhuninn.variable}`}>
       <head>
-        <link rel="icon" href="/portfolio/favicon.svg" type="image/svg+xml" />
         <meta name="theme-color" content="#1a1625" />
       </head>
       <body className="min-h-screen">
