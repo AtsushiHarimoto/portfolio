@@ -40,7 +40,7 @@ const SKILLS: SkillBubble[] = [
   { label: 'Linux', category: 'devops', size: 'sm' },
   // Design
   { label: 'UI/UX Design', category: 'design', size: 'md' },
-  { label: '上流設計', category: 'design', size: 'md' },
+  { label: 'System Design', category: 'design', size: 'md' },
 ];
 
 const CATEGORY_COLORS: Record<string, { border: string; text: string; glow: string }> = {
