@@ -40,9 +40,43 @@ export default function Header() {
         {/* Logo */}
         <Link
           href="/"
-          className="text-lg font-semibold tracking-tight gradient-text hover:opacity-80 transition-opacity"
+          className="hover:opacity-80 transition-opacity"
+          aria-label="Home"
         >
-          AH
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 120 60"
+            className="h-8 w-auto"
+            aria-hidden="true"
+          >
+            <defs>
+              <linearGradient id="petalFill" x1="0%" y1="50%" x2="100%" y2="50%">
+                <stop offset="0%" stopColor="#fdf6f8" />
+                <stop offset="15%" stopColor="#f8dce3" />
+                <stop offset="35%" stopColor="#f0b8c8" />
+                <stop offset="55%" stopColor="#e89bac" />
+                <stop offset="75%" stopColor="#de8596" />
+                <stop offset="100%" stopColor="#cf7080" />
+              </linearGradient>
+              <radialGradient id="rootWhite" cx="12%" cy="50%" r="25%">
+                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.95" />
+                <stop offset="60%" stopColor="#ffffff" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#fdf6f8" stopOpacity="0" />
+              </radialGradient>
+            </defs>
+            <g transform="rotate(-15 60 30)">
+              <path
+                d="M 5 30 Q 25 12, 60 10 Q 95 8, 115 30 Q 95 55, 60 52 Q 25 49, 5 30 Z"
+                fill="url(#petalFill)"
+              />
+              <ellipse cx="25" cy="30" rx="22" ry="15" fill="url(#rootWhite)" />
+              <g stroke="#d4899a" strokeWidth="0.4" fill="none" opacity="0.2" strokeLinecap="round">
+                <path d="M 12 28 Q 50 22, 100 22" />
+                <path d="M 14 34 Q 55 30, 102 30" />
+                <path d="M 16 40 Q 55 38, 98 38" />
+              </g>
+            </g>
+          </svg>
         </Link>
 
         {/* Desktop Nav */}
