@@ -226,7 +226,7 @@ const translations: Record<Locale, TranslationKeys> = {
     },
     hero: {
       greeting: 'Hello, I am',
-      name: 'Atsushi Harimoto',
+      name: 'AKIRA CHOU',
       title: 'Full-Stack Developer & AI Engineer',
       subtitle:
         '15 years shipping products across IoT, aviation, fintech, and enterprise AI — now designing human-AI collaborative workflows where developers architect and AI implements, in Tokyo.',
@@ -456,8 +456,8 @@ const translations: Record<Locale, TranslationKeys> = {
       names: {
         title: 'About the Name',
         items: [
+          { name: 'Akira Chou', description: 'Formal business name' },
           { name: 'Atsushi Harimoto', description: 'Online handle / creative alias' },
-          { name: 'Akira Cheung', description: 'Formal business name' },
         ],
       },
       languagesTitle: 'Languages',
@@ -564,7 +564,7 @@ const translations: Record<Locale, TranslationKeys> = {
     },
     hero: {
       greeting: 'はじめまして',
-      name: 'Atsushi Harimoto',
+      name: 'AKIRA CHOU',
       title: 'フルスタック開発者 & AIエンジニア',
       subtitle:
         'IoT・航空・金融・企業AIと15年にわたりプロダクトを出荷。現在は東京で、開発者が設計しAIが実装する——人間とAIの協働ワークフローを構築しています。',
@@ -794,8 +794,8 @@ const translations: Record<Locale, TranslationKeys> = {
       names: {
         title: '名前について',
         items: [
+          { name: 'Akira Chou', description: '正式なビジネス名' },
           { name: 'Atsushi Harimoto', description: 'ネット上のハンドルネーム / クリエイティブ名義' },
-          { name: 'Akira Cheung', description: '正式なビジネス名' },
         ],
       },
       languagesTitle: '言語',
@@ -902,7 +902,7 @@ const translations: Record<Locale, TranslationKeys> = {
     },
     hero: {
       greeting: '你好，我是',
-      name: 'Atsushi Harimoto',
+      name: 'AKIRA CHOU',
       title: '全端工程師 & AI 工程師',
       subtitle:
         '橫跨 IoT、航空、金融科技與企業 AI，15 年持續交付產品——現於東京設計「開發者負責架構、AI 負責實作」的人機協作工作流。',
@@ -1062,14 +1062,14 @@ const translations: Record<Locale, TranslationKeys> = {
       introTitle: '背景',
       intro: [
         '擁有 15 年以上開發經驗的 AI 工程師暨全端開發者，橫跨 IoT、金融科技、航空與企業 AI 領域，從技術選型到架構設計、團隊領導皆有豐富實戰經驗。現居東京。',
-        '2009 年以 IoT 裝置應用的行動開發者身分入行，歷經行動端與前端的資深工程師階段，現為全端型 AI 工程師暨副組長。',
+        '2009 年以 IoT 裝置應用的移動開發者身分入行，歷經移動端與前端的資深工程師階段，現為全端型 AI 工程師暨副組長。',
         '於企業 DX 推進專案擔任 SE / 副組長，領導 5 人開發團隊，主導 RAG 知識庫建構、AI 輔助編碼流程導入及 CI/CD 基礎設施設計。',
       ],
       skillsTitle: '技術能力',
       skillCategories: {
         frontend: '前端',
         backend: '後端',
-        mobile: '行動端',
+        mobile: '移動端',
         aiMl: 'AI / LLM',
         devopsTools: 'DevOps & 工具',
       },
@@ -1101,9 +1101,9 @@ const translations: Record<Locale, TranslationKeys> = {
         },
         {
           period: '2009.9 — 2014.9',
-          role: '行動開發工程師 — IoT',
+          role: '移動開發工程師 — IoT',
           description:
-            '開發 IoT 裝置整合應用。使用 Objective-C 和 Java 建構連接智慧裝置與雲端平台的行動應用。',
+            '開發 IoT 裝置整合應用。使用 Objective-C 和 Java 建構連接智慧裝置與雲端平台的移動應用。',
         },
       ],
       highlightsTitle: '關鍵成果',
@@ -1131,8 +1131,8 @@ const translations: Record<Locale, TranslationKeys> = {
       names: {
         title: '關於名字',
         items: [
+          { name: 'Akira Chou', description: '正式商務名稱' },
           { name: 'Atsushi Harimoto', description: '網路暱稱 / 創作名義' },
-          { name: 'Akira Cheung', description: '正式商務名稱' },
         ],
       },
       languagesTitle: '語言能力',
@@ -1203,10 +1203,10 @@ const translations: Record<Locale, TranslationKeys> = {
         },
         {
           period: '2009.9 — 2014.9',
-          role: '行動開發工程師',
+          role: '移動開發工程師',
           domain: 'IoT',
           description:
-            '開發 IoT 裝置整合應用。使用 Objective-C 和 Java 為智慧家庭與工業 IoT 場景建構行動應用。',
+            '開發 IoT 裝置整合應用。使用 Objective-C 和 Java 為智慧家庭與工業 IoT 場景建構移動應用。',
           tech: ['Objective-C', 'Java', 'iOS', 'Android'],
           achievements: [
             'IoT 智慧家庭平台伴侶應用開發',

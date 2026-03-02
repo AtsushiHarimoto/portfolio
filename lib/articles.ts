@@ -68,7 +68,7 @@ export const categories: Category[] = [
 export const articles: Article[] = [
 
   // 02_architecture
-  { slug: '02_architecture--09_system_design_basics', title: { en: 'System Design Basics', ja: 'システム設計フィールドガイド', 'zh-tw': '系統設計漫遊指北 (System Design Basics)' }, category: '02_architecture', file: '09_system_design_basics.md' },
+  { slug: '02_architecture--09_system_design_basics', title: { en: 'System Design Basics', ja: 'システム設計フィールドガイド', 'zh-tw': '系統設計漫遊指南 (System Design Basics)' }, category: '02_architecture', file: '09_system_design_basics.md' },
   { slug: '02_architecture--10_database_design_basics', title: { en: 'Database & Storage Design', ja: 'データベース & ストレージ設計', 'zh-tw': '資料庫設計與異構儲存基礎 (Database & Storage Design)' }, category: '02_architecture', file: '10_database_design_basics.md' },
   { slug: '02_architecture--12_ai_native_system_architecture', title: { en: 'Building AI-Native Systems in 2026', ja: '2026 年代における AI ネイティブシステム設計', 'zh-tw': '邁入 AI Native 世代：2026 前端與系統架構設計典範' }, category: '02_architecture', file: '12_ai_native_system_architecture.md' },
   { slug: '02_architecture--16_docker_containerization_basics', title: { en: 'Docker & Containerization', ja: 'Docker とサーバーコンテナ化技術', 'zh-tw': 'Docker 與伺服器容器化技術 (Docker & Containerization)' }, category: '02_architecture', file: '16_docker_containerization_basics.md' },
