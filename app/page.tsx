@@ -127,6 +127,21 @@ export default function HomePage() {
             <div className="h-1 w-20 bg-gradient-to-r from-transparent via-moyin-pink to-transparent rounded-full mb-4"></div>
             
             <div className="w-full max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* EP05: AIの頭脳を解剖する — 13のキーワードで分かるLLMの世界 */}
+              <div className="w-full p-3 md:p-4 rounded-xl border border-moyin-pink/15 bg-[#230f15]/70 backdrop-blur-md shadow-xl">
+                <div className="relative w-full overflow-hidden rounded-xl border border-white/5 aspect-video">
+                  <iframe
+                    className="absolute top-0 left-0 w-full h-full"
+                    src="https://www.youtube.com/embed/LyCrI8IZW8Q"
+                    title="AIの頭脳を解剖する — 13のキーワードで分かるLLMの世界"
+                    loading="lazy"
+                    sandbox="allow-scripts allow-same-origin allow-presentation"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
               {/* EP04: 5分間速攻クリア！12セッションでClaude Codeをマスター */}
               <div className="w-full p-3 md:p-4 rounded-xl border border-moyin-pink/15 bg-[#230f15]/70 backdrop-blur-md shadow-xl">
                 <div className="relative w-full overflow-hidden rounded-xl border border-white/5 aspect-video">
