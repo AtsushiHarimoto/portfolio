@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import { LocaleProvider } from '@/lib/locale-context';
+import { VfxProvider } from '@/lib/vfx-context';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SakuraBackground from '@/components/SakuraBackground';
@@ -16,15 +17,17 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
   return (
     <LocaleProvider>
-      {/* Full-page water ripple shader background */}
-      <div className="fixed inset-0 z-0">
-        <WaterRippleHero />
-      </div>
-      <SakuraBackground />
-      {!isHome && <FloatingMiniNav />}
-      {!isHome && <Header />}
-      <main className={`relative z-10 ${isHome ? '' : 'pt-16'}`}>{children}</main>
-      <Footer />
+      <VfxProvider>
+        {/* Full-page water ripple shader background */}
+        <div className="fixed inset-0 z-0">
+          <WaterRippleHero />
+        </div>
+        <SakuraBackground />
+        {!isHome && <FloatingMiniNav />}
+        {!isHome && <Header />}
+        <main className={`relative z-10 ${isHome ? '' : 'pt-16'}`}>{children}</main>
+        <Footer />
+      </VfxProvider>
     </LocaleProvider>
   );
 }

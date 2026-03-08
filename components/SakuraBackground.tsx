@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
+import { useVfx } from '@/lib/vfx-context';
 
 type Petal = {
   id: number;
@@ -35,6 +36,7 @@ function getPetalGradient(variant: number, opacity: number): string {
 }
 
 export default function SakuraBackground() {
+  const { isVfxEnabled } = useVfx();
   const [petals, setPetals] = useState<Petal[]>([]);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
@@ -63,12 +65,12 @@ export default function SakuraBackground() {
   }, []);
 
   useEffect(() => {
-    if (prefersReducedMotion) {
+    if (prefersReducedMotion || !isVfxEnabled) {
       setPetals([]);
       return;
     }
     setPetals(generatePetals());
-  }, [prefersReducedMotion, generatePetals]);
+  }, [prefersReducedMotion, isVfxEnabled, generatePetals]);
 
   if (petals.length === 0) return null;
 

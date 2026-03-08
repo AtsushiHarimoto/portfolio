@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useCallback } from 'react';
 import * as THREE from 'three';
+import { useVfx } from '@/lib/vfx-context';
 
 const rippleVertex = `
 varying vec2 vUv;
@@ -144,21 +145,23 @@ void main(){
 }`;
 
 export default function WaterRippleHero() {
+  const { isVfxEnabled } = useVfx();
   const containerRef = useRef<HTMLDivElement>(null);
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
   const rafRef = useRef<number>(0);
 
   const handlePointerMove = useCallback((e: PointerEvent) => {
+    if (!isVfxEnabled) return;
     const el = containerRef.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
     mouseRef.current.x = (e.clientX - rect.left) / rect.width;
     mouseRef.current.y = 1.0 - (e.clientY - rect.top) / rect.height;
-  }, []);
+  }, [isVfxEnabled]);
 
   useEffect(() => {
     const container = containerRef.current;
-    if (!container) return;
+    if (!container || !isVfxEnabled) return;
 
     let renderer: THREE.WebGLRenderer;
     try {

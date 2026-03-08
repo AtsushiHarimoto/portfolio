@@ -28,6 +28,7 @@ type TranslationKeys = {
     subtitle: string;
     cta: string;
     ctaProjects: string;
+    stack: string[];
   };
   home: {
     featuredTitle: string;
@@ -232,6 +233,12 @@ const translations: Record<Locale, TranslationKeys> = {
         '15 years shipping products across IoT, aviation, fintech, and enterprise AI — now designing human-AI collaborative workflows where developers architect and AI implements, in Tokyo.',
       cta: 'Get in Touch',
       ctaProjects: 'View Projects',
+      stack: [
+        'TypeScript / React / Vue',
+        'Python / LLM / Agentic Workflow',
+        'FastAPI / Node.js / PostgreSQL',
+        'UI/UX Design / Glassmorphism',
+      ],
     },
     home: {
       featuredTitle: 'Video Works',
@@ -570,6 +577,12 @@ const translations: Record<Locale, TranslationKeys> = {
         'IoT・航空・金融・企業AIと15年にわたりプロダクトを出荷。現在は東京で、開発者が設計しAIが実装する——人間とAIの協働ワークフローを構築しています。',
       cta: 'お問い合わせ',
       ctaProjects: 'プロジェクトを見る',
+      stack: [
+        'TypeScript / React / Vue',
+        'Python / LLM / エージェントワークフロー',
+        'FastAPI / Node.js / PostgreSQL',
+        'UI/UX 設計 / グラスモーフィズム',
+      ],
     },
     home: {
       featuredTitle: '映像作品',
@@ -906,8 +919,14 @@ const translations: Record<Locale, TranslationKeys> = {
       title: '全端工程師 & AI 工程師',
       subtitle:
         '橫跨 IoT、航空、金融科技與企業 AI，15 年持續交付產品——現於東京設計「開發者負責架構、AI 負責實作」的人機協作工作流。',
-      cta: '聯繫我',
+      cta: '聯絡我',
       ctaProjects: '查看專案',
+      stack: [
+        'TypeScript / React / Vue',
+        'Python / LLM / 代理工作流',
+        'FastAPI / Node.js / PostgreSQL',
+        'UI/UX 設計 / 玻璃擬態',
+      ],
     },
     home: {
       featuredTitle: '視頻作品',

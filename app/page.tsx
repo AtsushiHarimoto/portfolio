@@ -3,7 +3,8 @@
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useLocale } from '@/lib/locale-context';
-import { ArrowRight, Server, LayoutDashboard, Gamepad2 } from 'lucide-react';
+import { useVfx } from '@/lib/vfx-context';
+import { ArrowRight, Server, LayoutDashboard, Gamepad2, Code2, Cpu, Globe, Database } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
 const basePath = process.env.NODE_ENV === 'production' ? '/portfolio' : '';
@@ -19,19 +20,20 @@ const demoLinks = [
 
 export default function HomePage() {
   const { t } = useLocale();
+  const { isVfxEnabled } = useVfx();
   const prefersReducedMotion = useReducedMotion();
   return (
     <>
-      {/* Hero Section — Immersive WebGL */}
+      {/* Hero Section — Immersive WebGL or Clean Professional */}
       <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
         {/* Floating skill bubbles — background layer */}
-        <FloatingSkillBubbles />
+        {isVfxEnabled && <FloatingSkillBubbles />}
 
         {/* 3D Immersive Navigation Overlay — z-10, objects at top arc */}
-        <ImmersiveNav />
+        {isVfxEnabled && <ImmersiveNav />}
 
         {/* Hero Content — z-15, vertically centered above nav cards */}
-        <div className="relative z-hero-content flex flex-col gap-6 max-w-3xl items-center text-center pointer-events-none px-4 -mt-24">
+        <div className={`relative z-hero-content flex flex-col gap-6 max-w-3xl items-center text-center px-4 ${isVfxEnabled ? '-mt-24' : 'mt-0'}`}>
 
           {/* Greeting badge — slide down + scale */}
           <motion.div
@@ -107,6 +109,34 @@ export default function HomePage() {
           >
             {t.hero.subtitle}
           </motion.p>
+
+          {/* Quick Info / Tech Stack — Only visible when VFX is off for a cleaner/professional look */}
+          {!isVfxEnabled && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.8 }}
+              className="flex flex-wrap justify-center gap-3 mt-4"
+            >
+              {t.hero.stack.map((label: string, i: number) => {
+                const icons = [
+                  <Globe key="globe" className="w-3.5 h-3.5" />,
+                  <Cpu key="cpu" className="w-3.5 h-3.5" />,
+                  <Database key="db" className="w-3.5 h-3.5" />,
+                  <Code2 key="code" className="w-3.5 h-3.5" />
+                ];
+                return (
+                  <div 
+                    key={i}
+                    className="flex items-center gap-1.5 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-gray-300 text-xs font-medium"
+                  >
+                    <span className="text-moyin-pink">{icons[i % icons.length]}</span>
+                    <span>{label}</span>
+                  </div>
+                );
+              })}
+            </motion.div>
+          )}
 
         </div>
       </section>

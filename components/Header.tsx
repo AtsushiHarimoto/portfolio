@@ -4,10 +4,34 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Sparkles } from 'lucide-react';
 import { useLocale } from '@/lib/locale-context';
+import { useVfx } from '@/lib/vfx-context';
 import { NAV_ITEMS } from '@/lib/nav';
 import LanguageSwitcher from './LanguageSwitcher';
+
+function VfxToggle() {
+  const { isVfxEnabled, toggleVfx } = useVfx();
+  const { t } = useLocale();
+
+  return (
+    <button
+      onClick={toggleVfx}
+      className={`group flex items-center justify-center p-2 rounded-lg border transition-all duration-300 ${
+        isVfxEnabled
+          ? 'bg-moyin-pink/20 border-moyin-pink/40 text-moyin-pink'
+          : 'bg-white/5 border-white/10 text-gray-400 hover:text-gray-200 hover:border-white/20'
+      }`}
+      title={isVfxEnabled ? 'Disable Visual Effects' : 'Enable Visual Effects'}
+      aria-label="Toggle visual effects"
+    >
+      <Sparkles
+        className={`w-4 h-4 transition-transform duration-500 ${isVfxEnabled ? 'rotate-12 scale-110' : ''}`}
+        strokeWidth={2}
+      />
+    </button>
+  );
+}
 
 export default function Header() {
   const { t } = useLocale();
@@ -104,6 +128,7 @@ export default function Header() {
 
         {/* Right side */}
         <div className="flex items-center gap-3">
+          <VfxToggle />
           <LanguageSwitcher />
 
           {/* Mobile menu button */}

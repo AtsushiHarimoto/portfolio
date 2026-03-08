@@ -5,7 +5,6 @@ import { useRouter, usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocale } from '@/lib/locale-context';
 import { Home, FolderOpen, FileText, Briefcase, User, Menu, X } from 'lucide-react';
-import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 const NAV_ITEMS = [
   { key: 'home', path: '/', icon: Home },
@@ -100,17 +99,6 @@ export default function FloatingMiniNav() {
                 </motion.button>
               );
             })}
-
-            {/* Language switcher bubble */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0 }}
-              transition={{ duration: 0.25, delay: 0.25 }}
-              className="absolute bottom-16 left-16"
-            >
-              <LanguageSwitcher />
-            </motion.div>
           </nav>
         )}
       </AnimatePresence>
