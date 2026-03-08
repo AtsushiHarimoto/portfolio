@@ -234,10 +234,10 @@ const translations: Record<Locale, TranslationKeys> = {
       cta: 'Get in Touch',
       ctaProjects: 'View Projects',
       stack: [
-        'TypeScript / React / Vue',
-        'Python / LLM / Agentic Workflow',
-        'FastAPI / Node.js / PostgreSQL',
-        'UI/UX Design / Glassmorphism',
+        'AI Workflow Architect',
+        'Enterprise Systems Builder',
+        'FinTech · Aviation · IoT',
+        'Product-Driven Development',
       ],
     },
     home: {
@@ -578,10 +578,10 @@ const translations: Record<Locale, TranslationKeys> = {
       cta: 'お問い合わせ',
       ctaProjects: 'プロジェクトを見る',
       stack: [
-        'TypeScript / React / Vue',
-        'Python / LLM / エージェントワークフロー',
-        'FastAPI / Node.js / PostgreSQL',
-        'UI/UX 設計 / グラスモーフィズム',
+        'AIワークフロー設計者',
+        'エンタープライズ開発',
+        '金融・航空・IoT 領域',
+        'プロダクト思考の開発者',
       ],
     },
     home: {
@@ -922,10 +922,10 @@ const translations: Record<Locale, TranslationKeys> = {
       cta: '聯絡我',
       ctaProjects: '查看專案',
       stack: [
-        'TypeScript / React / Vue',
-        'Python / LLM / 代理工作流',
-        'FastAPI / Node.js / PostgreSQL',
-        'UI/UX 設計 / 玻璃擬態',
+        'AI 工作流架構師',
+        '企業系統建構者',
+        '金融・航空・IoT 領域',
+        '產品驅動開發',
       ],
     },
     home: {
