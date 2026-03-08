@@ -137,7 +137,9 @@ export default function HomePage() {
                 );
               })}
             </motion.div>
-          {/* Main Navigation Grid — Always visible or alternate style when VFX is off */}
+          )}
+
+          {/* Main Navigation Grid — 5 portals: 家道法術己 — only visible when VFX is off */}
           {!isVfxEnabled && (
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -145,7 +147,7 @@ export default function HomePage() {
               transition={{ duration: 0.8, delay: 2.0 }}
               className="grid grid-cols-5 gap-3 md:gap-5 mt-8 w-full max-w-2xl px-2"
             >
-              {NAV_ITEMS.map((item, i) => (
+              {NAV_ITEMS.map((item) => (
                 <Link
                   key={item.key}
                   href={item.path}
