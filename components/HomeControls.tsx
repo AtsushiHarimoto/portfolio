@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ChevronDown } from 'lucide-react';
 import { useLocale } from '@/lib/locale-context';
 import { useVfx } from '@/lib/vfx-context';
-import { locales } from '@/lib/i18n';
+import { locales, getTranslations } from '@/lib/i18n';
 
 /**
  * 用途：首頁專用的浮動控制列（語言切換 + VFX Toggle）
@@ -18,6 +18,8 @@ export default function HomeControls() {
   const ref = useRef<HTMLDivElement>(null);
 
   const currentLocale = locales.find((l) => l.code === locale);
+
+  const t = getTranslations(locale);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -43,8 +45,8 @@ export default function HomeControls() {
             ? 'bg-moyin-pink/20 border-moyin-pink/40 text-moyin-pink'
             : 'bg-black/30 border-white/10 text-gray-400 hover:text-gray-200 hover:border-white/20'
         }`}
-        title={isVfxEnabled ? 'Disable Visual Effects' : 'Enable Visual Effects'}
-        aria-label="Toggle visual effects"
+        title={isVfxEnabled ? t.vfx.disable : t.vfx.enable}
+        aria-label={isVfxEnabled ? t.vfx.disable : t.vfx.enable}
       >
         <Sparkles
           className={`w-4 h-4 transition-transform duration-500 ${isVfxEnabled ? 'rotate-12 scale-110' : ''}`}

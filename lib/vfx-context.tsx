@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { MotionConfig } from 'framer-motion';
 
 type VfxContextType = {
   isVfxEnabled: boolean;
@@ -20,6 +21,15 @@ export function VfxProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
+  // Update global animations disabled class
+  useEffect(() => {
+    if (isVfxEnabled) {
+      document.documentElement.classList.remove('no-vfx');
+    } else {
+      document.documentElement.classList.add('no-vfx');
+    }
+  }, [isVfxEnabled]);
+
   const toggleVfx = () => {
     setIsVfxEnabled((prev) => {
       const next = !prev;
@@ -30,7 +40,9 @@ export function VfxProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <VfxContext.Provider value={{ isVfxEnabled, toggleVfx }}>
-      {children}
+      <MotionConfig transition={isVfxEnabled ? undefined : { duration: 0 }}>
+        {children}
+      </MotionConfig>
     </VfxContext.Provider>
   );
 }

@@ -214,6 +214,10 @@ type TranslationKeys = {
     copyright: string;
     builtWith: string;
   };
+  vfx: {
+    enable: string;
+    disable: string;
+  };
 };
 
 const translations: Record<Locale, TranslationKeys> = {
@@ -560,6 +564,10 @@ const translations: Record<Locale, TranslationKeys> = {
       copyright: 'Atsushi Harimoto. All rights reserved.',
       builtWith: 'Built with Next.js, Tailwind CSS & Framer Motion',
     },
+    vfx: {
+      enable: 'Enable Visual Effects',
+      disable: 'Disable Visual Effects',
+    },
   },
   ja: {
     nav: {
@@ -904,6 +912,10 @@ const translations: Record<Locale, TranslationKeys> = {
       copyright: 'Atsushi Harimoto. All rights reserved.',
       builtWith: 'Next.js、Tailwind CSS、Framer Motionで構築',
     },
+    vfx: {
+      enable: 'エフェクトを有効にする',
+      disable: 'エフェクトを無効にする',
+    },
   },
   'zh-tw': {
     nav: {
@@ -1246,6 +1258,10 @@ const translations: Record<Locale, TranslationKeys> = {
     footer: {
       copyright: 'Atsushi Harimoto. 版權所有。',
       builtWith: '使用 Next.js、Tailwind CSS 和 Framer Motion 建構',
+    },
+    vfx: {
+      enable: '開啟視覺特效',
+      disable: '關閉視覺特效',
     },
   },
 };

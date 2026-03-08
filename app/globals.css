@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -57,13 +57,19 @@
   }
 
   @keyframes name-breathe {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 1;
-      text-shadow: 0 0 40px rgba(255, 192, 211, 0.3), 0 0 80px rgba(167, 139, 250, 0.15);
+      text-shadow:
+        0 0 40px rgba(255, 192, 211, 0.3),
+        0 0 80px rgba(167, 139, 250, 0.15);
     }
     50% {
       opacity: 0.6;
-      text-shadow: 0 0 60px rgba(255, 192, 211, 0.6), 0 0 120px rgba(167, 139, 250, 0.3), 0 0 20px rgba(255, 192, 211, 0.4);
+      text-shadow:
+        0 0 60px rgba(255, 192, 211, 0.6),
+        0 0 120px rgba(167, 139, 250, 0.3),
+        0 0 20px rgba(255, 192, 211, 0.4);
     }
   }
 
@@ -81,9 +87,19 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+.no-vfx *,
+.no-vfx *::before,
+.no-vfx *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
 }
