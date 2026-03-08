@@ -227,7 +227,7 @@ const translations: Record<Locale, TranslationKeys> = {
     },
     hero: {
       greeting: 'Hello, I am',
-      name: 'AKIRA CHOU',
+      name: 'AKIRA CHŌ',
       title: 'Full-Stack Developer & AI Engineer',
       subtitle:
         '15 years shipping products across IoT, aviation, fintech, and enterprise AI — now designing human-AI collaborative workflows where developers architect and AI implements, in Tokyo.',
@@ -463,7 +463,7 @@ const translations: Record<Locale, TranslationKeys> = {
       names: {
         title: 'About the Name',
         items: [
-          { name: 'Akira Chou', description: 'Formal business name' },
+          { name: 'AKIRA CHŌ', description: 'Formal business name' },
           { name: 'Atsushi Harimoto', description: 'Online handle / creative alias' },
         ],
       },
@@ -571,7 +571,7 @@ const translations: Record<Locale, TranslationKeys> = {
     },
     hero: {
       greeting: 'はじめまして',
-      name: 'AKIRA CHOU',
+      name: 'AKIRA CHŌ',
       title: 'フルスタック開発者 & AIエンジニア',
       subtitle:
         'IoT・航空・金融・企業AIと15年にわたりプロダクトを出荷。現在は東京で、開発者が設計しAIが実装する——人間とAIの協働ワークフローを構築しています。',
@@ -807,7 +807,7 @@ const translations: Record<Locale, TranslationKeys> = {
       names: {
         title: '名前について',
         items: [
-          { name: 'Akira Chou', description: '正式なビジネス名' },
+          { name: 'AKIRA CHŌ', description: '正式なビジネス名' },
           { name: 'Atsushi Harimoto', description: 'ネット上のハンドルネーム / クリエイティブ名義' },
         ],
       },
@@ -915,7 +915,7 @@ const translations: Record<Locale, TranslationKeys> = {
     },
     hero: {
       greeting: '你好，我是',
-      name: 'AKIRA CHOU',
+      name: 'AKIRA CHŌ',
       title: '全端工程師 & AI 工程師',
       subtitle:
         '橫跨 IoT、航空、金融科技與企業 AI，15 年持續交付產品——現於東京設計「開發者負責架構、AI 負責實作」的人機協作工作流。',
@@ -1150,7 +1150,7 @@ const translations: Record<Locale, TranslationKeys> = {
       names: {
         title: '關於名字',
         items: [
-          { name: 'Akira Chou', description: '正式商務名稱' },
+          { name: 'AKIRA CHŌ', description: '正式商務名稱' },
           { name: 'Atsushi Harimoto', description: '網路暱稱 / 創作名義' },
         ],
       },

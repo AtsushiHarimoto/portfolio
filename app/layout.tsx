@@ -13,13 +13,13 @@ const openhuninn = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: 'AKIRA CHOU | Full-Stack Developer & AI Engineer',
-    template: '%s | AKIRA CHOU',
+    default: 'AKIRA CHŌ | Full-Stack Developer & AI Engineer',
+    template: '%s | AKIRA CHŌ',
   },
   description:
-    'Portfolio of AKIRA CHOU - Full-Stack Developer & AI Engineer specializing in Vue, React, TypeScript, Python, FastAPI, and LLM integration. Based in Japan.',
+    'Portfolio of AKIRA CHŌ - Full-Stack Developer & AI Engineer specializing in Vue, React, TypeScript, Python, FastAPI, and LLM integration. Based in Japan.',
   keywords: [
-    'AKIRA CHOU',
+    'AKIRA CHŌ',
     '張本敦',
     'Full-Stack Developer',
     'AI Engineer',
@@ -35,21 +35,21 @@ export const metadata: Metadata = {
     'ソフトウェアエンジニア',
     'ポートフォリオ',
   ],
-  authors: [{ name: 'AKIRA CHOU' }],
-  creator: 'AKIRA CHOU',
+  authors: [{ name: 'AKIRA CHŌ' }],
+  creator: 'AKIRA CHŌ',
   openGraph: {
     type: 'website',
     locale: 'en_US',
     alternateLocale: ['ja_JP', 'zh_TW'],
     url: 'https://atsushiharimoto.github.io/portfolio/',
-    siteName: 'AKIRA CHOU Portfolio',
-    title: 'AKIRA CHOU | Full-Stack Developer & AI Engineer',
+    siteName: 'AKIRA CHŌ Portfolio',
+    title: 'AKIRA CHŌ | Full-Stack Developer & AI Engineer',
     description:
       'Full-Stack Developer & AI Engineer building creative software with Vue, React, TypeScript, Python, and LLM integration.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AKIRA CHOU | Full-Stack Developer & AI Engineer',
+    title: 'AKIRA CHŌ | Full-Stack Developer & AI Engineer',
     description:
       'Full-Stack Developer & AI Engineer building creative software with Vue, React, TypeScript, Python, and LLM integration.',
   },
