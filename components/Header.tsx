@@ -116,10 +116,8 @@ export default function Header() {
             >
               {item.label}
               {isActive(item.href) && (
-                <motion.div
-                  layoutId="nav-indicator"
+                <div
                   className="absolute bottom-0 left-2 right-2 h-0.5 bg-gradient-to-r from-moyin-pink to-moyin-purple rounded-full"
-                  transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                 />
               )}
             </Link>
