@@ -15,49 +15,42 @@ export default function CareerPage() {
   const lineScaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
-    <section className="section-container">
+    <section className="max-w-4xl mx-auto px-6 py-20 md:py-32">
       {/* Page Header */}
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="mb-20 text-center"
+        className="mb-20 md:mb-32 max-w-2xl"
       >
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          <span className="gradient-text">{t.career.pageTitle}</span>
+        <h1 className="text-4xl md:text-5xl font-medium tracking-tight text-white mb-6">
+          {t.career.pageTitle}
         </h1>
-        <p className="text-lg text-moyin-text-secondary max-w-2xl mx-auto">
+        <p className="text-lg text-moyin-text-secondary leading-relaxed">
           {t.career.pageSubtitle}
         </p>
       </motion.div>
 
       {/* Timeline */}
-      <div ref={containerRef} className="relative max-w-5xl mx-auto">
-        {/* Center spine — background track */}
-        <div className="absolute left-4 md:left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5 bg-moyin-dark-lighter" />
+      <div ref={containerRef} className="relative">
+        {/* Global Track */}
+        <div className="absolute left-[11.5px] md:left-[151.5px] top-3 bottom-4 w-[1px] bg-white/[0.08]" />
 
-        {/* Center spine — animated fill */}
+        {/* Global Fill */}
         <motion.div
-          className="absolute left-4 md:left-1/2 -translate-x-1/2 top-0 w-0.5 bg-gradient-to-b from-moyin-pink via-moyin-petal to-moyin-purple origin-top"
-          style={{ scaleY: lineScaleY, height: '100%' }}
+          className="absolute left-[11.5px] md:left-[151.5px] top-3 bottom-4 w-[1px] bg-gradient-to-b from-moyin-pink to-moyin-purple origin-top"
+          style={{ scaleY: lineScaleY }}
         />
 
         {/* Timeline items */}
-        <div className="space-y-12 md:space-y-16">
-          {t.career.items.map((item, index) => {
-            const isLeft = index % 2 === 0;
-
-            return (
-              <TimelineItem
-                key={index}
-                item={item}
-                index={index}
-                isLeft={isLeft}
-                techLabel={t.career.techStack}
-                achievementsLabel={t.career.achievements}
-              />
-            );
-          })}
+        <div className="space-y-16 md:space-y-24">
+          {t.career.items.map((item, index) => (
+            <TimelineItem
+              key={index}
+              item={item}
+              index={index}
+            />
+          ))}
         </div>
       </div>
     </section>
@@ -67,9 +60,6 @@ export default function CareerPage() {
 function TimelineItem({
   item,
   index,
-  isLeft,
-  techLabel,
-  achievementsLabel,
 }: {
   item: {
     period: string;
@@ -80,122 +70,77 @@ function TimelineItem({
     achievements: string[];
   };
   index: number;
-  isLeft: boolean;
-  techLabel: string;
-  achievementsLabel: string;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start 0.85', 'start 0.5'],
-  });
-  const dotScale = useTransform(scrollYProgress, [0, 1], [0.5, 1]);
-  const dotOpacity = useTransform(scrollYProgress, [0, 1], [0.3, 1]);
-
   return (
-    <div
-      ref={ref}
-      className={`relative flex items-start gap-8 md:gap-0 ${
-        isLeft ? 'md:flex-row' : 'md:flex-row-reverse'
-      }`}
-    >
-      {/* Timeline dot */}
-      <div className="absolute left-4 md:left-1/2 -translate-x-1/2 z-10 flex items-center justify-center">
-        <motion.span
-          className="w-4 h-4 rounded-full bg-moyin-pink shadow-[0_0_12px_rgba(255,192,211,0.5)] border-2 border-moyin-dark block"
-          style={{ scale: dotScale, opacity: dotOpacity }}
-        />
+    <div className="relative grid grid-cols-[24px_1fr] md:grid-cols-[140px_24px_1fr] gap-x-0 group">
+      {/* Desktop Period */}
+      <div className="hidden md:block pr-8 text-right pt-[7px]">
+        <span className="text-[13px] font-mono tracking-wide text-moyin-text-hint transition-colors duration-300 group-hover:text-moyin-pink">
+          {item.period}
+        </span>
       </div>
 
-      {/* Card */}
+      {/* Dot Node */}
+      <div className="relative flex justify-center pt-[10px]">
+        <div className="w-[7px] h-[7px] bg-moyin-dark rounded-full border border-white/30 transition-all duration-300 group-hover:bg-moyin-pink group-hover:border-moyin-pink group-hover:scale-125 group-hover:shadow-[0_0_12px_rgba(255,192,211,0.8)] z-10" />
+      </div>
+
+      {/* Content */}
       <motion.div
-        initial={{ opacity: 0, x: isLeft ? -60 : 60, y: 20 }}
-        whileInView={{ opacity: 1, x: 0, y: 0 }}
-        viewport={{ once: true, margin: '-80px' }}
-        transition={{ duration: 0.6, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className={`
-          ml-12 md:ml-0 md:w-[calc(50%-2.5rem)]
-          ${isLeft ? 'md:mr-auto' : 'md:ml-auto'}
-          group
-        `}
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-50px' }}
+        transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
+        className="pl-5 md:pl-10 pb-4"
       >
-        <div className="glass-card p-6 relative overflow-hidden hover:border-moyin-pink/20 transition-colors duration-300">
-          {/* Accent gradient bar */}
-          <div
-            className={`absolute top-0 bottom-0 w-0.5 bg-gradient-to-b from-moyin-pink/60 to-moyin-purple/30 ${
-              isLeft ? 'right-0 md:right-0' : 'right-0 md:left-0'
-            }`}
-          />
-
-          {/* Glow effect on hover */}
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-moyin-pink/[0.03] to-moyin-purple/[0.03] rounded-2xl" />
-
-          {/* Period badge */}
-          <div className="flex flex-wrap items-center gap-2 mb-3">
-            <span className="text-xs font-mono text-moyin-pink px-2.5 py-1 bg-moyin-pink/10 rounded-md border border-moyin-pink/20">
-              {item.period}
-            </span>
-            <span className="text-xs font-mono text-moyin-text-muted px-2 py-1 bg-moyin-dark-lighter/60 rounded-md">
+        <div className="mb-5">
+          {/* Mobile Period */}
+          <span className="md:hidden block text-[13px] font-mono tracking-wide text-moyin-text-muted mb-2 transition-colors duration-300 group-hover:text-moyin-pink">
+            {item.period}
+          </span>
+          <div className="flex flex-wrap items-center gap-3 mb-3">
+            <h3 className="text-xl md:text-2xl font-medium tracking-tight text-white group-hover:text-moyin-pink-light transition-colors duration-300">
+              {item.role}
+            </h3>
+            <span className="text-[11px] font-medium tracking-wider uppercase text-moyin-pink px-2.5 py-1 bg-moyin-pink/[0.05] border border-moyin-pink/20 rounded-full">
               {item.domain}
             </span>
           </div>
-
-          {/* Role */}
-          <h3 className="text-lg font-semibold text-moyin-text-primary mb-2 group-hover:text-moyin-pink-light transition-colors duration-300">
-            {item.role}
-          </h3>
-
-          {/* Description */}
-          <p className="text-sm text-moyin-text-hint leading-relaxed mb-4">
+          <p className="text-[15px] md:text-base text-moyin-text-secondary leading-relaxed">
             {item.description}
           </p>
-
-          {/* Tech Stack */}
-          <div className="mb-4">
-            <p className="text-xs font-mono text-moyin-text-muted mb-2 uppercase tracking-wider">
-              {techLabel}
-            </p>
-            <div className="flex flex-wrap gap-1.5">
-              {item.tech.map((tech) => (
-                <span
-                  key={tech}
-                  className="px-2 py-0.5 text-[11px] font-medium rounded-md bg-moyin-dark-lighter/80 text-moyin-text-hint border border-white/5 hover:border-moyin-pink/20 hover:text-moyin-pink-light transition-colors duration-200"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Achievements */}
-          <div>
-            <p className="text-xs font-mono text-moyin-text-muted mb-2 uppercase tracking-wider">
-              {achievementsLabel}
-            </p>
-            <ul className="space-y-1.5">
-              {item.achievements.map((achievement, i) => (
-                <motion.li
-                  key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: 0.3 + i * 0.1 }}
-                  className="flex items-start gap-2 text-sm text-moyin-text-secondary leading-relaxed"
-                >
-                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-moyin-pink/60 shrink-0" />
-                  {achievement}
-                </motion.li>
-              ))}
-            </ul>
-          </div>
         </div>
 
-        {/* Connector line from dot to card (mobile only visible, desktop via spacing) */}
-        <div
-          className={`hidden md:block absolute top-6 w-6 h-px bg-moyin-dark-lighter ${
-            isLeft ? 'right-0 translate-x-full md:left-auto md:right-[-2.5rem]' : 'left-0 -translate-x-full md:right-auto md:left-[-2.5rem]'
-          }`}
-        />
+        {/* Tech Stack */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          {item.tech.map((tech) => (
+            <span
+              key={tech}
+              className="text-[12px] font-mono text-moyin-text-hint bg-white/[0.02] px-2.5 py-1 rounded border border-white/[0.05] transition-colors duration-300 group-hover:border-white/10 group-hover:text-moyin-text-secondary group-hover:bg-white/[0.04]"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        {/* Achievements */}
+        <ul className="space-y-3 p-0 m-0">
+          {item.achievements.map((achievement, i) => (
+            <motion.li
+              key={i}
+              initial={{ opacity: 0, x: -5 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: 0.2 + i * 0.05 }}
+              className="flex items-start gap-3"
+            >
+              <span className="mt-[9px] w-[3px] h-[3px] shrink-0 rounded-full bg-white/20 group-hover:bg-moyin-pink/60 transition-colors duration-300" />
+              <span className="text-[14px] md:text-[15px] text-moyin-text-secondary/90 leading-relaxed max-w-2xl">
+                {achievement}
+              </span>
+            </motion.li>
+          ))}
+        </ul>
       </motion.div>
     </div>
   );
