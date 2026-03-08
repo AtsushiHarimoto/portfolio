@@ -1,67 +1,70 @@
-# 27. Breaking the Brain's Capacity Limit: Titans Neural Memory and the DiT Visual Engine (Behind Sora)
+# Breaking Brain Capacity Limits: Titans Neural Memory and the Soul of DiT Video Generation (Titans & DiT)
 
-> **Type**: SOTA (State-of-the-Art) Academic Papers and Multimodal Model Low-Level Analysis
-> **Focus**: Continuing the hardcore large model evolution map: When Transformer is cornered by context length limitations, Google's **Titans model** delivers the shocking revolution of "inscribing memory directly into the neural network." Additionally, this chapter deconstructs the stunning Sora video generation engine -- how **Diffusion Transformer (DiT)** discards legacy architecture to give the language brain the ultimate visual eyes.
+## @Overview
 
----
+Hello, I'm AKIRA.
+Today, we're talking about what to do when the "whiteboard" of a traditional AI brain is full.
+We all know that Transformer models read by relying on a "whiteboard (context window)" to remember things.
+But whiteboards always have limits. When you want the AI to remember ten years of your lifestyle diary, totaling millions of words:
 
-## Preface: What Do We Do When the Whiteboard Is Full?
+- **Traditional AI**: Because the data is too long, it directly causes the graphics card VRAM to explode, and the server crashes and stops working.
+- **The Up-and-Comer Mamba**: Although it won't crash, its notebook is too small; by the time it reads the tenth year's diary, it has long forgotten the name of the dog you kept in the first year.
 
-We've established that Transformer must look back at all previous words (KV Cache) for every sentence it reads. This is like having a very large whiteboard (Context Window, e.g., 128K or 1M).
-But whiteboards eventually fill up. When you throw ten years of personal diary entries (up to 50 million words) at the AI:
-
-- **Transformer camp**: GPU VRAM instantly explodes, servers crash, company goes bankrupt.
-- **Mamba camp**: While it is linear and won't crash, its "compressed notebook (Hidden State)" capacity is too small. By year ten, it has long forgotten the name of the dog you had in year one.
-
-To solve the "ultra-long memory" problem, Google Research released what has been hailed as the next-generation nuclear warhead paper: **Titans**.
+To save this "amnesia crisis," Google threw out a nuclear-level paper: **Titans**.
 
 ---
 
-## 1. Unforgettable and Indelible: Titans and Neural Long-Term Memory
+## 1. Unforgettable and Engraved: The Titans Architecture
 
-How do humans maintain thirty years of memories? Your brain certainly doesn't have a 10GB "temporary memory whiteboard" installed.
-**Human memory is directly imprinted into the physical structure of the brain's neural network through "changes in synaptic connections (Synaptic Plasticity)!"**
+How do humans remember things? Do you have 16GB of memory in your head?
+No, humans do it through "changes in neural synaptic connections," directly **carving memories into the physical structure of the brain's neural network!** This is called "neural plasticity."
 
-Google's Titans architecture perfectly replicates this biological miracle.
+**Google's Titans architecture perfectly replicates this miracle**:
 
-- **Triple Architecture**: The Titans brain is divided into three regions: Core (core thinking area), Surprise (short-term memory preheating), and the most stunning -- **Neural Long-Term Memory**.
-- **Weights as Memory**: When Titans finishes reading a Harry Potter novel, it **does not** store it in a KV Cache array. Instead, it uses a self-evolving algorithm called the **Neural Memory Updater** to **directly "modify in place" the AI's own network weights!**
-- **Dimensional Supremacy**: This means a decade of diary entries gets compressed into a "subconscious network structure." When you ask the AI about something from ten years ago, it doesn't flip through a whiteboard -- instead, like an intuitive reflex, it extracts the answer directly from its already-altered network weights.
-  **This completely demolishes the Context Length ceiling, signaling that personalized AI companions with "infinite lifespan and memory" are about to become reality.**
-
----
-
-## 2. Giving the Language Brain Eyes: The Geometric Magic of Multimodal
-
-If AI can only read text, it is forever blind.
-But to have Transformer comprehend a 4K color image, if every pixel were treated as a word and fed in, the computation would reach trillions of trillions.
-
-### The Slicing Strategy: ViT (Vision Transformer)
-
-- Scientists take this photograph and slice it into **16x16 small square patches**.
-- They "flatten" these patches, then feed them through a Linear Projection layer just like words.
-- Voila -- a photograph is converted into 256 ordinary "word vectors." The model has no idea it's looking at an image; it only knows these are 256 geometrically related mathematical blocks. Then Transformer reads the image's meaning as effortlessly as reading an article!
+- **Memory as Weights**: When Titans finishes reading your diary, it **doesn't store it in a cache**.
+- **Self-Evolution**: It uses an advanced algorithm to **directly "modify in place" the network weights of the AI tool itself!**
+- **Features**: Memory is no longer limited by that whiteboard. Little bits of life from the past ten years become a kind of "instinctual reflex" for the AI. When you ask it about something from ten years ago, it doesn't look in a book; it can answer correctly by intuition.
+- **This marks that a personalized AI companion with an infinite lifespan, capable of chatting with you for a lifetime, is truly descending.**
 
 ---
 
-## 3. The Creator's Brush: DiT (Diffusion Transformer) -- The Engine Behind Sora's Explosion
+## 2. Letting the Language Brain Grow Eyes: Multimodal Geometric Magic
 
-You've surely heard of Midjourney or early Stable Diffusion. Their underlying architecture used a convolutional network called **U-Net** to gradually denoise an image into a beautiful result.
-But U-Net lacks global understanding of the physical world's "context." This is why in early AI videos, characters' feet would melt as they walked, and cups would phase through tables.
+AIs used to be blind. If you wanted them to look at a 4K photo and stuffed every pixel in like a word, the computation would be large enough to destroy the world.
+So scientists invented the **ViT (Vision Transformer)** strategy:
 
-### The Hybrid Mutant Powerhouse: DiT
-
-The biggest technological breakthrough of OpenAI's Sora video generator was cutting U-Net in half entirely. It brute-force transplanted the language model's trump card -- **"Transformer"** -- into the diffusion model's image generation! This is **DiT (Diffusion Transformer)**.
-
-- Video is no longer a series of individual images. Instead, it is chopped into **"Spacetime Patches"** that include the temporal dimension.
-- Transformer applies its terrifying **Self-Attention mechanism** to simultaneously observe the heroine at second 1 and the heroine at second 10.
-- It realizes: "Oh! This is a continuous physical entity that is walking!" So during denoising, it strictly maintains three-dimensional spatial coherence.
-  This is why Sora-generated urban aerial shots feature glass reflections that perfectly obey the laws of optical physics.
+- **Dismemberment**: We take a knife to the photo and cut it into 16x16 small squares (Patches).
+- **Deceiving the Brain**: Flatten these small squares and pretend they are "words" to feed to the AI. The model doesn't even know it's a picture; it only knows these are 256 correlated mathematical coordinates.
+- Consequently, the circle-drawing AI head could instantly read the meaning of a picture.
 
 ---
 
-## Vibecoding SOTA Model Evaluation Guide
+## 3. The Creator's Brush: DiT, the Hero Behind Sora's Fame
 
-When directing an AI to explore next-generation multimodal image generation architectures or ultra-long-text enterprise solutions:
+You've surely seen those videos generated by OpenAI's Sora that look like Hollywood blockbusters.
+Why did feet melt while walking, or cups pass through walls in previous AI videos? Because previous architectures (U-Net) simply didn't understand the spatial relationships of the physical world.
 
-> `"When compiling my 2026 frontier technology briefing, discard the U-Net era image diffusion models! I require you to explore the core architecture adopted by OpenAI's Sora -- 【DiT (Diffusion Transformer)】 -- and analyze how it uses Spacetime Patches to ensure physical coherence in video generation. Additionally, for enterprise-scale knowledge base retrieval, beyond traditional RAG, also examine Google's latest 【Titans architecture】, analyzing how it combines short-term Transformer with 【Neural Long-Term Memory】 through structural weight updates to achieve $\mathcal{O}(1)$ inference complexity and 'near-infinite' context storage capacity!"`
+**Sora's Killer Move: DiT (Diffusion Transformer)**
+OpenAI boldly transplanted the drawing machine into the AI's strongest brain, the **"Transformer"**!
+
+- **Spacetime Patches**: It slices video into "spacetime fragments" that include the time dimension.
+- **Full Concentration**: Through the self-attention mechanism, when the model draws the 10th second, it simultaneously keeps an eye on the 1st second's appearance.
+- **Achievement**: The AI discovers: "Oh! So this is a walking entity, not a mass of impurities!"
+- This is exactly why a birds-eye view shot generated by Sora can have reflections on glass that precisely comply with the physical laws of refraction.
+
+---
+
+## 💡 Vibecoding SOTA Model Evaluation Guide
+
+When ordering an AI to explore next-generation multimodal engines or enterprise-grade knowledge base solutions, use the professionalism of a Chief Scientist to command:
+
+> 🗣️ `“AI Assistant! Listen up! In consolidating the 2026 cutting-edge technology presentation, immediately discard the outdated U-Net architecture! 
+I demand that you dissect [DiT (Diffusion Transformer)] in depth, analyzing how it leverages Spacetime Patches to ensure physical coherence in video generation. 
+Simultaneously, for our infinite knowledge base project, keep a close watch on Google's latest [Titans architecture]! 
+Analyze how it combines short-term memory with [Neural Long-term Memory], achieving the dream of infinite context through structural weight updates. Developers no longer need to worry about Token explosions; go and draw this technical blueprint for me now!”`
+
+By mastering Neural Memory and the DiT engine, you are booking a ticket for the next technological tsunami. Go!
+
+---
+
+👉 **[Next Step: Slowing Down Machines for Thinking](./28_academic_cot_and_agentic_workflows.md)**

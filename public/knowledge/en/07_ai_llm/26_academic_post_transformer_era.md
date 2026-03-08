@@ -1,66 +1,66 @@
-# 26. Twilight of the Gods in the Post-Transformer Era: MoE, Mamba, and Spatial Intelligence (AGI Endgame)
+# The Post-Transformer Era: MoE, Mamba, and the Battle for World Models (Post-Transformer)
 
-> **Type**: State-of-the-Art (SOTA) AI Development Frontiers and Academic Architecture Outlook
-> **Focus**: Even though Transformer has ruled the AI world for 8 straight years, the hardware compute ceiling and memory wall are closing in. This article gathers the exploratory directions of the world's top minds (Yann LeCun, Fei-Fei Li), examining the next steps of "brute-force decomposition" and "foundational reconstruction" for large models. It deeply analyzes **MoE (Mixture of Experts), Mamba (State Space Models)**, and the **World Models / Spatial Intelligence** paradigm aimed at completely retiring pure language prediction.
+## @Overview
 
----
-
-## Preface: Is Brute-Force Language Exhaustion the Only Dead End to AGI?
-
-Today's GPT-4, while impressive, is fundamentally just "guessing the next token (Next-Token Prediction)."
-AI godfather and Meta Chief Scientist Yann LeCun even bluntly criticized this Auto-regressive language model approach: _"Large language models are dumber than cats. A cat just by looking at the world knows that a cup pushed to the edge of a table will fall off; an LLM only guesses 'falls off' because it read about 'Newton's theory of gravity' hundreds of thousands of times on the internet."_
-
-To address this fundamental intelligence deficit, as well as the "quadratic complexity $\mathcal{O}(N^2)$" terminal illness that causes hardware crashes when Transformer reads ultra-long documents, Silicon Valley's visionaries are launching a three-pronged revolution.
+Hello, I'm AKIRA.
+Today, we're talking about the "dynastic changes" in the AI world.
+Although the Transformer has ruled the AI world for exactly 8 years, the limits of hardware are approaching, and the ceiling of computing power is about to shatter.
+AI Godfather Yann LeCun once publicly scolded: _"Current language models are stupider than cats! They're just guessing the next word; they don't understand this world at all."_
+To solve this intelligence defect and the damn "quadratic explosion of computation" problem, top scientists in Silicon Valley are launching a fundamental revolution.
 
 ---
 
-## 1. The Energy-Saving Obsessives: Mixture of Experts (MoE)
+## 1. Group Obsession for Energy Efficiency: Mixture of Experts (MoE)
 
-When a model reaches extreme scale (e.g., exceeding 100 billion parameters), if every answer requires firing every neural network cell in an energy-consuming computation, even Microsoft would go bankrupt.
+If we raise an "omniscient and almighty" super-brain that understands everything, its operational power consumption would be so much that it would bankrupt even Microsoft.
+**Scientist's Clever Trick: Divide and Conquer—raise a group of "specialized fanatics"!**
 
-### Divide and Conquer: MoE (Mixture of Experts)
+This is **MoE (Mixture of Experts)**:
 
-Since we can't sustain a single omniscient super-brain, we raise **"8 severely obsessive specialists (Experts)"** instead!
-
-- **Mechanism**: At certain Feed-Forward Network (FFN) layers of the Transformer, scientists slice them horizontally into 8 independent circuit boards (Experts).
-- **Router**: A small switchboard neural network. When an input arrives (e.g., `print("Hello")`), the Router instantly recognizes it's related to programming and unhesitatingly routes the packet to "Expert #3 (Python specialist)," while forcing the other 7 experts to "power down and go on vacation."
-- **Advantage**: The model appears to have a staggering 80B (80 billion) parameter capacity, but each time it generates a token, only 10B parameters are "actively firing (Active Parameters)." **This maintains the vast model's breadth of intelligence while slashing inference cost and power consumption to 1/8.**
-
-_(Today's hottest open-source models like Mixtral 8x7B, Qwen1.5 MoE, and even the rumored GPT-4 itself, all use this "assembled vehicle" architecture.)_
+- We slice the neural network into 8 independent professional circuit boards (Experts).
+- Place a "Router" in front: when a user asks a Python question, the router sees through it at a glance, kicks the packet directly to "Expert No. 3 (Computer Group)," and tells the other 7 experts to immediately shut down and go to sleep.
+- **Result**: The model claims to have 800 billion parameters, but every time it speaks, only 10 billion neurons are powered.
+- **This lets you retain the wisdom of a super-brain while only paying the electricity bill of an ordinary model.** This is the business secret behind why GPT-4 and DeepSeek dominate the world.
 
 ---
 
-## 2. The Snake That Challenges the King: Mamba and State Space Models (SSM)
+## 2. The Viper Challenging the King: Mamba and SSM Architecture
 
-We covered Transformer's ascension battle in Article 24. But there's no free lunch: Transformer is "all-you-can-eat" -- when reading a book, every single word must perform an attention exchange with every preceding word. This causes quadratic memory explosion $\mathcal{O}(N^2)$ when context length reaches 100,000 tokens.
+The Achilles' heel of the Transformer is its "all-consuming" nature. When you ask it to read a hundred-thousand-word book, its pressure explodes quadratically (N^2).
+Therefore, Stanford University came up with the strongest challenger: **Mamba**.
 
-### The Mamba Revolution
-
-To address this, Stanford and a cohort of researchers resurrected ancient linear system theory and developed a strikingly new network architecture: **SSM (State Space Models)**, with the latest and most powerful variant named **Mamba**.
-
-- **Abandoning Omniscience**: Mamba gives up the group photo (Self-Attention). It no longer requires the last word to scan all preceding 100,000 words.
-- **The Expert Stenographer (Selective State)**: It acts like a seasoned stenographer. As it reads prior text, it selectively records "key points" in an extremely compressed brain region (Hidden State). When it encounters filler, it automatically forgets (Forget Gate).
-- **Linear Sprint**: Because it carries only this "tiny notebook" as it reads forward, regardless of whether you feed it 100,000 or 1,000,000 words, its computational complexity is always linear $\mathcal{O}(N)$, and memory consumption is constant $\mathcal{O}(1)$! It reads ultra-long documents 5x faster than the Transformer camp!
-
-_(While Mamba currently falls slightly short of Transformer in "understanding complex causal reasoning" nuances, it is widely recognized as the architecture with the greatest potential to dominate the next decade's foundational models.)_
+- **Abandoning the Group Photo**: It no longer requires the last word to look back at the previous hundred thousand words.
+- **God-Tier Stenographer (Hidden State)**: Like a seasoned dictation taker, it records only the "refined essence" in its mind as it reads, forgetting nonsense as soon as it sees it.
+- **Linear Rush**: Because it only carries this "little notebook" as it continues reading, no matter how long a book you stuff into it, its computational difficulty remains **linear**.
+- **Its speed at reading ultra-long documents is 5 times faster than a Transformer!** It is currently recognized as the most potential successor for the next decade.
 
 ---
 
-## 3. Seeing the World: Spatial Intelligence and JEPA (World Models)
+## 3. Seeing This World: Spatial Intelligence and World Models
 
-This is the most sacred tower on the path to true Artificial General Intelligence (AGI).
-Fei-Fei Li and Yann LeCun are leading this religious revolution that abandons pure text.
+This is the sacred ladder to true Artificial General Intelligence (AGI).
+Li Fei-Fei and Yann LeCun have been promoting an idea: **Text is an extreme compression of humanity.**
+If you only teach an AI text, it will never understand what it means to say "the cup will shatter if it falls on the floor."
 
-- **Text is humanity's extreme compressor**: We say "A red ball is bouncing." Language uses only 8 abstract symbols. But in the real world, this involves light, shadow, material reflection, gravitational acceleration, deformation, and hundreds of millions of pixel-level physical collisions. Large models can never learn this from text alone.
-- **World Models (V-JEPA)**: LeCun's Joint-Embedding Predictive Architecture. Instead of having AI guess the next "word," it has AI watch a few seconds of silent real-world video, then **directly predict the next second's frame vectors and relative physical properties in the map space "from beginning to end."**
-- **Spatial Intelligence**: Fei-Fei Li advocates combining perception (Seeing) with action (Doing). Future AI (like robot dogs and humanoid robots), when seeing a cup of water, will perform real-time 3D construction and grasp collision boundary simulation in its neural network mind.
+- **World Models (V-JEPA)**: The AI no longer guesses the next "word"; it guesses the next "image vector." You feed it a video, and it must be able to accurately predict the consequences of physical collisions.
+- **Spatial Intelligence**: Li Fei-Fei lets the AI combine perception and action. Future robots seeing this cup of water will automatically construct a 3D spatial coordinate and grasping logic in their minds.
 
-**This signifies that large models are no longer "super-powered librarians" -- they will possess Embodied AI, becoming "superhuman tutors and physical butlers" capable of perceiving physical phenomena and surviving in 3D space.**
+**Large models are no longer just "super librarians"; they are growing bodies and becoming "physical butlers" capable of sensing physical details.**
 
 ---
 
-## Vibecoding Cutting-Edge Technology Exploration Guide
+## 💡 Vibecoding Pro-Tip for Cutting-Edge Exploration
 
-When using an AI Agent for the latest open-source model deployment, or researching your company's future AI transformation roadmap:
+When ordering an AI to produce future technical blueprints or research reports for you, show your foresight as Technical Director:
 
-> `"When drafting our company's 2026-2027 《AGI and Large Model Architecture Evolution Report》, you must break free from the dead end of Transformer and Attention! I need you to focus on: (1) Our servers must adopt 【Mixture of Experts (MoE)】 to sparsify parameters and reduce per-second inference costs. (2) Research 【Mamba (SSM State Space Models)】 with sub-quadratic characteristics for ultra-long text processing as a potential future replacement. (3) For our future computer vision or embodied intelligence tasks, explore adopting 【JEPA (Joint-Embedding Prediction)】 based World Models architecture, enabling AI to handle continuous high-dimensional physical and spatial intelligence challenges -- this is the correct lane toward AGI!"`
+> 🗣️ `“AI Assistant! Listen up! I want you to write this 2026 AI Evolution White Paper for me! 
+I demand that you jump out of the dead end of pure text prediction. First, give me an in-depth research on the parameter distribution strategy of the [MoE Expert Architecture]—I want to slash inference costs to the minimum! 
+Second, closely monitor [Mamba (SSM State Space Model)] with linear complexity—this is the key piece to replace Transformers in the future! 
+Third, regarding embodied intelligence, research for me the [JEPA-based World Model] architecture—I want our AI to have the predictability of physical laws! 
+This is the correct track toward AGI. Go and consolidate these cutting-edge countermeasures for me!”`
+
+Only by mastering the changes in the underlying architecture will you avoid being crushed on the beach by the next wave of technology. Go!
+
+---
+
+👉 **[Next Step: Neural Long-Term Memory](./27_academic_titans_memory_and_dit_video.md)**
