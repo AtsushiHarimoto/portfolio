@@ -6,6 +6,7 @@ import { useLocale } from '@/lib/locale-context';
 import { useVfx } from '@/lib/vfx-context';
 import { ArrowRight, Server, LayoutDashboard, Gamepad2, Code2, Cpu, Globe, Database } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import { NAV_ITEMS } from '@/lib/nav';
 
 const basePath = process.env.NODE_ENV === 'production' ? '/portfolio' : '';
 
@@ -136,8 +137,30 @@ export default function HomePage() {
                 );
               })}
             </motion.div>
+          {/* Main Navigation Grid — Always visible or alternate style when VFX is off */}
+          {!isVfxEnabled && (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 2.0 }}
+              className="grid grid-cols-5 gap-3 md:gap-5 mt-8 w-full max-w-2xl px-2"
+            >
+              {NAV_ITEMS.map((item, i) => (
+                <Link
+                  key={item.key}
+                  href={item.path}
+                  className="group flex flex-col items-center gap-2 p-3 rounded-2xl border border-white/5 bg-white/[0.03] hover:bg-white/[0.08] hover:border-moyin-pink/30 hover:shadow-[0_0_20px_rgba(255,192,211,0.1)] transition-all duration-300"
+                >
+                  <span className="text-2xl md:text-3xl font-serif text-moyin-pink/80 group-hover:text-moyin-pink transition-colors">
+                    {item.icon}
+                  </span>
+                  <span className="text-[10px] md:text-xs text-gray-400 font-medium tracking-tighter uppercase group-hover:text-gray-200 transition-colors">
+                    {t.nav[item.key as keyof typeof t.nav]}
+                  </span>
+                </Link>
+              ))}
+            </motion.div>
           )}
-
         </div>
       </section>
 
