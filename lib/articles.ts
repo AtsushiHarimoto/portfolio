@@ -77,6 +77,9 @@ export const articles: Article[] = [
   { slug: '02_architecture--21_agent_system_design', title: { en: 'Agent System Design Overview', ja: 'Agent システム設計概要', 'zh-tw': 'Agent 系統設計總覽' }, category: '02_architecture', file: '21_agent_system_design.md' },
   { slug: '02_architecture--22_opencwal_principles', title: { en: 'OpenCWAL Principles', ja: 'OpenCWAL 原理設計', 'zh-tw': 'OpenCWAL 原理設計' }, category: '02_architecture', file: '22_opencwal_principles.md' },
   { slug: '02_architecture--23_security_architecture', title: { en: 'Security Architecture', ja: 'セキュリティアーキテクチャ', 'zh-tw': '安全架構設計' }, category: '02_architecture', file: '23_security_architecture.md' },
+  { slug: '02_architecture--sl2_trading_bot_overview', title: { en: 'Momentum Trading Bot — System Overview', ja: '動量トレーディングBot — システム概要', 'zh-tw': 'Trading Bot — 動能交易機器人概覽' }, category: '02_architecture', file: 'sl2_trading_bot_overview.md' },
+  { slug: '02_architecture--sl3_remotion_factory_overview', title: { en: 'Remotion Factory — Video Automation Pipeline', ja: 'Remotionファクトリー — 動画自動化パイプライン', 'zh-tw': 'Remotion Factory — 影片自動化生成工廠' }, category: '02_architecture', file: 'sl3_remotion_factory_overview.md' },
+  { slug: '02_architecture--sl4_youtube_creator_overview', title: { en: 'YouTube Creator — AI Video Production Pipeline', ja: 'YouTubeクリエイター — AI動画制作パイプライン', 'zh-tw': 'YouTube Creator — 教學影片自動化製作工廠' }, category: '02_architecture', file: 'sl4_youtube_creator_overview.md' },
 
   // 03_development
   { slug: '03_development--03.1.cloudflare_tunnel_local_deployment', title: { en: 'Cloudflare Tunnel for Temporary Public Deployment', ja: 'Cloudflare Tunnel による一時パブリック公開', 'zh-tw': 'Cloudflare Tunnel 臨時公網部署' }, category: '03_development', file: '03.1.cloudflare_tunnel_local_deployment.md' },
@@ -150,6 +153,12 @@ export const articles: Article[] = [
   { slug: '07_ai_llm--26_academic_post_transformer_era', title: { en: 'Post-Transformer Era: MoE, Mamba & Spatial Intelligence', ja: 'ポスト Transformer 時代：MoE・Mamba・空間知能の台頭', 'zh-tw': '後 Transformer 時代的諸神黃昏：MoE, Mamba 與空間智能' }, category: '07_ai_llm', file: '26_academic_post_transformer_era.md' },
   { slug: '07_ai_llm--27_academic_titans_memory_and_dit_video', title: { en: 'Titans Neural Memory & DiT Video Generation Engine', ja: 'Titans 級ニューラルメモリと DiT 映像生成エンジンの原理', 'zh-tw': '打破大腦容量極限：Titans 神經記憶體與 DiT 視覺引擎' }, category: '07_ai_llm', file: '27_academic_titans_memory_and_dit_video.md' },
   { slug: '07_ai_llm--28_academic_cot_and_agentic_workflows', title: { en: 'Chain of Thought & AI Agentic Workflow Design', ja: 'Chain of Thought (CoT) と AI エージェント型ワークフローの設計原則', 'zh-tw': '讓機器慢下來思考：思維鏈 (CoT) 與 Agentic 工作流革命' }, category: '07_ai_llm', file: '28_academic_cot_and_agentic_workflows.md' },
+  { slug: '07_ai_llm--07.7.novel_rag_system', title: { en: 'Novel RAG System Architecture', ja: '小説素材RAGシステム構築', 'zh-tw': '小說素材 RAG 系統搭建' }, category: '07_ai_llm', file: '07.7.novel_rag_system.md' },
+  { slug: '07_ai_llm--07.8.lancedb_vector_db', title: { en: 'LanceDB Vector Database in Practice', ja: 'LanceDB ベクターDB実践 — RAGシステムの底層エンジン', 'zh-tw': 'LanceDB 向量資料庫實戰 — RAG 系統的底層引擎' }, category: '07_ai_llm', file: '07.8.lancedb_vector_db.md' },
+  { slug: '07_ai_llm--07.9.lora_training_workflow', title: { en: 'SDXL / Flux LoRA Training Workflow Design', ja: 'SDXL / Flux LoRA 訓練ワークフロー設計', 'zh-tw': 'SDXL / Flux LoRA 訓練工作流設計 — 角色一致性模型' }, category: '07_ai_llm', file: '07.9.lora_training_workflow.md' },
+  { slug: '07_ai_llm--07.10.comfyui_api_workflow', title: { en: 'ComfyUI API: From Manual to Automated Pipeline', ja: 'ComfyUI API プログラム化 — 手動出力から自動パイプラインへ', 'zh-tw': 'ComfyUI API 程式化調用 — 從手動出圖到自動化流水線' }, category: '07_ai_llm', file: '07.10.comfyui_api_workflow.md' },
+  { slug: '07_ai_llm--07.11.flux_model_practical', title: { en: 'Flux Text-to-Image: Next-Gen Diffusion Model Guide', ja: 'Flux 文生図モデル実践 — 新世代拡散モデルアーキテクチャ解析', 'zh-tw': 'Flux 文生圖模型實戰 — 新世代擴散模型架構解析' }, category: '07_ai_llm', file: '07.11.flux_model_practical.md' },
+  { slug: '07_ai_llm--07.12.comfyui_workflow_design', title: { en: 'ComfyUI Workflow Design Best Practices', ja: 'ComfyUI ワークフロー設計ベストプラクティス', 'zh-tw': 'ComfyUI 工作流設計最佳實踐 — 從單節點到複雜管線' }, category: '07_ai_llm', file: '07.12.comfyui_workflow_design.md' },
 
   // 09_workflows
   { slug: '09_workflows--09.1.agent_roles_2026', title: { en: 'AI Agent Role Specification (2026-01 Edition)', ja: 'AI エージェント役割分担規範（2026-01 版）', 'zh-tw': 'AI Agent 分工規範（2026-01 版本）' }, category: '09_workflows', file: '09.1.agent_roles_2026.md' },
@@ -168,6 +177,7 @@ export const articles: Article[] = [
   { slug: '09_workflows--09.8.multi_agent_worktree', title: { en: 'Multi-Agent Isolated Development Methodology (Parallel Universe)', ja: 'マルチエージェント隔離開発手法 (Parallel Universe)', 'zh-tw': '多 Agent 隔離開發方法論 (Parallel Universe)' }, category: '09_workflows', file: '09.8.multi_agent_worktree.md' },
   { slug: '09_workflows--09.9.multi_project_workflow_design', title: { en: 'Multi-Project Workflow Rule Design Patterns', ja: 'マルチプロジェクト・ワークフロールール設計パターン', 'zh-tw': '多專案 Workflow 規則設計模式' }, category: '09_workflows', file: '09.9.multi_project_workflow_design.md' },
   { slug: '09_workflows--15_git_version_control_cicd', title: { en: 'Git Version Control and CI/CD Automation Pipeline Guide', ja: 'Git バージョン管理と CI/CD 自動化パイプラインガイド', 'zh-tw': 'Git 版本控制與 CI/CD 自動化管線指南' }, category: '09_workflows', file: '15_git_version_control_cicd.md' },
+  { slug: '09_workflows--09.16.multi_ai_model_switching', title: { en: 'Multi-AI Model Switching Strategy', ja: 'マルチAIモデル切替戦略 — Token節約の分業実践ガイド', 'zh-tw': '多 AI 模型切換策略 — 省 Token 的分工實戰指南' }, category: '09_workflows', file: '09.16.multi_ai_model_switching.md' },
 
   // 11_claude_code
   { slug: '11_claude_code--11.1.claude-reflect', title: { en: 'Claude Reflect: Automated Rule Distillation System', ja: 'Claude Reflect 自動ルール蒸留システム', 'zh-tw': 'Claude Reflect 自動規則沉澱系統' }, category: '11_claude_code', file: '11.1.claude-reflect.md' },
@@ -176,6 +186,8 @@ export const articles: Article[] = [
   { slug: '11_claude_code--23_mcp_server_dev_guide', title: { en: 'MCP Server Development Guide', ja: 'MCP サーバー開発ガイド', 'zh-tw': 'MCP 伺服器開發指南' }, category: '11_claude_code', file: '23_mcp_server_dev_guide.md' },
   { slug: '11_claude_code--24_claude_agent_sdk', title: { en: 'Claude Agent SDK Guide', ja: 'Claude Agent SDK ガイド', 'zh-tw': 'Claude Agent SDK 指南' }, category: '11_claude_code', file: '24_claude_agent_sdk.md' },
   { slug: '11_claude_code--25_skill_authoring_guide', title: { en: 'Skill Authoring Guide', ja: 'スキル作成ガイド', 'zh-tw': 'Skill 編寫規範' }, category: '11_claude_code', file: '25_skill_authoring_guide.md' },
+  { slug: '11_claude_code--11.2.novel_skill_architecture', title: { en: 'Novel Writing Skill Architecture', ja: '小説創作スキルアーキテクチャ設計', 'zh-tw': '小說創作 Skill 架構設計' }, category: '11_claude_code', file: '11.2.novel_skill_architecture.md' },
+  { slug: '11_claude_code--11.3.claude_code_hooks', title: { en: 'Claude Code Hooks: Automation in Practice', ja: 'Claude Code Hooks 自動化実践', 'zh-tw': 'Claude Code Hooks 自動化實戰 — 讓 AI 在對的時機做對的事' }, category: '11_claude_code', file: '11.3.claude_code_hooks.md' },
 
   // 12_diagrams
   { slug: '12_diagrams--00.Moyin_Group_Overview', title: { en: 'Spirit Detective Field Report: Moyin Group Dark Tournament Overview (2026)', ja: '霊界探偵業務報告：Moyin グループ暗黒武術会概覧 (2026)', 'zh-tw': '靈界偵探工作報告：Moyin 集團暗黑武術大會概覽 (2026)' }, category: '12_diagrams', file: '00.Moyin_Group_Overview.md' },
