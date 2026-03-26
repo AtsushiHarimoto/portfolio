@@ -188,6 +188,7 @@ export const articles: Article[] = [
   { slug: '11_claude_code--25_skill_authoring_guide', title: { en: 'Skill Authoring Guide', ja: 'スキル作成ガイド', 'zh-tw': 'Skill 編寫規範' }, category: '11_claude_code', file: '25_skill_authoring_guide.md' },
   { slug: '11_claude_code--11.2.novel_skill_architecture', title: { en: 'Novel Writing Skill Architecture', ja: '小説創作スキルアーキテクチャ設計', 'zh-tw': '小說創作 Skill 架構設計' }, category: '11_claude_code', file: '11.2.novel_skill_architecture.md' },
   { slug: '11_claude_code--11.3.claude_code_hooks', title: { en: 'Claude Code Hooks: Automation in Practice', ja: 'Claude Code Hooks 自動化実践', 'zh-tw': 'Claude Code Hooks 自動化實戰 — 讓 AI 在對的時機做對的事' }, category: '11_claude_code', file: '11.3.claude_code_hooks.md' },
+  { slug: '11_claude_code--11.4.claude_code_token_saving', title: { en: 'Claude Code Token Saving Strategies: A Complete Guide', ja: 'Claude Code トークン節約戦略：完全ガイド', 'zh-tw': 'Claude Code Token 節省策略全攻略' }, category: '11_claude_code', file: '11.4.claude_code_token_saving.md' },
 
   // 12_diagrams
   { slug: '12_diagrams--00.Moyin_Group_Overview', title: { en: 'Spirit Detective Field Report: Moyin Group Dark Tournament Overview (2026)', ja: '霊界探偵業務報告：Moyin グループ暗黒武術会概覧 (2026)', 'zh-tw': '靈界偵探工作報告：Moyin 集團暗黑武術大會概覽 (2026)' }, category: '12_diagrams', file: '00.Moyin_Group_Overview.md' },
